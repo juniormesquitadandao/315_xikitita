@@ -1,2 +1,2 @@
-# eloquent_js_model
+# Eloquent Js Model
 Eloquent Js Model
