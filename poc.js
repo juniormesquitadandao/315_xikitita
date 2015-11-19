@@ -27,6 +27,7 @@ EloquentJsValidate('Uniquiness', function(){
 
 });
 
+
 EloquentJsModel('Role', function(){
 
 	id('code');
