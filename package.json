@@ -1,0 +1,30 @@
+{
+  "name": "eloquent_js_model",
+  "version": "1.0.0",
+  "description": "Eloquent Js Model",
+  "main": "poc.js",
+  "scripts": {
+    "test": "mocha --opts spec/mocha.opts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juniormesquitadandao/eloquent_js_model.git"
+  },
+  "keywords": [
+    "eloquent",
+    "js",
+    "model",
+    "validation"
+  ],
+  "author": "Junior Mesquita Dandão",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juniormesquitadandao/eloquent_js_model/issues"
+  },
+  "homepage": "https://github.com/juniormesquitadandao/eloquent_js_model#readme",
+  "devDependencies": {
+    "expect": "^1.13.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.4"
+  }
+}
