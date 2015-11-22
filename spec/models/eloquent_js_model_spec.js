@@ -2,7 +2,7 @@ var expect = require('expect.js');
 var EloquentJs = require('../../app/models/eloquent_js_model.js');
 EloquentJs
   .Model('User', function(){
-    attrAccessible('email');
+    attrAccessible('email', 'cliente');
   })
   .Model('Cliente', function(){
     attrAccessible('name', 'phone');
@@ -26,8 +26,8 @@ describe('EloquentJs', function() {
     });
 
     it('#toJson', function () {
-      expect(new User().toJson).to.be('{}');
-      expect(new Cliente().toJson).to.be('{}');
+      expect(new User().toJson).to.be('{"email":null,"cliente":null}');
+      expect(new Cliente().toJson).to.be('{"name":null,"phone":null}');
     });
 
   });

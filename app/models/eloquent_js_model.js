@@ -3,7 +3,12 @@
 var EloquentJs = Object.create({
   window: this,
   attrAccessible: function(){
-    console.log(Array.prototype.slice.call(arguments).shift());
+    
+    var __attrAccessible = Array.prototype.slice.call(arguments) || [];
+    __attrAccessible.forEach(function(_attrAccessible){
+      self[_attrAccessible] = null;
+    });
+
   }
 });
 
@@ -12,6 +17,7 @@ EloquentJs.models = [];
 EloquentJs.Model = function(name, body){
   
   eval.call(EloquentJs.window, "function __name__(){\
+      var self = this;\
       var attrAccessible = __attrAccessible__;\
       (__body__)(this);\
     };"
@@ -19,14 +25,14 @@ EloquentJs.Model = function(name, body){
     .replace(/\b__attrAccessible__\b/, EloquentJs.attrAccessible.toString())
     .replace(/\b__body__\b/, body.toString())
   );
-  var model = eval(name);
+  var Model = eval(name);
 
-  Object.defineProperties(model.prototype, {
-    "toJson": { get: function () { return '{}'; } }
+  Object.defineProperties(Model.prototype, {
+    "toJson": { get: function () { return JSON.stringify(this); } }
   });
 
 
-  EloquentJs.models.push(model);
+  EloquentJs.models.push(Model);
   return EloquentJs;
 }
 
