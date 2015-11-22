@@ -21,6 +21,10 @@ describe('EloquentJs', function() {
       expect(modelNames.join(', ')).to.be('User, Cliente');
     });
 
+    it('#toJson', function () {
+      expect(new User().toJson).to.be('{}');
+    });
+
   });
 
 });

@@ -5,9 +5,14 @@ EloquentJs.models = [];
 
 EloquentJs.Model = function(name, body){
   eval.call(EloquentJs.window, 'function name(){};'.replace(/\bname\b/, name));
+  var model = eval(name);
 
-  EloquentJs.models.push(eval(name));
+  Object.defineProperties(model.prototype, {
+    "toJson": { get: function () { return '{}'; } }
+  });
 
+
+  EloquentJs.models.push(model);
   return EloquentJs;
 }
 

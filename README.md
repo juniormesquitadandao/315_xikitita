@@ -7,3 +7,4 @@ npm install --save-dev expect
 npm install --save-dev expect.js
 npm test spec
 npm test spec/models
+npm test spec debug
