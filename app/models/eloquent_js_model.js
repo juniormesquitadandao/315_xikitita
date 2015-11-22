@@ -38,17 +38,17 @@ EloquentJs.models = [];
 
 EloquentJs.Model = function(name, body){
   
-  eval.call(EloquentJs.window, "function __name__(){\
-      var __model = __model__;\
-      var __attrAccessible = [];\
-      \
-      var self = this;\
-      var attrAccessible = __attrAccessible__;\
-      var belongsTo = __belongsTo__;\
-      var hasMany = __hasMany__;\
-      var hasOne = __hasOne__;\
-      (__body__)(this);\
-      var __initAttributes =  Array.prototype.slice.call(arguments).shift() || {};\
+  eval.call(EloquentJs.window, "function __name__(){\n\
+      var __model = __model__;\n\
+      var __attrAccessible = [];\n\
+      \n\
+      var self = this;\n\
+      var attrAccessible = __attrAccessible__;\n\
+      var belongsTo = __belongsTo__;\n\
+      var hasMany = __hasMany__;\n\
+      var hasOne = __hasOne__;\n\
+      (__body__)(this);\n\
+      var __initAttributes =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (__new__)(this);\
     };"
     .replace(/\b__name__\b/, name)
