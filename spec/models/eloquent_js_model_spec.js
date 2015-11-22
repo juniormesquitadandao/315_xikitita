@@ -1,8 +1,12 @@
 var expect = require('expect.js');
 var EloquentJs = require('../../app/models/eloquent_js_model.js');
 EloquentJs
-  .Model('User')
-  .Model('Cliente');
+  .Model('User', function(){
+    attrAccessible('email');
+  })
+  .Model('Cliente', function(){
+    attrAccessible('name', 'phone');
+  });
 
 describe('EloquentJs', function() {
 
@@ -23,6 +27,7 @@ describe('EloquentJs', function() {
 
     it('#toJson', function () {
       expect(new User().toJson).to.be('{}');
+      expect(new Cliente().toJson).to.be('{}');
     });
 
   });
