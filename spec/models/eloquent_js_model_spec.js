@@ -40,6 +40,28 @@ describe('EloquentJs', function() {
       expect(new Stub().toJson).to.be('{}');
     });
 
+    it('#new', function () {
+      expect(Stub).withArgs({two: 'value'}).to.throwException(function (exception) {
+        expect(exception).to.be.a(TypeError);
+        expect(exception.message).to.be('stub.two is not a attribute');
+      })
+
+      EloquentJs
+        .Model('Stub', function(){
+          attrAccessible('one', 'two');
+        })
+
+      expect(new Stub().toJson).to.be('{"one":null,"two":null}');
+      expect(new Stub({}).toJson).to.be('{"one":null,"two":null}');
+      expect(new Stub('{}').toJson).to.be('{"one":null,"two":null}');
+
+      expect(new Stub({one: 'value'}).toJson).to.be('{"one":"value","two":null}');
+      expect(new Stub({'one': 0}).toJson).to.be('{"one":0,"two":null}');
+
+      expect(new Stub('{"one": "value"}').toJson).to.be('{"one":"value","two":null}');
+      expect(new Stub('{"one": 0}').toJson).to.be('{"one":0,"two":null}');
+    });
+
     it('attrAccessible', function () {
       expect(new Cliente().toJson).to.be('{"name":null,"phone":null}');
     });
@@ -50,6 +72,16 @@ describe('EloquentJs', function() {
 
     it('hasMany', function () {
       expect(new Permission().toJson).to.be('{"name":null,"clientes":[]}');
+    });
+
+    it('hasOne', function () {
+      EloquentJs
+        .Model('Cliente', function(){
+          attrAccessible('name', 'phone');
+          hasOne('user');
+        })
+      
+      expect(new Cliente().toJson).to.be('{"name":null,"phone":null,"user":null}');
     });
 
   });
