@@ -68,6 +68,10 @@ describe('EloquentJs', function() {
 
     it('belongsTo', function () {
       expect(new User().toJson).to.be('{"email":null,"cliente":null,"permission":null}');
+      
+      var user = new User({cliente: {name: 'Name', phone: '00000000'}});  
+      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.cliente).to.be.a(Cliente);
     });
 
     it('hasMany', function () {

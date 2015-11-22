@@ -3,9 +3,11 @@
 var EloquentJs = Object.create({
   window: this,
   attrAccessible: function(){
-    __attrAccessible = Array.prototype.slice.call(arguments);
-    __attrAccessible.forEach(function(_attrAccessible){
-      self[_attrAccessible] = null;
+    var _attrAccessible = Array.prototype.slice.call(arguments);
+
+    _attrAccessible.forEach(function(attrName){
+      self[attrName] = null;
+      __attrAccessible.push(attrName);
     });
   },
   belongsTo: function(){
