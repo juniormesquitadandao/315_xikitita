@@ -1,12 +1,26 @@
 var expect = require('expect.js');
-var EloquentJsModel = require('../../app/models/eloquent_js_model.js');
+var EloquentJs = require('../../app/models/eloquent_js_model.js');
+EloquentJs
+  .Model('User')
+  .Model('Cliente');
 
-describe('EloquentJsModel', function() {
+describe('EloquentJs', function() {
 
-  it('create function to name', function () {
-    EloquentJsModel('Model');
+  describe('Model', function() {
 
-    expect(Model.name).to.be('Model');
+    it('create', function () {
+      expect(User.name).to.be('User');
+      expect(Cliente.name).to.be('Cliente');
+    });
+
+    it('save', function () {
+      var modelNames = EloquentJs.models.map(function(model){
+        return model.name;
+      });
+
+      expect(modelNames.join(', ')).to.be('User, Cliente');
+    });
+
   });
 
 });
