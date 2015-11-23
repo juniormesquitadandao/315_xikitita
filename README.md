@@ -1,5 +1,5 @@
-# Eloquent Js Model
-Eloquent Js Model
+# Xikitita
+Xikitita
 
 ```shell
 npm init
@@ -18,10 +18,10 @@ npm test spec debug
 ```
 
 ```javascript
-EloquentJsValidate('Length', function(){
+XikititaValidate('Length', function(){
   
   expect(function(expected){
-    return EloquentJsReflection.send(expected.type, expects);
+    return XikititaReflection.send(expected.type, expects);
   });
 
   parametersMessage(function(expected){
@@ -39,7 +39,7 @@ EloquentJsValidate('Length', function(){
 
 });
 
-EloquentJsValidate('Uniquiness', function(){
+XikititaValidate('Uniquiness', function(){
   
   expect(function(expected){
     return expected.instance.all.search(function(i){ i.send(expected.attribute) === expected.value ).length > 1;
@@ -48,7 +48,7 @@ EloquentJsValidate('Uniquiness', function(){
 });
 
 
-EloquentJsModel('Role', function(){
+XikititaModel('Role', function(){
 
   id('code');
 
@@ -64,7 +64,7 @@ EloquentJsModel('Role', function(){
 
 });
 
-EloquentJsModel('User', function(){
+XikititaModel('User', function(){
 
   attributes('email', 'password');
   

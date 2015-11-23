@@ -1,6 +1,6 @@
 var expect = require('expect.js');
-var EloquentJs = require('../../app/models/eloquent_js_model.js');
-EloquentJs
+var Xikitita = require('../../app/models/xikitita.js');
+Xikitita
   .Model('Cliente', function(){
     attrAccessible('name', 'phone');
   })
@@ -16,10 +16,10 @@ EloquentJs
   .Model('Stub', function(){
   });
 
-describe('EloquentJs', function() {
+describe('Xikitita', function() {
 
   it('::models', function () {
-    var modelNames = Object.keys(EloquentJs.models).join(', ');
+    var modelNames = Object.keys(Xikitita.models).join(', ');
 
     expect(modelNames).to.be('Cliente, User, Permission, Stub');
   });
@@ -47,7 +47,7 @@ describe('EloquentJs', function() {
         expect(exception.message).to.be('stub.two is not a attribute');
       })
 
-      EloquentJs
+      Xikitita
         .Model('Stub', function(){
           attrAccessible('one', 'two');
         })
@@ -88,7 +88,7 @@ describe('EloquentJs', function() {
     });
 
     it('hasOne', function () {
-      EloquentJs
+      Xikitita
         .Model('Cliente', function(){
           attrAccessible('name', 'phone');
           hasOne('user');

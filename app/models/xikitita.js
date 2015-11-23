@@ -1,6 +1,6 @@
 'use strict';
 
-var EloquentJs = Object.create({
+var Xikitita = Object.create({
   window: this,
   attrAccessible: function(){
     var attrNames = Array.prototype.slice.call(arguments);
@@ -52,11 +52,11 @@ var EloquentJs = Object.create({
   }
 });
 
-EloquentJs.models = Object.create(null);
+Xikitita.models = Object.create(null);
 
-EloquentJs.Model = function(name, body){
+Xikitita.Model = function(name, body){
   
-  eval.call(EloquentJs.window, "function #{name}(){\n\
+  eval.call(Xikitita.window, "function #{name}(){\n\
       var __model__ =  #{model};\n\
       var __attrAccessible__ = [];\n\
       \n\
@@ -76,11 +76,11 @@ EloquentJs.Model = function(name, body){
     };"
     .replace(/#{name}/, name)
     .replace(/#{model}/, name)
-    .replace(/#{attrAccessible}/, EloquentJs.attrAccessible.toString())
-    .replace(/#{belongsTo}/, EloquentJs.belongsTo.toString())
-    .replace(/#{hasMany}/, EloquentJs.hasMany.toString())
-    .replace(/#{hasOne}/, EloquentJs.hasOne.toString())
-    .replace(/#{new}/, EloquentJs.new.toString())
+    .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
+    .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
+    .replace(/#{hasMany}/, Xikitita.hasMany.toString())
+    .replace(/#{hasOne}/, Xikitita.hasOne.toString())
+    .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
   var Model = eval(name);
@@ -91,8 +91,8 @@ EloquentJs.Model = function(name, body){
   });
 
 
-  EloquentJs.models[name] = Model;
-  return EloquentJs;
+  Xikitita.models[name] = Model;
+  return Xikitita;
 }
 
-module.exports = EloquentJs;
+module.exports = Xikitita;

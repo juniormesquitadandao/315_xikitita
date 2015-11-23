@@ -1,14 +1,14 @@
 {
-  "name": "eloquent_js_model",
+  "name": "xikitita",
   "version": "1.0.0",
-  "description": "Eloquent Js Model",
+  "description": "Xikitita",
   "main": "poc.js",
   "scripts": {
     "test": "mocha --opts spec/mocha.opts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/juniormesquitadandao/eloquent_js_model.git"
+    "url": "git+https://github.com/juniormesquitadandao/xikitita.git"
   },
   "keywords": [
     "eloquent",
@@ -19,9 +19,9 @@
   "author": "Junior Mesquita Dandão",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/juniormesquitadandao/eloquent_js_model/issues"
+    "url": "https://github.com/juniormesquitadandao/xikitita/issues"
   },
-  "homepage": "https://github.com/juniormesquitadandao/eloquent_js_model#readme",
+  "homepage": "https://github.com/juniormesquitadandao/xikitita#readme",
   "devDependencies": {
     "expect": "^1.13.0",
     "expect.js": "^0.3.1",
