@@ -34,7 +34,7 @@ describe('Xikitita', function() {
     });
 
     it('#toJson', function () {
-      expect(new Stub().toJson).to.be('{}');
+      expect(new Stub().toJson).to.be('{"id":null}');
     });
 
     it('#asJson', function () {
@@ -52,39 +52,49 @@ describe('Xikitita', function() {
           attrAccessible('one', 'two');
         })
 
-      expect(new Stub().toJson).to.be('{"one":null,"two":null}');
-      expect(new Stub({}).toJson).to.be('{"one":null,"two":null}');
-      expect(new Stub('{}').toJson).to.be('{"one":null,"two":null}');
+      expect(new Stub().toJson).to.be('{"id":null,"one":null,"two":null}');
+      expect(new Stub({}).toJson).to.be('{"id":null,"one":null,"two":null}');
+      expect(new Stub('{}').toJson).to.be('{"id":null,"one":null,"two":null}');
 
-      expect(new Stub({one: 'value'}).toJson).to.be('{"one":"value","two":null}');
-      expect(new Stub({'one': 0}).toJson).to.be('{"one":0,"two":null}');
+      expect(new Stub({one: 'value'}).toJson).to.be('{"id":null,"one":"value","two":null}');
+      expect(new Stub({'one': 0}).toJson).to.be('{"id":null,"one":0,"two":null}');
 
-      expect(new Stub('{"one": "value"}').toJson).to.be('{"one":"value","two":null}');
-      expect(new Stub('{"one": 0}').toJson).to.be('{"one":0,"two":null}');
+      expect(new Stub('{"one": "value"}').toJson).to.be('{"id":null,"one":"value","two":null}');
+      expect(new Stub('{"one": 0}').toJson).to.be('{"id":null,"one":0,"two":null}');
+    });
+
+
+    it('id', function () {
+      Xikitita
+        .Model('Stub', function(){
+          id('id_stub');
+        })
+
+      expect(new Stub().toJson).to.be('{"id_stub":null}');
     });
 
     it('attrAccessible', function () {
-      expect(new Cliente().toJson).to.be('{"name":null,"phone":null}');
+      expect(new Cliente().toJson).to.be('{"id":null,"name":null,"phone":null}');
     });
 
     it('belongsTo', function () {
-      expect(new User().toJson).to.be('{"email":null,"cliente":null,"permission":null}');
+      expect(new User().toJson).to.be('{"id":null,"email":null,"cliente":null,"permission":null}');
       
       var user = new User({cliente: {name: 'Name', phone: '00000000'}});  
-      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
       expect(user.cliente).to.be.a(Cliente);
 
       user = new User({cliente: user.cliente});  
-      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
       expect(user.cliente).to.be.a(Cliente);
 
-      user = new User('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');  
-      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      user = new User('{"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');  
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
       expect(user.cliente).to.be.a(Cliente);
     });
 
     it('hasMany', function () {
-      expect(new Permission().toJson).to.be('{"name":null,"clientes":[]}');
+      expect(new Permission().toJson).to.be('{"id":null,"name":null,"clientes":[]}');
     });
 
     it('hasOne', function () {
@@ -94,7 +104,7 @@ describe('Xikitita', function() {
           hasOne('user');
         })
       
-      expect(new Cliente().toJson).to.be('{"name":null,"phone":null,"user":null}');
+      expect(new Cliente().toJson).to.be('{"id":null,"name":null,"phone":null,"user":null}');
     });
 
   });

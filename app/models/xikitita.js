@@ -2,8 +2,14 @@
 
 var Xikitita = Object.create({
   window: this,
+  id: function(id){
+    __id__ = id;
+  },
   attrAccessible: function(){
     var attrNames = Array.prototype.slice.call(arguments);
+    if(__attrAccessible__.length === 0){
+      attrNames.unshift(__id__ || 'id');
+    }
 
     attrNames.forEach(function(attrName){
       self[attrName] = null;
@@ -63,6 +69,9 @@ Xikitita.Model = function(name, body){
       var self = this;\n\
       var attrAccessible = #{attrAccessible};\n\
       \n\
+      var __id__ = null;\n\
+      var id = #{id};\n\
+      \n\
       var belongsToModels = {};\n\
       var belongsTo = #{belongsTo};\n\
       \n\
@@ -70,6 +79,7 @@ Xikitita.Model = function(name, body){
       var hasOne = #{hasOne};\n\
       \n\
       (#{body})(this);\n\
+      attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (#{new})(this);\
@@ -77,6 +87,7 @@ Xikitita.Model = function(name, body){
     .replace(/#{name}/, name)
     .replace(/#{model}/, name)
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
+    .replace(/#{id}/, Xikitita.id.toString())
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
     .replace(/#{hasMany}/, Xikitita.hasMany.toString())
     .replace(/#{hasOne}/, Xikitita.hasOne.toString())
