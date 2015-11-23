@@ -35,9 +35,12 @@ describe('EloquentJs', function() {
       expect(Stub.name).to.be('Stub');
     });
 
-
     it('#toJson', function () {
       expect(new Stub().toJson).to.be('{}');
+    });
+
+    it('#asJson', function () {
+      expect(new Stub().asJson).to.be.a(Object);
     });
 
     it('#new', function () {

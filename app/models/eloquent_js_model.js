@@ -81,7 +81,8 @@ EloquentJs.Model = function(name, body){
   var Model = eval(name);
 
   Object.defineProperties(Model.prototype, {
-    "toJson": { get: function () { return JSON.stringify(this); } }
+    "toJson": { get: function () { return JSON.stringify(this); } },
+    "asJson": { get: function () { return JSON.parse(this.toJson); } }
   });
 
 
