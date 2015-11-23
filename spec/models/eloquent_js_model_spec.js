@@ -19,11 +19,9 @@ EloquentJs
 describe('EloquentJs', function() {
 
   it('::models', function () {
-    var modelNames = EloquentJs.models.map(function(model){
-      return model.name;
-    });
+    var modelNames = Object.keys(EloquentJs.models).join(', ');
 
-    expect(modelNames.join(', ')).to.be('Cliente, User, Permission, Stub');
+    expect(modelNames).to.be('Cliente, User, Permission, Stub');
   });
 
   describe('Model', function() {
@@ -73,6 +71,14 @@ describe('EloquentJs', function() {
       expect(new User().toJson).to.be('{"email":null,"cliente":null,"permission":null}');
       
       var user = new User({cliente: {name: 'Name', phone: '00000000'}});  
+      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.cliente).to.be.a(Cliente);
+
+      user = new User({cliente: user.cliente});  
+      expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.cliente).to.be.a(Cliente);
+
+      user = new User('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');  
       expect(user.toJson).to.be('{"email":null,"cliente":{"name":"Name","phone":"00000000"},"permission":null}');
       expect(user.cliente).to.be.a(Cliente);
     });

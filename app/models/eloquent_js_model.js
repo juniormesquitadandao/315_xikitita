@@ -19,6 +19,11 @@ var EloquentJs = Object.create({
         return belongsToModels[model];
       },
       set: function(value){
+        if (value !== null && value.constructor.name === 'Object'){
+          var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+          var Model = eval( modelTitleize );
+          value = new Model(value);
+        }
         belongsToModels[model] = value; 
       }
     });
@@ -47,7 +52,7 @@ var EloquentJs = Object.create({
   }
 });
 
-EloquentJs.models = [];
+EloquentJs.models = Object.create(null);
 
 EloquentJs.Model = function(name, body){
   
@@ -86,8 +91,7 @@ EloquentJs.Model = function(name, body){
   });
 
 
-  EloquentJs.models = EloquentJs.models.filter(function(model){ return  model.name !== Model.name;});
-  EloquentJs.models.push(Model);
+  EloquentJs.models[name] = Model;
   return EloquentJs;
 }
 
