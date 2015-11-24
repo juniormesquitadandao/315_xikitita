@@ -78,18 +78,18 @@ describe('Xikitita', function() {
     });
 
     it('belongsTo', function () {
-      expect(new User().toJson).to.be('{"id":null,"email":null,"cliente":null,"permission":null}');
+      expect(new User().toJson).to.be('{"id":null,"email":null,"cliente_id":null,"permission_id":null}');
       
-      var user = new User({cliente: {name: 'Name', phone: '00000000'}});  
-      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
+      var user = new User({cliente: {id: 1, name: 'Name', phone: '00000000'}});  
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
       expect(user.cliente).to.be.a(Cliente);
 
       user = new User({cliente: user.cliente});  
-      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
       expect(user.cliente).to.be.a(Cliente);
 
-      user = new User('{"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');  
-      expect(user.toJson).to.be('{"id":null,"email":null,"cliente":{"id":null,"name":"Name","phone":"00000000"},"permission":null}');
+      user = new User('{"email":null,"cliente":{"id":1,"name":null,"phone":null},"permission":null}');  
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
       expect(user.cliente).to.be.a(Cliente);
     });
 

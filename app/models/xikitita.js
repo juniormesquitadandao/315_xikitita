@@ -8,7 +8,7 @@ var Xikitita = Object.create({
   attrAccessible: function(){
     var attrNames = Array.prototype.slice.call(arguments);
     if(__attrAccessible__.length === 0){
-      attrNames.unshift(__id__ || 'id');
+      attrNames.unshift(__id__);
     }
 
     attrNames.forEach(function(attrName){
@@ -19,8 +19,19 @@ var Xikitita = Object.create({
   belongsTo: function(){
     var model = arguments[0];
     
-    Object.defineProperty(self, model, {
+    var foreingKey = model + '_' +__id__;
+    Object.defineProperty(self, foreingKey, {
       enumerable: true,
+      get: function(){
+        var id = null;
+        if(belongsToModels[model] !== null){
+          id = belongsToModels[model][__id__];
+        }
+        return id;
+      },
+    });
+
+    Object.defineProperty(self, model, {
       get: function(){
         return belongsToModels[model];
       },
@@ -34,7 +45,7 @@ var Xikitita = Object.create({
       }
     });
 
-    attrAccessible(model);
+    attrAccessible(model, foreingKey);
     return model;
   },
   hasMany: function(){
@@ -69,7 +80,7 @@ Xikitita.Model = function(name, body){
       var self = this;\n\
       var attrAccessible = #{attrAccessible};\n\
       \n\
-      var __id__ = null;\n\
+      var __id__ = 'id';\n\
       var id = #{id};\n\
       \n\
       var belongsToModels = {};\n\
