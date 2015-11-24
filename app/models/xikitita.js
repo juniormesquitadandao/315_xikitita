@@ -93,7 +93,7 @@ Xikitita.Model = function(name, body){
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      (#{new})(this);\
+      (#{new})(this);\n\
     };"
     .replace(/#{name}/, name)
     .replace(/#{model}/, name)
