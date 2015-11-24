@@ -55,11 +55,11 @@ var Xikitita = Object.create({
     return model;
   },
   hasMany: function(){
-    var hasMany = belongsTo(arguments[0]);
-    self[hasMany] = [];
+    // var hasMany = belongsTo(arguments[0]);
+    // self[hasMany] = [];
   },
   hasOne: function(){
-    belongsTo(arguments[0]);
+    // belongsTo(arguments[0]);
   },
   new: function(){
     if(typeof __initAttributes__ === 'string'){
@@ -123,6 +123,7 @@ Xikitita.Model = function(name, body){
     "asJson": { get: function () { return JSON.parse(this.toJson); } }
   });
 
+  new Model();
 
   Xikitita.models[name] = Model;
   return Xikitita;
