@@ -3,12 +3,12 @@
 var Xikitita = Object.create({
   window: this,
   id: function(id){
-    __id__ = id;
+    __model__.__id__ = id;
   },
   attrAccessible: function(){
     var attrNames = Array.prototype.slice.call(arguments);
     if(__attrAccessible__.length === 0){
-      attrNames.unshift(__id__);
+      attrNames.unshift(__model__.__id__);
     }
 
     attrNames.forEach(function(attrName){
@@ -16,36 +16,42 @@ var Xikitita = Object.create({
       __attrAccessible__.push(attrName);
     });
   },
-  belongsTo: function(){
-    var model = arguments[0];
-    
-    var foreingKey = model + '_' +__id__;
-    Object.defineProperty(self, foreingKey, {
-      enumerable: true,
-      get: function(){
-        var id = null;
-        if(belongsToModels[model] !== null){
-          id = belongsToModels[model][__id__];
-        }
-        return id;
-      },
-    });
+  belongsTo: function(model, options){
+    var options = options || {};
+    var foreingKey = options.foreingKey || model + '_id';
+    var primaryKey = options.primaryKey || 'id';
 
     Object.defineProperty(self, model, {
       get: function(){
+        self[model] = belongsToModels[model] || null;
         return belongsToModels[model];
       },
       set: function(value){
+        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Model = eval( modelTitleize );
+
         if (value !== null && value.constructor.name === 'Object'){
-          var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-          var Model = eval( modelTitleize );
           value = new Model(value);
         }
-        belongsToModels[model] = value; 
+        belongsToModels[model] = value;
+
+        var idValue = null;
+        if (value !== null){
+          idValue = value[Model.__id__];
+        }
+
+        self[foreingKey] = idValue;
       }
     });
 
-    attrAccessible(model, foreingKey);
+    attrAccessible(foreingKey);
+    
+    __afterNew__.push(function(){
+      var object = {};
+      object[primaryKey] = self[foreingKey];
+      belongsToModels[model] = object;
+    });
+    
     return model;
   },
   hasMany: function(){
@@ -66,6 +72,10 @@ var Xikitita = Object.create({
       }
       self[attrName] = __initAttributes__[attrName];
     });
+
+    __afterNew__.forEach(function(callback){
+      callback();
+    })
   }
 });
 
@@ -80,8 +90,9 @@ Xikitita.Model = function(name, body){
       var self = this;\n\
       var attrAccessible = #{attrAccessible};\n\
       \n\
-      var __id__ = 'id';\n\
+      __model__.__id__ = 'id';\n\
       var id = #{id};\n\
+      var __afterNew__ = [];\n\
       \n\
       var belongsToModels = {};\n\
       var belongsTo = #{belongsTo};\n\

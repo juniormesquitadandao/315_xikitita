@@ -64,13 +64,25 @@ describe('Xikitita', function() {
     });
 
 
-    it('id', function () {
+    it('primaryKey', function () {
       Xikitita
         .Model('Stub', function(){
           id('id_stub');
         })
 
+      // expect(Stub.__id__).to.be('id_stub');
       expect(new Stub().toJson).to.be('{"id_stub":null}');
+      expect(new Stub({id_stub: 1}).toJson).to.be('{"id_stub":1}');
+    });
+
+    it('foreingKey', function () {
+      Xikitita
+        .Model('Stub2', function(){
+          belongsTo('stub', {foreingKey: 'id_stub', primaryKey: 'id_stub'});
+        })
+
+      expect(new Stub2({id_stub: 1}).toJson).to.be('{"id":null,"id_stub":1}');
+      expect(new Stub2({id_stub: 1}).stub).to.be.a(Stub);
     });
 
     it('attrAccessible', function () {
@@ -80,15 +92,14 @@ describe('Xikitita', function() {
     it('belongsTo', function () {
       expect(new User().toJson).to.be('{"id":null,"email":null,"cliente_id":null,"permission_id":null}');
       
-      var user = new User({cliente: {id: 1, name: 'Name', phone: '00000000'}});  
+      var user = new User({cliente_id: 1});
       expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
+
+      user.cliente = {id: 2, name: 'Name', phone: '00000000'};
+      expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":2,"permission_id":null}');
       expect(user.cliente).to.be.a(Cliente);
 
-      user = new User({cliente: user.cliente});  
-      expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
-      expect(user.cliente).to.be.a(Cliente);
-
-      user = new User('{"email":null,"cliente":{"id":1,"name":null,"phone":null},"permission":null}');  
+      user = new User('{"email":null,"cliente_id":1,"permission_id":null}');  
       expect(user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
       expect(user.cliente).to.be.a(Cliente);
     });
