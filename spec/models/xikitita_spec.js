@@ -70,7 +70,7 @@ describe('Xikitita', function() {
           id('id_stub');
         })
 
-      expect(Stub.__id__).to.be('id_stub');
+      expect(new Stub().__idValue__).to.be(null);
       expect(new Stub().toJson).to.be('{"id_stub":null}');
       expect(new Stub({id_stub: 1}).toJson).to.be('{"id_stub":1}');
     });

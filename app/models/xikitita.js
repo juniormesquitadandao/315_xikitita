@@ -3,12 +3,16 @@
 var Xikitita = Object.create({
   window: this,
   id: function(id){
-    __model__.__id__ = id;
+    __id__ = id;
+
+    Object.defineProperty(self, '__idValue__', {
+      get: function(){ return self[__id__]; }
+    });
   },
   attrAccessible: function(){
     var attrNames = Array.prototype.slice.call(arguments);
     if(__attrAccessible__.length === 0){
-      attrNames.unshift(__model__.__id__);
+      attrNames.unshift(__id__);
     }
 
     attrNames.forEach(function(attrName){
@@ -37,7 +41,7 @@ var Xikitita = Object.create({
 
         var idValue = null;
         if (value !== null){
-          idValue = value[Model.__id__];
+          idValue = value[__id__];
         }
 
         self[foreingKey] = idValue;
@@ -90,7 +94,7 @@ Xikitita.Model = function(name, body){
       var self = this;\n\
       var attrAccessible = #{attrAccessible};\n\
       \n\
-      __model__.__id__ = 'id';\n\
+      var __id__ = 'id';\n\
       var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
