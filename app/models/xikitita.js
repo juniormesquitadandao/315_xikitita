@@ -41,7 +41,7 @@ var Xikitita = Object.create({
 
         var idValue = null;
         if (value !== null){
-          idValue = value[__id__];
+          idValue = value[primaryKey];
         }
 
         self[foreingKey] = idValue;
@@ -55,15 +55,35 @@ var Xikitita = Object.create({
       object[primaryKey] = self[foreingKey];
       belongsToModels[model] = object;
     });
-    
-    return model;
   },
   hasMany: function(){
     // var hasMany = belongsTo(arguments[0]);
     // self[hasMany] = [];
   },
-  hasOne: function(){
-    // belongsTo(arguments[0]);
+  hasOne: function(model, options){
+    var options = options || {};
+    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+    var primaryKey = options.primaryKey || 'id';
+
+    Object.defineProperty(self, model, {
+      get: function(){
+        self[model] = hasOneModels[model] || null;
+        return hasOneModels[model];
+      },
+      set: function(value){
+        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Model = eval( modelTitleize );
+
+        if (value !== null){
+          if (value.constructor.name === 'Object'){
+            value = new Model(value);
+          }
+          value[foreingKey] = self[__id__];
+        }
+
+        hasOneModels[model] = value;
+      }
+    });
   },
   new: function(){
     if(typeof __initAttributes__ === 'string'){
@@ -102,6 +122,8 @@ Xikitita.Model = function(name, body){
       var belongsTo = #{belongsTo};\n\
       \n\
       var hasMany = #{hasMany};\n\
+      \n\
+      var hasOneModels = {};\n\
       var hasOne = #{hasOne};\n\
       \n\
       (#{body})(this);\n\

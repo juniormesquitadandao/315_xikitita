@@ -115,7 +115,17 @@ describe('Xikitita', function() {
           hasOne('user');
         })
       
-      expect(new Cliente().toJson).to.be('{"id":null,"name":null,"phone":null,"user":null}');
+      var cliente = new Cliente();
+      expect(cliente.toJson).to.be('{"id":null,"name":null,"phone":null}');
+      expect(cliente.user).to.be(null);
+
+      cliente.user = new User();
+      expect(cliente.user.toJson).to.be('{"id":null,"email":null,"cliente_id":null,"permission_id":null}');
+      expect(cliente.user).to.be.a(User);
+
+      cliente.id = 1;
+      cliente.user = new User();
+      expect(cliente.user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
     });
 
   });
