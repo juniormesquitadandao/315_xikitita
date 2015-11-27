@@ -56,14 +56,34 @@ var Xikitita = Object.create({
       belongsToModels[model] = object;
     });
   },
-  hasMany: function(){
-    // var hasMany = belongsTo(arguments[0]);
-    // self[hasMany] = [];
+  hasMany: function(models, options){
+    var options = options || {};
+    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+
+    Object.defineProperty(self, models, {
+      get: function(){
+        self[models] = hasManyModels[models];
+        return hasManyModels[models];
+      },
+      set: function(value){
+        var modelTitleize = models.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Model = eval( modelTitleize );
+
+        if (value !== null){
+          value[foreingKey] = self[__id__];
+          if (value.constructor.name === 'Object'){
+            value = new Model(value);
+          }
+        }
+
+        hasManyModels[models] = hasManyModels[models] || [];
+        hasManyModels[models] << value;
+      }
+    });
   },
   hasOne: function(model, options){
     var options = options || {};
     var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
-    var primaryKey = options.primaryKey || 'id';
 
     Object.defineProperty(self, model, {
       get: function(){
@@ -75,10 +95,10 @@ var Xikitita = Object.create({
         var Model = eval( modelTitleize );
 
         if (value !== null){
+          value[foreingKey] = self[__id__];
           if (value.constructor.name === 'Object'){
             value = new Model(value);
           }
-          value[foreingKey] = self[__id__];
         }
 
         hasOneModels[model] = value;
@@ -100,10 +120,12 @@ var Xikitita = Object.create({
     __afterNew__.forEach(function(callback){
       callback();
     })
+  },
+  inflection: {
+    singular: {},
+    plural: {}
   }
 });
-
-Xikitita.models = Object.create(null);
 
 Xikitita.Model = function(name, body){
   
@@ -121,10 +143,11 @@ Xikitita.Model = function(name, body){
       var belongsToModels = {};\n\
       var belongsTo = #{belongsTo};\n\
       \n\
-      var hasMany = #{hasMany};\n\
-      \n\
       var hasOneModels = {};\n\
       var hasOne = #{hasOne};\n\
+      \n\
+      var hasManyModels = {};\n\
+      var hasMany = #{hasMany};\n\
       \n\
       (#{body})(this);\n\
       attrAccessible();\n\
@@ -137,8 +160,8 @@ Xikitita.Model = function(name, body){
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
     .replace(/#{id}/, Xikitita.id.toString())
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
-    .replace(/#{hasMany}/, Xikitita.hasMany.toString())
     .replace(/#{hasOne}/, Xikitita.hasOne.toString())
+    .replace(/#{hasMany}/, Xikitita.hasMany.toString())
     .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
@@ -151,8 +174,53 @@ Xikitita.Model = function(name, body){
 
   new Model();
 
-  Xikitita.models[name] = Model;
-  return Xikitita;
+  this.models[name] = Model;
+  return this;
 }
+
+Xikitita.Inflection = function(body){
+  var irregular = function(singular, plural){
+    Xikitita.inflection.singular[singular] = plural; 
+    Xikitita.inflection.plural[plural] = singular;
+  }
+}
+
+
+Object.defineProperty(String.prototype, 'pluralize', {
+  get: function(){
+    var regex = this;
+    var replace = Xikitita.inflection.plural[this] || null;
+
+    if(!replace){
+      regex = /$/;
+      replace = 's';
+    }
+
+    return this.replace(regex, replace);
+  }
+});
+
+Object.defineProperty(String.prototype, 'singularize', {
+  get: function(){
+    var regex = this;
+    var replace = Xikitita.inflection.singular[this] || null;
+
+    if(!replace){
+      regex = /s$/;
+      replace = '';
+    }
+
+    return this.replace(regex, replace);
+  }
+});
+
+Xikitita.models = Object.create(null);
+
+Object.defineProperty(Xikitita, 'init', {
+  get: function(){
+    this.models = Object.create(null);
+    return this;
+  }
+});
 
 module.exports = Xikitita;
