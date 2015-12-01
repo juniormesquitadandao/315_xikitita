@@ -5,7 +5,6 @@ var Xikitita = require('../../app/models/xikitita.js');
 describe('Inflection', function() {
   before(function() {
     Xikitita
-      .init
       .Inflection(function(){
         irregular('fish', 'fish');
       });
