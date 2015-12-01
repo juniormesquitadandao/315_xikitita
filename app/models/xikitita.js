@@ -224,8 +224,6 @@ Object.defineProperty(String.prototype, 'singularize', {
   }
 });
 
-Xikitita.models = Object.create(null);
-
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     this.models = Object.create(null);
