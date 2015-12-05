@@ -23,7 +23,7 @@ var Xikitita = Object.create({
   belongsTo: function(model, options){
     var options = options || {};
     var foreingKey = options.foreingKey || model + '_id';
-    var primaryKey = options.primaryKey || 'id';
+    var referenceKey = options.referenceKey || 'id';
 
     Object.defineProperty(self, model, {
       get: function(){
@@ -41,7 +41,7 @@ var Xikitita = Object.create({
 
         var idValue = null;
         if (value !== null){
-          idValue = value[primaryKey];
+          idValue = value[referenceKey];
         }
 
         self[foreingKey] = idValue;
@@ -52,8 +52,32 @@ var Xikitita = Object.create({
     
     __afterNew__.push(function(){
       var object = {};
-      object[primaryKey] = self[foreingKey];
+      object[referenceKey] = self[foreingKey];
       belongsToModels[model] = object;
+    });
+  },
+  hasOne: function(model, options){
+    var options = options || {};
+    var referenceKey = options.referenceKey || __model__.name.toLowerCase() + '_id';
+
+    Object.defineProperty(self, model, {
+      get: function(){
+        self[model] = hasOneModels[model] || null;
+        return hasOneModels[model];
+      },
+      set: function(value){
+        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Model = eval( modelTitleize );
+
+        if (value !== null){
+          value[referenceKey] = self[__id__];
+          if (value.constructor.name === 'Object'){
+            value = new Model(value);
+          }
+        }
+
+        hasOneModels[model] = value;
+      }
     });
   },
   hasMany: function(models, options){
@@ -78,30 +102,6 @@ var Xikitita = Object.create({
 
         hasManyModels[models] = hasManyModels[models] || [];
         hasManyModels[models] << value;
-      }
-    });
-  },
-  hasOne: function(model, options){
-    var options = options || {};
-    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
-
-    Object.defineProperty(self, model, {
-      get: function(){
-        self[model] = hasOneModels[model] || null;
-        return hasOneModels[model];
-      },
-      set: function(value){
-        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
-
-        if (value !== null){
-          value[foreingKey] = self[__id__];
-          if (value.constructor.name === 'Object'){
-            value = new Model(value);
-          }
-        }
-
-        hasOneModels[model] = value;
       }
     });
   },

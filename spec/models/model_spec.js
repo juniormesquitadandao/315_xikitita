@@ -74,12 +74,27 @@ describe('Model', function() {
 
   it('foreingKey', function () {
     Xikitita
+      .Model('Stub', function(){
+      })
       .Model('Stub2', function(){
-        belongsTo('stub', {foreingKey: 'id_stub', primaryKey: 'id_stub'});
+        belongsTo('stub', {foreingKey: 'id_stub'});
       })
 
     expect(new Stub2({id_stub: 1}).toJson).to.be('{"id":null,"id_stub":1}');
     expect(new Stub2({id_stub: 1}).stub).to.be.a(Stub);
+  });
+
+  it('referenceKey', function () {
+    Xikitita
+      .Model('Stub', function(){
+        id('id_stub');
+      })
+      .Model('Stub2', function(){
+        belongsTo('stub', {referenceKey: 'id_stub'});
+      })
+
+    expect(new Stub2({stub_id: 1}).toJson).to.be('{"id":null,"stub_id":1}');
+    expect(new Stub2({stub_id: 1}).stub).to.be.a(Stub);
   });
 
   it('attrAccessible', function () {
@@ -101,14 +116,6 @@ describe('Model', function() {
     expect(user.cliente).to.be.a(Cliente);
   });
 
-  it('hasMany', function () {
-    var permission = new Permission();
-    expect(permission.toJson).to.be('{"id":null,"name":null}');
-    expect(permission.clientes).to.be(null);
-
-    permission.clientes << new Cliente();
-  });
-
   it('hasOne', function () {
     Xikitita
       .Model('Cliente', function(){
@@ -127,6 +134,14 @@ describe('Model', function() {
     cliente.id = 1;
     cliente.user = new User();
     expect(cliente.user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
+  });
+
+  it('hasMany', function () {
+    var permission = new Permission();
+    expect(permission.toJson).to.be('{"id":null,"name":null}');
+    expect(permission.clientes).to.be(null);
+
+    permission.clientes << new Cliente();
   });
 
 });
