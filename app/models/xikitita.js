@@ -27,8 +27,8 @@ var Xikitita = Object.create({
 
     Object.defineProperty(self, model, {
       get: function(){
-        self[model] = belongsToModels[model] || null;
-        return belongsToModels[model];
+        self[model] = __belongsToModels__[model] || null;
+        return __belongsToModels__[model];
       },
       set: function(value){
         value = value || null;
@@ -39,7 +39,7 @@ var Xikitita = Object.create({
         if (value !== null && value.constructor.name === 'Object'){
           value = new Model(value);
         }
-        belongsToModels[model] = value;
+        __belongsToModels__[model] = value;
 
         var idValue = null;
         if (value !== null){
@@ -55,7 +55,7 @@ var Xikitita = Object.create({
     __afterNew__.push(function(){
       var value = {};
       value[referenceKey] = self[foreingKey];
-      belongsToModels[model] = value;
+      __belongsToModels__[model] = value;
     });
   },
   hasOne: function(model, options){
@@ -64,8 +64,8 @@ var Xikitita = Object.create({
 
     Object.defineProperty(self, model, {
       get: function(){
-        self[model] = hasOneModels[model] || null;
-        return hasOneModels[model];
+        self[model] = __hasOneModels__[model] || null;
+        return __hasOneModels__[model];
       },
       set: function(value){
         value = value || null;
@@ -80,7 +80,7 @@ var Xikitita = Object.create({
           }
         }
 
-        hasOneModels[model] = value;
+        __hasOneModels__[model] = value;
       }
     });
   },
@@ -90,8 +90,8 @@ var Xikitita = Object.create({
 
     Object.defineProperty(self, models, {
       get: function(){
-        self[models] = hasManyModels[models];
-        return hasManyModels[models];
+        self[models] = __hasManyModels__[models];
+        return __hasManyModels__[models];
       },
       set: function(values){
         values = values || null;
@@ -108,7 +108,7 @@ var Xikitita = Object.create({
           })
         }
 
-        hasManyModels[models] = values;
+        __hasManyModels__[models] = values;
       }
     });
   },
@@ -147,13 +147,13 @@ Xikitita.Model = function(name, body){
       var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
-      var belongsToModels = {};\n\
+      var __belongsToModels__ = {};\n\
       var belongsTo = #{belongsTo};\n\
       \n\
-      var hasOneModels = {};\n\
+      var __hasOneModels__ = {};\n\
       var hasOne = #{hasOne};\n\
       \n\
-      var hasManyModels = {};\n\
+      var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
       (#{body})(this);\n\
