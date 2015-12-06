@@ -132,6 +132,8 @@ describe('Model', function() {
     expect(cliente.user).to.be.a(User);
 
     cliente.id = 1;
+    expect(cliente.user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
+
     cliente.user = new User();
     expect(cliente.user.toJson).to.be('{"id":null,"email":null,"cliente_id":1,"permission_id":null}');
   });
@@ -141,7 +143,14 @@ describe('Model', function() {
     expect(permission.toJson).to.be('{"id":null,"name":null}');
     expect(permission.clientes).to.be(null);
 
-    permission.clientes << new Cliente();
+    permission.clientes = [new Cliente()];
+    expect(permission.clientes.toJson).to.be('[{"id":null,"name":null,"phone":null,"permission_id":null}]');
+
+    permission.id = 1;
+    expect(permission.clientes.toJson).to.be('[{"id":null,"name":null,"phone":null,"permission_id":1}]');
+
+    permission.clientes.push(new Cliente({name: 'Name'}));
+    expect(permission.clientes.toJson).to.be('[{"id":null,"name":null,"phone":null,"permission_id":1},{"id":null,"name":"Name","phone":null,"permission_id":1}]');
   });
 
 });

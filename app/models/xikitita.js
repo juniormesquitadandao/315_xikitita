@@ -231,9 +231,20 @@ Object.defineProperty(String.prototype, 'singularize', {
   }
 });
 
+Object.defineProperties(Array.prototype, {
+  "toJson": { get: function () { return JSON.stringify(this); } },
+  "asJson": { get: function () { return JSON.parse(this.toJson); } }
+});
+
+
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     this.models = Object.create(null);
+    this.inflection = {
+      singular: {},
+      plural: {}
+    }
+    
     return this;
   }
 });

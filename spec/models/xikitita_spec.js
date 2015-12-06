@@ -7,16 +7,10 @@ describe('Xikitita', function() {
     Xikitita
       .init
       .Model('Cliente', function(){
-        attrAccessible('name', 'phone');
       })
       .Model('User', function(){
-        attrAccessible('email');
-        belongsTo('cliente');
-        belongsTo('permission');
       })
       .Model('Permission', function(){
-        attrAccessible('name');
-        hasMany('clientes');
       })
       .Model('Stub', function(){
       });

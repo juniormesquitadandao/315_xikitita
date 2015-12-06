@@ -14,12 +14,10 @@ describe('Inflection', function() {
   describe('String', function() {
     
     it('#pluralize', function () {
-      expect('user'.pluralize).to.be('users');
       expect('fish'.pluralize).to.be('fish');
     });
 
     it('#singularize', function () {
-      expect('users'.singularize).to.be('user');
       expect('fish'.singularize).to.be('fish');
     });
   
