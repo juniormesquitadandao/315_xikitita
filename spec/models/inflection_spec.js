@@ -1,7 +1,6 @@
 var expect = require('expect.js');
 var Xikitita = require('../../app/models/xikitita.js');
 
-
 describe('Inflection', function() {
   before(function() {
     Xikitita
@@ -11,16 +10,9 @@ describe('Inflection', function() {
       });
   });
 
-  describe('String', function() {
-    
-    it('#pluralize', function () {
-      expect('fish'.pluralize).to.be('fish');
-    });
-
-    it('#singularize', function () {
-      expect('fish'.singularize).to.be('fish');
-    });
-  
+  it('#irregular', function () {
+    expect('fish'.pluralize).to.be('fish');
+    expect('fish'.singularize).to.be('fish');
   });
-
+  
 });

@@ -15,4 +15,12 @@ describe('Array', function() {
     expect([].asJson).to.be.a(Object);
   });
 
+  it('#isAny', function () {
+    expect([].isAny).to.be(false);
+  });
+
+  it('#isEmpty', function () {
+    expect([].isEmpty).to.be(true);
+  });
+
 });
