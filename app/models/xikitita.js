@@ -295,7 +295,6 @@ Object.defineProperties(Array.prototype, {
   "isEmpty": { get: function () { return !this.isAny; } }
 });
 
-
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     this.models = Object.create(null);

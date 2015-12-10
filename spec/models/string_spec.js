@@ -7,6 +7,10 @@ describe('String', function() {
       .init
   });
 
+  it('#capitalize', function () {
+    expect('user'.capitalize).to.be('User');
+  });
+
   it('#pluralize', function () {
     expect('user'.pluralize).to.be('users');
     expect('fish'.pluralize).to.be('fishs');
