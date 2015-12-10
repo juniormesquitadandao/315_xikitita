@@ -70,8 +70,7 @@ var Xikitita = Object.create({
       set: function(value){
         value = value || null;
 
-        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
+        var Model = eval( model.capitalize );
 
         if (value !== null){
           value[foreingKey] = self[__id__];
@@ -96,8 +95,7 @@ var Xikitita = Object.create({
       set: function(values){
         values = values || null;
 
-        var modelTitleize = models.singularize.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
+        var Model = eval( models.singularize.capitalize );
 
         if (values !== null){
           values.forEach(function(value){
@@ -131,6 +129,41 @@ var Xikitita = Object.create({
   inflection: {
     singular: {},
     plural: {}
+  },
+  validators: {},
+  validates: function(attrName, validators){
+    Object.keys(validators).forEach(function(validator){
+      var options = Object.create({});
+      if (typeof validators[validator] === 'Object') {
+        options = Object.create(validators[validator]);
+      }
+
+      __validations__.push(function(){
+        if (!Xikitita.validators[validator](self[attrName], attrName, self, options)) {
+          errors.add(attrName, validator);
+        };
+      });
+    });
+  },
+  validatesOf: function(){
+    var validatesOf = [];
+
+    Object.keys(Xikitita.validators).forEach(function(validator){
+      validatesOf.push('var validates#{validator}Of = ' 
+          .replace(/#{validator}/, validator.capitalize)
+        + function(){
+            var attrNames = Array.prototype.slice.call(arguments);
+            
+            attrNames.forEach(function(attrName){
+              validates(attrName, '#{options}');
+            });
+          }.toString()
+          .replace(/'#{options}'/, '{' + validator + ': true}')
+        + ';'
+      );
+    });
+
+    return validatesOf.join('\n');
   }
 });
 
@@ -156,6 +189,11 @@ Xikitita.Model = function(name, body){
       var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
+      var __validations__ = [];\n\
+      var validates = #{validates}\n\
+      \n\
+      #{validatesOf}\n\
+      \n\
       (#{body})(this);\n\
       attrAccessible();\n\
       \n\
@@ -169,6 +207,8 @@ Xikitita.Model = function(name, body){
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
     .replace(/#{hasOne}/, Xikitita.hasOne.toString())
     .replace(/#{hasMany}/, Xikitita.hasMany.toString())
+    .replace(/#{validatesOf}/, Xikitita.validatesOf())
+    .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
@@ -203,6 +243,22 @@ Xikitita.Inflection = function(body){
 
   return this;
 }
+
+Xikitita.Validator = function(name, body){
+  Xikitita.validators[name] = body;
+
+  return this;
+}
+
+Xikitita.Validator('presence', function(value, attrName, instance, options){
+  return value !== null;
+});
+
+Object.defineProperty(String.prototype, 'capitalize', {
+  get: function(){
+    return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+  }
+});
 
 Object.defineProperty(String.prototype, 'pluralize', {
   get: function(){

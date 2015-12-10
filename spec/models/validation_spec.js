@@ -12,6 +12,16 @@ describe('Validation', function() {
       })
   });
 
+
+  it('::validators', function(){
+    expect(Object.keys(Xikitita.validators).toJson).to.be('["presence"]');
+  });
+
+  it('::validators.presence', function(){
+    expect(Xikitita.validators.presence(null)).to.be(false);
+    expect(Xikitita.validators.presence({})).to.be(true);
+  });
+
   it('#valid', function(){
     var cliente = new Cliente();
 
