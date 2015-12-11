@@ -51,4 +51,12 @@ describe('Error', function() {
     expect(error.isEmpty).to.be(true);
   });
 
+  it('#messages', function () {
+    expect(error.messages.toJson).to.be('[]');
+  });
+
+  it('#fullMessages', function () {
+    expect(error.fullMessages.toJson).to.be('[]');
+  });
+
 });
