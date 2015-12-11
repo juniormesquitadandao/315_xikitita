@@ -139,8 +139,9 @@ var Xikitita = Object.create({
       }
 
       __validations__.push(function(){
-        if (!Xikitita.validators[validator](self[attrName], attrName, self, options)) {
+        if (!self.Xikitita.validators[validator](self[attrName], attrName, self, options)) {
           errors.add(attrName, validator);
+          __errors__ = errors;
         };
       });
     });
@@ -164,12 +165,49 @@ var Xikitita = Object.create({
     });
 
     return validatesOf.join('\n');
+  },
+  errors: function(){
+    if(__errors__ === null){
+      __errors__ = {};
+      Object.defineProperties(__errors__, {
+        'add': {
+          value: function(attrName, message){
+            this[attrName] = this[attrName] || [];
+            this[attrName].push(message);
+          }
+        },
+        'isAny': {
+          get: function(){
+            return Object.keys(this).isAny;
+          }
+        },
+        'isEmpty': {
+          get: function(){
+            return !this.isAny;
+          }
+        }
+      });
+
+      __errors__ = Object.create(__errors__);
+    }
+
+    return __errors__;
+  },
+  isValid: function(){
+    for (var attrName in errors) delete errors[attrName];
+
+    __validations__.forEach(function(validation){
+      validation();
+    });
+
+    return errors.isEmpty;
   }
 });
 
 Xikitita.Model = function(name, body){
   
   eval.call(Xikitita.window, "function #{name}(){\n\
+      var Xikitita = Xikitita;\n\
       var __model__ =  #{model};\n\
       var __attrAccessible__ = [];\n\
       \n\
@@ -189,7 +227,13 @@ Xikitita.Model = function(name, body){
       var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
+      var __errors__ = null;\n\
       var __validations__ = [];\n\
+      Object.defineProperties(self, {\n\
+        'errors': {get: #{errors}, enumerable: false },\n\
+        'isValid': {get: #{isValid}, enumerable: false }\n\
+      });\n\
+      \n\
       var validates = #{validates}\n\
       \n\
       #{validatesOf}\n\
@@ -207,6 +251,8 @@ Xikitita.Model = function(name, body){
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
     .replace(/#{hasOne}/, Xikitita.hasOne.toString())
     .replace(/#{hasMany}/, Xikitita.hasMany.toString())
+    .replace(/#{errors}/, Xikitita.errors.toString())
+    .replace(/#{isValid}/, Xikitita.isValid.toString())
     .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{new}/, Xikitita.new.toString())
@@ -217,7 +263,7 @@ Xikitita.Model = function(name, body){
   Object.defineProperties(Model.prototype, {
     "toJson": { get: function () { return JSON.stringify(this); } },
     "asJson": { get: function () { return JSON.parse(this.toJson); } },
-    "valid": { get: function () { return true; } }
+    "Xikitita": { get: function () { return Xikitita; } }
   });
 
   new Model();

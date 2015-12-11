@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Xikitita = require('../../app/models/xikitita.js');
 
-describe('Validation', function() {
+describe('Validator', function() {
   before(function() {
     Xikitita
       .init

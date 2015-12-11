@@ -15,7 +15,7 @@ describe('Validation', function() {
   it('#valid', function(){
     var cliente = new Cliente();
 
-    expect(cliente.errors).to.be('{}');
+    expect(cliente.errors).to.be.a(Object);
     expect(cliente.isValid).to.be(false);
     expect(cliente.errors).to.be('{"name":["não pode ficar em branco"],\
       "phone":["não pode ficar em branco"]}');
