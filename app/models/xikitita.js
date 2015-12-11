@@ -167,34 +167,10 @@ var Xikitita = Object.create({
     return validatesOf.join('\n');
   },
   errors: function(){
-    if(__errors__ === null){
-      __errors__ = {};
-      Object.defineProperties(__errors__, {
-        'add': {
-          value: function(attrName, message){
-            this[attrName] = this[attrName] || [];
-            this[attrName].push(message);
-          }
-        },
-        'isAny': {
-          get: function(){
-            return Object.keys(this).isAny;
-          }
-        },
-        'isEmpty': {
-          get: function(){
-            return !this.isAny;
-          }
-        }
-      });
-
-      __errors__ = Object.create(__errors__);
-    }
-
     return __errors__;
   },
   isValid: function(){
-    for (var attrName in errors) delete errors[attrName];
+    errors.clear;
 
     __validations__.forEach(function(validation){
       validation();
@@ -203,6 +179,42 @@ var Xikitita = Object.create({
     return errors.isEmpty;
   }
 });
+
+Xikitita.Error = function(){
+  Object.defineProperties(this, {
+    'toJson': { 
+      get: function () { 
+        return JSON.stringify(this); 
+      } 
+    },
+    'asJson': { 
+      get: function () { 
+        return JSON.parse(this.toJson); 
+      } 
+    },
+    'isAny': {
+      get: function(){
+        return Object.keys(this).isAny;
+      }
+    },
+    'isEmpty': {
+      get: function(){
+        return !this.isAny;
+      }
+    },
+    'add': {
+      value: function(attrName, message){
+        this[attrName] = this[attrName] || [];
+        this[attrName].push(message);
+      }
+    },
+    'clear': {
+      get: function(){
+        for (var attrName in this) delete this[attrName];
+      }
+    },
+  });
+}
 
 Xikitita.Model = function(name, body){
   
@@ -227,7 +239,7 @@ Xikitita.Model = function(name, body){
       var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = null;\n\
+      var __errors__ = new #{Error};\n\
       var __validations__ = [];\n\
       Object.defineProperties(self, {\n\
         'errors': {get: #{errors}, enumerable: false },\n\
@@ -251,6 +263,7 @@ Xikitita.Model = function(name, body){
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
     .replace(/#{hasOne}/, Xikitita.hasOne.toString())
     .replace(/#{hasMany}/, Xikitita.hasMany.toString())
+    .replace(/#{Error}/, Xikitita.Error.toString())
     .replace(/#{errors}/, Xikitita.errors.toString())
     .replace(/#{isValid}/, Xikitita.isValid.toString())
     .replace(/#{validatesOf}/, Xikitita.validatesOf())
