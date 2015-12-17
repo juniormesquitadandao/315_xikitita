@@ -52,11 +52,21 @@ describe('Error', function() {
   });
 
   it('#messages', function () {
-    expect(error.messages.toJson).to.be('[]');
+    var error = new Xikitita.Error();
+
+    error.add('attrName1', 'message2');
+    error.add('attrName2', 'message1');
+
+    expect(error.messages.toJson).to.be('["message2","message1"]');
   });
 
   it('#fullMessages', function () {
-    expect(error.fullMessages.toJson).to.be('[]');
+    var error = new Xikitita.Error();
+
+    error.add('attrName1', 'message2');
+    error.add('attrName2', 'message1');
+
+    expect(error.fullMessages.toJson).to.be('["attrName1 message2","attrName2 message1"]');
   });
 
 });

@@ -213,6 +213,38 @@ Xikitita.Error = function(){
         for (var attrName in this) delete this[attrName];
       }
     },
+    'messages': {
+      get: function(){
+        var self =  this;
+        var messages = [];
+
+        Object.keys(self).forEach(function(attrName){
+          
+          self[attrName].forEach(function(message){
+            messages.push(message);
+          });
+
+        });
+
+        return messages;
+      }
+    },
+    'fullMessages': {
+      get: function(){
+        var self =  this;
+        var fullMessages = [];
+
+        Object.keys(self).forEach(function(attrName){
+          
+          self[attrName].forEach(function(message){
+            fullMessages.push( attrName + ' ' + message);
+          });
+
+        });
+
+        return fullMessages;
+      }
+    }
   });
 }
 
