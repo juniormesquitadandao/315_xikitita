@@ -4,27 +4,35 @@ var Xikitita = require('../../app/models/xikitita.js');
 Xikitita
 .I18n('en', {
   date: {
-    default: function(date){
+    default: function(value){
       return '2015-01-01';
     }, 
-    year: function(date){
+    year: function(value){
       return '2015';
     } 
   },  
   integer: {
-    default: function(date){
+    default: function(value){
       return '9,999,999';
     }, 
-    cliente: function(date){
+    cliente: function(value){
       return '9,999,999 Clientes';
     } 
   },  
   decimal: {
-    default: function(date){
+    default: function(value){
       return '999.99';
     }, 
-    currency: function(date){
+    currency: function(value){
       return '$ 999.99';
+    }
+  },  
+  logical: {
+    default: function(value){
+      return 'yes';
+    }, 
+    up: function(value){
+      return 'YES';
     }
   },  
   parent: {
@@ -33,27 +41,35 @@ Xikitita
 })
 .I18n('en-US', {
   date: {
-    default: function(date){
+    default: function(value){
       return '2015 01 01';
     }, 
-    year: function(date){
+    year: function(value){
       return 'Year 2015';
     } 
   },  
   integer: {
-    default: function(date){
+    default: function(value){
       return '9 999 999';
     }, 
-    cliente: function(date){
+    cliente: function(value){
       return 'Clientes 9 999 999';
     } 
   },  
   decimal: {
-    default: function(date){
+    default: function(value){
       return '999.99 USD';
     }, 
-    currency: function(date){
+    currency: function(value){
       return '$ 999.99 USD';
+    }
+  },  
+  logical: {
+    default: function(value){
+      return 'yes USD';
+    }, 
+    up: function(value){
+      return 'YES USD';
     }
   },  
   parent: {
@@ -86,8 +102,9 @@ describe('I18n', function() {
 
   it('#l', function () {
     var date = new Date('01-01-2015');
-    var integer = 9999999
-    var decimal = 999.99
+    var integer = 9999999;
+    var decimal = 999.99;
+    var logical = true;
 
     I18n.locale = 'en';
 
@@ -97,6 +114,8 @@ describe('I18n', function() {
     expect(I18n.l(integer, 'cliente')).to.be('9,999,999 Clientes');
     expect(I18n.l(decimal)).to.be('999.99');
     expect(I18n.l(decimal, 'currency')).to.be('$ 999.99');
+    expect(I18n.l(logical)).to.be('yes');
+    expect(I18n.l(logical, 'up')).to.be('YES');
 
     I18n.locale = 'en-US';
 
@@ -106,6 +125,8 @@ describe('I18n', function() {
     expect(I18n.l(integer, 'cliente')).to.be('Clientes 9 999 999');
     expect(I18n.l(decimal)).to.be('999.99 USD');
     expect(I18n.l(decimal, 'currency')).to.be('$ 999.99 USD');
+    expect(I18n.l(logical)).to.be('yes USD');
+    expect(I18n.l(logical, 'up')).to.be('YES USD');
   });
 
 });

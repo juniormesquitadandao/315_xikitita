@@ -194,7 +194,7 @@ Xikitita.I18n = function(locale, translations){
       locale: 'en',
       t: function(path, params){
         var translation = path;
-        var translations = Xikitita.translations[locale];
+        var translations = Xikitita.translations[I18n.locale];
         path.split('.').forEach(function(key){
           translations = translations[key];
         });
@@ -214,16 +214,19 @@ Xikitita.I18n = function(locale, translations){
         var formatted = value;
 
         if(typeof value === 'object' && value.constructor.name === 'Date'){
-          formatted = Xikitita.translations[locale].date[format](value);
+          formatted = Xikitita.translations[I18n.locale].date[format](value);
         }
         else if(typeof value === 'number' ){
           
-          var functionFormat = Xikitita.translations[locale].integer[format];
+          var functionFormat = Xikitita.translations[I18n.locale].integer[format];
           if(/\./.test(value)){
-            functionFormat = Xikitita.translations[locale].decimal[format];
+            functionFormat = Xikitita.translations[I18n.locale].decimal[format];
           }
           formatted = functionFormat(value);
 
+        }
+        else if(typeof value === 'boolean' ){
+          formatted = Xikitita.translations[I18n.locale].logical[format](value);
         }
 
         return formatted;
