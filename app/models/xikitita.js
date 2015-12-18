@@ -184,30 +184,52 @@ var Xikitita = Object.create({
 Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
 
-  eval.call(this.window, "var I18n;");
+  try{
+    I18n;
+  }catch(Err){
 
-  I18n = {
-    locale: 'en',
-    t: function(path, params){
-      var translation = path;
-      var translations = Xikitita.translations[locale];
-      path.split('.').forEach(function(key){
-        translations = translations[key];
-      });
+    eval.call(this.window, "var I18n;");
 
-      if(typeof translations  === 'string'){
-        translation = translations;
-        params = params || {};
-        Object.keys(params).forEach(function(param) {
-          translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+    I18n = {
+      locale: 'en',
+      t: function(path, params){
+        var translation = path;
+        var translations = Xikitita.translations[locale];
+        path.split('.').forEach(function(key){
+          translations = translations[key];
         });
+
+        if(typeof translations  === 'string'){
+          translation = translations;
+          params = params || {};
+          Object.keys(params).forEach(function(param) {
+            translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+          });
+        }
+
+        return translation;
+      },
+      l: function(value, format){
+        format = format || 'default';
+        var formatted = value;
+
+        if(typeof value === 'object' && value.constructor.name === 'Date'){
+          formatted = Xikitita.translations[locale].date[format](value);
+        }
+        else if(typeof value === 'number' ){
+          
+          var functionFormat = Xikitita.translations[locale].integer[format];
+          if(/\./.test(value)){
+            functionFormat = Xikitita.translations[locale].decimal[format];
+          }
+          formatted = functionFormat(value);
+
+        }
+
+        return formatted;
       }
-
-      return translation;
-    },
-    l: function(value, format){
-
     }
+
   }
 
   return this;

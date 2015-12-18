@@ -57,7 +57,7 @@ Xikitita
     }
   },  
   parent: {
-    child: 'message #{name}'   
+    child: '#{name} message'   
   }
 });
 
@@ -71,6 +71,8 @@ describe('I18n', function() {
   });
 
   it('#t', function () {
+    I18n.locale = 'en';
+
     expect(I18n.t('parent')).to.be('parent');
     expect(I18n.t('parent.child')).to.be('message #{name}');
     expect(I18n.t('parent.child', {name: 'Name'})).to.be('message Name');
@@ -78,15 +80,16 @@ describe('I18n', function() {
     I18n.locale = 'en-US';
 
     expect(I18n.t('parent')).to.be('parent');
-    expect(I18n.t('parent.child')).to.be('message #{name}');
-    expect(I18n.t('parent.child', {name: 'Name'})).to.be('message Name');
+    expect(I18n.t('parent.child')).to.be('#{name} message');
+    expect(I18n.t('parent.child', {name: 'Name'})).to.be('Name message');
   });
 
   it('#l', function () {
-    I18n.locale = 'en-US';
     var date = new Date('01-01-2015');
     var integer = 9999999
     var decimal = 999.99
+
+    I18n.locale = 'en';
 
     expect(I18n.l(date)).to.be('2015-01-01');
     expect(I18n.l(date, 'year')).to.be('2015');
@@ -100,7 +103,7 @@ describe('I18n', function() {
     expect(I18n.l(date)).to.be('2015 01 01');
     expect(I18n.l(date, 'year')).to.be('Year 2015');
     expect(I18n.l(integer)).to.be('9 999 999');
-    expect(I18n.l(integer, 'cliente')).to.be('Clientes 9,999,999');
+    expect(I18n.l(integer, 'cliente')).to.be('Clientes 9 999 999');
     expect(I18n.l(decimal)).to.be('999.99 USD');
     expect(I18n.l(decimal, 'currency')).to.be('$ 999.99 USD');
   });
