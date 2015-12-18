@@ -189,7 +189,21 @@ Xikitita.I18n = function(locale, translations){
   I18n = {
     locale: 'en',
     t: function(path, params){
+      var translation = path;
+      var translations = Xikitita.translations[locale];
+      path.split('.').forEach(function(key){
+        translations = translations[key];
+      });
 
+      if(typeof translations  === 'string'){
+        translation = translations;
+        params = params || {};
+        Object.keys(params).forEach(function(param) {
+          translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+        });
+      }
+
+      return translation;
     },
     l: function(value, format){
 
