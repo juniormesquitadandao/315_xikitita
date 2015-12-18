@@ -180,6 +180,11 @@ var Xikitita = Object.create({
   }
 });
 
+Xikitita.I18n = function(){
+
+  return Xikitita;
+}
+
 Xikitita.Error = function(){
   Object.defineProperties(this, {
     'toJson': { 

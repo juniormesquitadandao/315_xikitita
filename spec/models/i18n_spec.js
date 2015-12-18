@@ -1,6 +1,66 @@
 var expect = require('expect.js');
 var Xikitita = require('../../app/models/xikitita.js');
 
+Xikitita
+.I18n('en', {
+  date: {
+    default: function(date){
+      return '2015-01-01';
+    }, 
+    year: function(date){
+      return '2015';
+    } 
+  },  
+  integer: {
+    default: function(date){
+      return '9,999,999';
+    }, 
+    cliente: function(date){
+      return '9,999,999 Clientes';
+    } 
+  },  
+  decimal: {
+    default: function(date){
+      return '999.99';
+    }, 
+    currency: function(date){
+      return '$ 999.99';
+    }
+  },  
+  parent: {
+    child: 'message #{name}'   
+  }
+})
+.I18n('en-US', {
+  date: {
+    default: function(date){
+      return '2015 01 01';
+    }, 
+    year: function(date){
+      return 'Year 2015';
+    } 
+  },  
+  integer: {
+    default: function(date){
+      return '9 999 999';
+    }, 
+    cliente: function(date){
+      return 'Clientes 9 999 999';
+    } 
+  },  
+  decimal: {
+    default: function(date){
+      return '999.99 USD';
+    }, 
+    currency: function(date){
+      return '$ 999.99 USD';
+    }
+  },  
+  parent: {
+    child: 'message #{name}'   
+  }
+});
+
 describe('I18n', function() {
 
   it('#locale', function () {
