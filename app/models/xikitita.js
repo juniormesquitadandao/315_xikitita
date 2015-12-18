@@ -130,6 +130,7 @@ var Xikitita = Object.create({
     singular: {},
     plural: {}
   },
+  translations: {},
   validators: {},
   validates: function(attrName, validators){
     Object.keys(validators).forEach(function(validator){
@@ -180,45 +181,58 @@ var Xikitita = Object.create({
   }
 });
 
-Xikitita.I18n = function(){
+Xikitita.I18n = function(locale, translations){
+  this.translations[locale] = translations || {};
 
-  return Xikitita;
+  eval.call(this.window, "var I18n;");
+
+  I18n = {
+    locale: 'en',
+    t: function(path, params){
+
+    },
+    l: function(value, format){
+
+    }
+  }
+
+  return this;
 }
 
 Xikitita.Error = function(){
   Object.defineProperties(this, {
-    'toJson': { 
+    toJson: { 
       get: function () { 
         return JSON.stringify(this); 
       } 
     },
-    'asJson': { 
+    asJson: { 
       get: function () { 
         return JSON.parse(this.toJson); 
       } 
     },
-    'isAny': {
+    isAny: {
       get: function(){
         return Object.keys(this).isAny;
       }
     },
-    'isEmpty': {
+    isEmpty: {
       get: function(){
         return !this.isAny;
       }
     },
-    'add': {
+    add: {
       value: function(attrName, message){
         this[attrName] = this[attrName] || [];
         this[attrName].push(message);
       }
     },
-    'clear': {
+    clear: {
       get: function(){
         for (var attrName in this) delete this[attrName];
       }
     },
-    'messages': {
+    messages: {
       get: function(){
         var self =  this;
         var messages = [];
@@ -234,7 +248,7 @@ Xikitita.Error = function(){
         return messages;
       }
     },
-    'fullMessages': {
+    fullMessages: {
       get: function(){
         var self =  this;
         var fullMessages = [];
@@ -385,10 +399,10 @@ Object.defineProperty(String.prototype, 'singularize', {
 });
 
 Object.defineProperties(Array.prototype, {
-  "toJson": { get: function () { return JSON.stringify(this); } },
-  "asJson": { get: function () { return JSON.parse(this.toJson); } },
-  "isAny": { get: function () { return this.length > 0; } },
-  "isEmpty": { get: function () { return !this.isAny; } }
+  toJson: { get: function () { return JSON.stringify(this); } },
+  asJson: { get: function () { return JSON.parse(this.toJson); } },
+  isAny: { get: function () { return this.length > 0; } },
+  isEmpty: { get: function () { return !this.isAny; } }
 });
 
 Object.defineProperty(Xikitita, 'init', {
