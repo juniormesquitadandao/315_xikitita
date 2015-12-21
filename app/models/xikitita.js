@@ -126,6 +126,7 @@ var Xikitita = Object.create({
       callback();
     })
   },
+  models: {},
   inflection: {
     singular: {},
     plural: {}
@@ -394,7 +395,7 @@ Object.defineProperties(Array.prototype, {
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
-    this.models = Object.create(null);
+    this.models = {};
     this.inflection = {
       singular: {},
       plural: {}
