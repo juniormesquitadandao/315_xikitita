@@ -147,7 +147,8 @@ var Xikitita = Object.create({
         };
       });
     });
-  },  validatesOf: function(){
+  },  
+  validatesOf: function(){
     var validatesOf = [];
 
     Object.keys(Xikitita.validators).forEach(function(validator){

@@ -19,6 +19,15 @@ describe('Model', function() {
         hasMany('clientes');
       })
       .Model('Stub', function(){
+
+        def('instanceMethod', function(){
+          return this;
+        });
+
+        defSelf('classMethod', function(){
+          return constructor.name;
+        });
+
       });
   });
 
