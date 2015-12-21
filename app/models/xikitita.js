@@ -141,8 +141,7 @@ var Xikitita = Object.create({
 
       __validations__.push(function(){
         if (!self.Xikitita.validators[validator](self[attrName], attrName, self, options)) {
-          errors.add(attrName, validator);
-          __errors__ = errors;
+          __errors__.add(attrName, validator);
         };
       });
     });
@@ -171,14 +170,15 @@ var Xikitita = Object.create({
     return __errors__;
   },
   isValid: function(){
-    errors.clear;
+    __errors__.clear;
 
     __validations__.forEach(function(validation){
       validation();
     });
 
-    return errors.isEmpty;
-  }
+    return __errors__.isEmpty;
+  },
+  models: {}
 });
 
 eval.call(this.window, "var I18n;");
