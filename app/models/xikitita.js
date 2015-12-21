@@ -140,13 +140,13 @@ var Xikitita = Object.create({
       }
 
       __validations__.push(function(){
-        if (!self.Xikitita.validators[validator](self[attrName], attrName, self, options)) {
-          __errors__.add(attrName, validator);
+        if (!self.Xikitita.validators[validator].call(self[attrName], attrName, self, options)) {
+          var messageKey = self.Xikitita.validators[validator].messageKey;
+          __errors__.add(attrName, I18n.t('errors.messages.' + messageKey));
         };
       });
     });
-  },
-  validatesOf: function(){
+  },  validatesOf: function(){
     var validatesOf = [];
 
     Object.keys(Xikitita.validators).forEach(function(validator){
@@ -180,51 +180,6 @@ var Xikitita = Object.create({
   },
   models: {}
 });
-
-eval.call(this.window, "var I18n;");
-
-I18n = {
-  locale: 'en',
-  t: function(path, params){
-    var translation = path;
-    var translations = Xikitita.translations[I18n.locale];
-    path.split('.').forEach(function(key){
-      translations = translations[key];
-    });
-
-    if(typeof translations  === 'string'){
-      translation = translations;
-      params = params || {};
-      Object.keys(params).forEach(function(param) {
-        translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
-      });
-    }
-
-    return translation;
-  },
-  l: function(value, format){
-    format = format || 'default';
-    var formatted = value;
-
-    if(typeof value === 'object' && value.constructor.name === 'Date'){
-      formatted = Xikitita.translations[I18n.locale].date[format](value);
-    }
-    else if(typeof value === 'number' ){
-      
-      var functionFormat = Xikitita.translations[I18n.locale].integer[format];
-      if(/\./.test(value)){
-        functionFormat = Xikitita.translations[I18n.locale].decimal[format];
-      }
-      formatted = functionFormat(value);
-
-    }
-    else if(typeof value === 'boolean' ){
-      formatted = Xikitita.translations[I18n.locale].logical[format](value);
-    }
-
-    return formatted;
-  }
-}
 
 Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
@@ -386,13 +341,13 @@ Xikitita.Inflection = function(body){
   return this;
 }
 
-Xikitita.Validator = function(name, body){
-  Xikitita.validators[name] = body;
+Xikitita.Validator = function(name, messageKey, body){
+  Xikitita.validators[name] = {messageKey: messageKey, call: body};
 
   return this;
 }
 
-Xikitita.Validator('presence', function(value, attrName, instance, options){
+Xikitita.Validator('presence', 'blank', function(value, attrName, instance, options){
   return value !== null;
 });
 
@@ -443,8 +398,54 @@ Object.defineProperty(Xikitita, 'init', {
     this.inflection = {
       singular: {},
       plural: {}
+    };
+    this.translations = {};
+
+    eval.call(this.window, "var I18n;");
+
+    I18n = {
+      locale: 'en',
+      t: function(path, params){
+        var translation = path;
+        var translations = Xikitita.translations[I18n.locale];
+        path.split('.').forEach(function(key){
+          translations = translations[key];
+        });
+
+        if(typeof translations  === 'string'){
+          translation = translations;
+          params = params || {};
+          Object.keys(params).forEach(function(param) {
+            translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+          });
+        }
+
+        return translation;
+      },
+      l: function(value, format){
+        format = format || 'default';
+        var formatted = value;
+
+        if(typeof value === 'object' && value.constructor.name === 'Date'){
+          formatted = Xikitita.translations[I18n.locale].date[format](value);
+        }
+        else if(typeof value === 'number' ){
+          
+          var functionFormat = Xikitita.translations[I18n.locale].integer[format];
+          if(/\./.test(value)){
+            functionFormat = Xikitita.translations[I18n.locale].decimal[format];
+          }
+          formatted = functionFormat(value);
+
+        }
+        else if(typeof value === 'boolean' ){
+          formatted = Xikitita.translations[I18n.locale].logical[format](value);
+        }
+
+        return formatted;
+      }
     }
-    
+
     return this;
   }
 });

@@ -1,84 +1,86 @@
 var expect = require('expect.js');
 var Xikitita = require('../../app/models/xikitita.js');
 
-Xikitita
-  .init
-  .I18n('en', {
-    date: {
-      default: function(value){
-        return '2015-01-01';
-      }, 
-      year: function(value){
-        return '2015';
-      } 
-    },  
-    integer: {
-      default: function(value){
-        return '9,999,999';
-      }, 
-      cliente: function(value){
-        return '9,999,999 Clientes';
-      } 
-    },  
-    decimal: {
-      default: function(value){
-        return '999.99';
-      }, 
-      currency: function(value){
-        return '$ 999.99';
-      }
-    },  
-    logical: {
-      default: function(value){
-        return 'yes';
-      }, 
-      up: function(value){
-        return 'YES';
-      }
-    },  
-    parent: {
-      child: 'message #{name}'   
-    }
-  })
-  .I18n('en-US', {
-    date: {
-      default: function(value){
-        return '2015 01 01';
-      }, 
-      year: function(value){
-        return 'Year 2015';
-      } 
-    },  
-    integer: {
-      default: function(value){
-        return '9 999 999';
-      }, 
-      cliente: function(value){
-        return 'Clientes 9 999 999';
-      } 
-    },  
-    decimal: {
-      default: function(value){
-        return '999.99 USD';
-      }, 
-      currency: function(value){
-        return '$ 999.99 USD';
-      }
-    },  
-    logical: {
-      default: function(value){
-        return 'yes USD';
-      }, 
-      up: function(value){
-        return 'YES USD';
-      }
-    },  
-    parent: {
-      child: '#{name} message'   
-    }
-  });
-
 describe('I18n', function() {
+
+  before(function() {
+    Xikitita
+      .init
+      .I18n('en', {
+        date: {
+          default: function(value){
+            return '2015-01-01';
+          }, 
+          year: function(value){
+            return '2015';
+          } 
+        },  
+        integer: {
+          default: function(value){
+            return '9,999,999';
+          }, 
+          cliente: function(value){
+            return '9,999,999 Clientes';
+          } 
+        },  
+        decimal: {
+          default: function(value){
+            return '999.99';
+          }, 
+          currency: function(value){
+            return '$ 999.99';
+          }
+        },  
+        logical: {
+          default: function(value){
+            return 'yes';
+          }, 
+          up: function(value){
+            return 'YES';
+          }
+        },  
+        parent: {
+          child: 'message #{name}'   
+        }
+      })
+      .I18n('en-US', {
+        date: {
+          default: function(value){
+            return '2015 01 01';
+          }, 
+          year: function(value){
+            return 'Year 2015';
+          } 
+        },  
+        integer: {
+          default: function(value){
+            return '9 999 999';
+          }, 
+          cliente: function(value){
+            return 'Clientes 9 999 999';
+          } 
+        },  
+        decimal: {
+          default: function(value){
+            return '999.99 USD';
+          }, 
+          currency: function(value){
+            return '$ 999.99 USD';
+          }
+        },  
+        logical: {
+          default: function(value){
+            return 'yes USD';
+          }, 
+          up: function(value){
+            return 'YES USD';
+          }
+        },  
+        parent: {
+          child: '#{name} message'   
+        }
+      });
+  });
 
   it('#locale', function () {
     expect(I18n.locale).to.be('en');
