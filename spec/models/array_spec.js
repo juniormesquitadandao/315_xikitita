@@ -5,7 +5,7 @@ describe('Array', function() {
   
   before(function() {
     Xikitita
-      .init
+      .init;
   });
 
   it('#toJson', function () {

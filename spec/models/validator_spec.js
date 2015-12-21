@@ -8,7 +8,7 @@ describe('Validator', function() {
       .init
       .Validator('custom', 'customKey', function(value, attrName, instance, options){
         return value;
-      })
+      });
   });
 
   it('::validators', function(){

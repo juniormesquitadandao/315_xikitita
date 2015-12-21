@@ -5,7 +5,7 @@ describe('String', function() {
   
   before(function() {
     Xikitita
-      .init
+      .init;
   });
 
   it('#capitalize', function () {
