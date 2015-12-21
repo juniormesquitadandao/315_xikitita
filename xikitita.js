@@ -450,5 +450,3 @@ Object.defineProperty(Xikitita, 'init', {
     return this;
   }
 });
-
-module.exports = Xikitita;
