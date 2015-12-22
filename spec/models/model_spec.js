@@ -25,7 +25,7 @@ describe('Model', function() {
         });
 
         defSelf('classMethod', function(){
-          return name;
+          return this.name;
         });
 
       });
