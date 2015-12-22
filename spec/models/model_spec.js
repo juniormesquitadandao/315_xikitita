@@ -25,18 +25,25 @@ describe('Model', function() {
         });
 
         defSelf('classMethod', function(){
-          return constructor.name;
+          return name;
         });
 
       });
   });
-
 
   it('::name', function () {
     expect(Cliente.name).to.be('Cliente');
     expect(User.name).to.be('User');
     expect(Permission.name).to.be('Permission');
     expect(Stub.name).to.be('Stub');
+  });
+
+  it('::def', function() {
+    expect(new Stub().instanceMethod().toJson).to.be('{"id":null}');
+  });
+
+  it('::defSelf', function() {
+    expect(Stub.classMethod()).to.be('Stub');
   });
 
   it('#toJson', function () {
@@ -109,5 +116,4 @@ describe('Model', function() {
   it('attrAccessible', function () {
     expect(new Cliente().toJson).to.be('{"id":null,"name":null,"phone":null}');
   });
-
 });

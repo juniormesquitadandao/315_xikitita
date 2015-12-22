@@ -168,6 +168,15 @@ var Xikitita = Object.create({
 
     return validatesOf.join('\n');
   },
+  def: function(name, body){
+    Object.defineProperty(self, name, {
+      value: body, 
+      enumerable: false
+    });
+  },
+  defSelf: function(name, body){
+    __model__[name] = __model__[name] || body;
+  },
   errors: function(){
     return __errors__;
   },
@@ -286,7 +295,10 @@ Xikitita.Model = function(name, body){
         'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
       \n\
-      var validates = #{validates}\n\
+      var validates = #{validates};\n\
+      \n\
+      var def = #{def};\n\
+      var defSelf = #{defSelf};\n\
       \n\
       #{validatesOf}\n\
       \n\
@@ -308,6 +320,8 @@ Xikitita.Model = function(name, body){
     .replace(/#{isValid}/, Xikitita.isValid.toString())
     .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{validates}/, Xikitita.validates.toString())
+    .replace(/#{def}/, Xikitita.def.toString())
+    .replace(/#{defSelf}/, Xikitita.defSelf.toString())
     .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
