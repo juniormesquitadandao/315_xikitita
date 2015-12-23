@@ -1,26 +1,4 @@
-'use strict';
-
-var Xikitita = Object.create({
-  window: this,
-  id: function(id){
-    __id__ = id;
-
-    Object.defineProperty(self, '__idValue__', {
-      get: function(){ return self[__id__]; }
-    });
-  },
-  attrAccessible: function(){
-    var attrNames = Array.prototype.slice.call(arguments);
-    if(__attrAccessible__.length === 0){
-      attrNames.unshift(__id__);
-    }
-
-    attrNames.forEach(function(attrName){
-      self[attrName] = null;
-      __attrAccessible__.push(attrName);
-    });
-  },
-  belongsTo: function(model, options){
+Xikitita.belongsTo = function(model, options){
     var options = options || {};
     var foreingKey = options.foreingKey || model + '_id';
     var referenceKey = options.referenceKey || 'id';
@@ -57,8 +35,9 @@ var Xikitita = Object.create({
       value[referenceKey] = self[foreingKey];
       __belongsToModels__[model] = value;
     });
-  },
-  hasOne: function(model, options){
+  };
+
+Xikitita.hasOne = function(model, options){
     var options = options || {};
     var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
 
@@ -82,8 +61,9 @@ var Xikitita = Object.create({
         __hasOneModels__[model] = value;
       }
     });
-  },
-  hasMany: function(models, options){
+  };
+
+Xikitita.hasMany = function(models, options){
     var options = options || {};
     var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
 
@@ -109,8 +89,9 @@ var Xikitita = Object.create({
         __hasManyModels__[models] = values;
       }
     });
-  },
-  new: function(){
+  };
+
+Xikitita.new = function(){
     if(typeof __initAttributes__ === 'string'){
       __initAttributes__ = JSON.parse(__initAttributes__);
     }
@@ -125,15 +106,9 @@ var Xikitita = Object.create({
     __afterNew__.forEach(function(callback){
       callback();
     })
-  },
-  models: {},
-  inflection: {
-    singular: {},
-    plural: {}
-  },
-  translations: {},
-  validators: {},
-  validates: function(attrName, validators){
+  };
+
+Xikitita.validates = function(attrName, validators){
     Object.keys(validators).forEach(function(validator){
       var options = Object.create({});
       if (typeof validators[validator] === 'Object') {
@@ -147,8 +122,9 @@ var Xikitita = Object.create({
         };
       });
     });
-  },  
-  validatesOf: function(){
+  };
+
+Xikitita.validatesOf = function(){
     var validatesOf = [];
 
     Object.keys(Xikitita.validators).forEach(function(validator){
@@ -167,20 +143,24 @@ var Xikitita = Object.create({
     });
 
     return validatesOf.join('\n');
-  },
-  def: function(name, body){
+  };
+
+Xikitita.def = function(name, body){
     Object.defineProperty(self, name, {
       value: body, 
       enumerable: false
     });
-  },
-  defSelf: function(name, body){
+  };
+
+Xikitita.defSelf = function(name, body){
     __model__[name] = __model__[name] || body;
-  },
-  errors: function(){
+  };
+
+Xikitita.errors = function(){
     return __errors__;
-  },
-  isValid: function(){
+  };
+
+Xikitita.isValid = function(){
     __errors__.clear;
 
     __validations__.forEach(function(validation){
@@ -188,9 +168,9 @@ var Xikitita = Object.create({
     });
 
     return __errors__.isEmpty;
-  },
-  models: {}
-});
+  };
+
+Xikitita.models = {};
 
 Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
