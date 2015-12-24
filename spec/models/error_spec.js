@@ -20,7 +20,7 @@ describe('Error', function() {
           }
         }
       })
-      .Model('Stub', function(){
+      .Class('Stub', function(){
         attrAccessible('attrName1', 'attrName2');
         
         validatesPresenceOf('attrName1', 'attrName2');

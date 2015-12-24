@@ -6,20 +6,20 @@ describe('Base', function() {
   before(function() {
     Xikitita
       .init
-      .Model('Customer', function(){
+      .Class('Customer', function(){
       })
-      .Model('User', function(){
+      .Class('User', function(){
       })
-      .Model('Permission', function(){
+      .Class('Permission', function(){
       })
-      .Model('Stub', function(){
+      .Class('Stub', function(){
       });
   });
 
-  it('::models', function () {
-    var modelNames = Object.keys(Xikitita.models).join(', ');
+  it('::classes', function () {
+    var classNames = Object.keys(Xikitita.classes).join(', ');
 
-    expect(modelNames).to.be('Customer, User, Permission, Stub');
+    expect(classNames).to.be('Customer, User, Permission, Stub');
   });
 
 });

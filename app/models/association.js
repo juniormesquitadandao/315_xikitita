@@ -1,30 +1,30 @@
-Xikitita.belongsTo = function(model, options){
+Xikitita.belongsTo = function(classNameSingularized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || model + '_id';
+    var foreingKey = options.foreingKey || classNameSingularized + '_id';
     var referenceKey = options.referenceKey || 'id';
 
-    Object.defineProperty(self, model, {
+    Object.defineProperty(object, classNameSingularized, {
       get: function(){
-        self[model] = __belongsToModels__[model] || null;
-        return __belongsToModels__[model];
+        object[classNameSingularized] = __belongsToClasses__[classNameSingularized] || null;
+        return __belongsToClasses__[classNameSingularized];
       },
       set: function(value){
         value = value || null;
 
-        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
+        var classTitleize = classNameSingularized.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Class = eval( classTitleize );
 
         if (value !== null && value.constructor.name === 'Object'){
-          value = new Model(value);
+          value = new Class(value);
         }
-        __belongsToModels__[model] = value;
+        __belongsToClasses__[classNameSingularized] = value;
 
         var idValue = null;
         if (value !== null){
           idValue = value[referenceKey];
         }
 
-        self[foreingKey] = idValue;
+        object[foreingKey] = idValue;
       }
     });
 
@@ -32,61 +32,61 @@ Xikitita.belongsTo = function(model, options){
     
     __afterNew__.push(function(){
       var value = {};
-      value[referenceKey] = self[foreingKey];
-      __belongsToModels__[model] = value;
+      value[referenceKey] = object[foreingKey];
+      __belongsToClasses__[classNameSingularized] = value;
     });
   };
 
-Xikitita.hasOne = function(model, options){
+Xikitita.hasOne = function(classNameSingularized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+    var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
 
-    Object.defineProperty(self, model, {
+    Object.defineProperty(object, classNameSingularized, {
       get: function(){
-        self[model] = __hasOneModels__[model] || null;
-        return __hasOneModels__[model];
+        object[classNameSingularized] = __hasOneClasses__[classNameSingularized] || null;
+        return __hasOneClasses__[classNameSingularized];
       },
       set: function(value){
         value = value || null;
 
-        var Model = eval( model.capitalize );
+        var Class = eval( classNameSingularized.capitalize );
 
         if (value !== null){
-          value[foreingKey] = self[__id__];
+          value[foreingKey] = object[__id__];
           if (value.constructor.name === 'Object'){
-            value = new Model(value);
+            value = new Class(value);
           }
         }
 
-        __hasOneModels__[model] = value;
+        __hasOneClasses__[classNameSingularized] = value;
       }
     });
   };
 
-Xikitita.hasMany = function(models, options){
+Xikitita.hasMany = function(classNamePluralized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+    var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
 
-    Object.defineProperty(self, models, {
+    Object.defineProperty(object, classNamePluralized, {
       get: function(){
-        self[models] = __hasManyModels__[models];
-        return __hasManyModels__[models];
+        object[classNamePluralized] = __hasManyClasses__[classNamePluralized];
+        return __hasManyClasses__[classNamePluralized];
       },
       set: function(values){
         values = values || null;
 
-        var Model = eval( models.singularize.capitalize );
+        var Class = eval( classNamePluralized.singularize.capitalize );
 
         if (values !== null){
           values.forEach(function(value){
-            value[foreingKey] = self[__id__];
+            value[foreingKey] = object[__id__];
             if (value.constructor.name === 'Object'){
-              value = new Model(value);
+              value = new Class(value);
             }
           })
         }
 
-        __hasManyModels__[models] = values;
+        __hasManyClasses__[classNamePluralized] = values;
       }
     });
   };

@@ -63,7 +63,7 @@ Object.defineProperty(Xikitita, 'init', {
   get: function(){
     var __this__ = this;
 
-    __this__.models = {};
+    __this__.classes = {};
     __this__.inflection = { singular: {}, plural: {} };
     __this__.translations = {};
     __this__.validators = {};
@@ -145,9 +145,9 @@ Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
-Xikitita.Error = function(modelName){
+Xikitita.Error = function(className){
   var __this__ = this;
-  var modelName = modelName;
+  var __className__ = className;
 
   Object.defineProperties(__this__, {
     toJson: { 
@@ -201,7 +201,7 @@ Xikitita.Error = function(modelName){
         var fullMessages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          var path = ['attributes', modelName, attrName].join('.');
+          var path = ['attributes', __className__, attrName].join('.');
           var attrNameTranslated = I18n.t(path);
 
           __this__[attrName].forEach(function(message){
@@ -221,80 +221,32 @@ Xikitita.Error = function(modelName){
   });
 }
 
-Xikitita.id = function(id){
-  __id__ = id;
-
-  Object.defineProperty(self, '__idValue__', {
-    get: function(){ return self[__id__]; }
-  });
-};
-
-Xikitita.attrAccessible = function(){
-  var attrNames = Array.prototype.slice.call(arguments);
-  if(__attrAccessible__.length === 0){
-    attrNames.unshift(__id__);
-  }
-
-  attrNames.forEach(function(attrName){
-    self[attrName] = null;
-    __attrAccessible__.push(attrName);
-  });
-};
-
-Xikitita.new = function(){
-  if(typeof __initAttributes__ === 'string'){
-    __initAttributes__ = JSON.parse(__initAttributes__);
-  }
-  
-  Object.keys(__initAttributes__).forEach(function(attrName){
-    if(__attrAccessible__.indexOf(attrName) < 0){
-      throw new TypeError(__model__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
-    }
-    self[attrName] = __initAttributes__[attrName];
-  });
-
-  __afterNew__.forEach(function(callback){
-    callback();
-  })
-};
-
-Xikitita.def = function(name, body){
-  Object.defineProperty(self, name, {
-    value: body, 
-    enumerable: false
-  });
-};
-
-Xikitita.defSelf = function(name, body){
-  __model__[name] = __model__[name] || body;
-};
-
-Xikitita.Model = function(name, body){
+Xikitita.Class = function(name, body){
   
   eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
-      var __model__ =  #{model};\n\
+      var __class__ =  #{name};\n\
       var __attrAccessible__ = [];\n\
       \n\
-      var self = this;\n\
+      var object = this;\n\
       var attrAccessible = #{attrAccessible};\n\
       \n\
       var __id__ = 'id';\n\
       var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
-      var __belongsToModels__ = {};\n\
+      var __belongsToClasses__ = {};\n\
       var belongsTo = #{belongsTo};\n\
       \n\
-      var __hasOneModels__ = {};\n\
+      var __hasOneClasses__ = {};\n\
       var hasOne = #{hasOne};\n\
       \n\
-      var __hasManyModels__ = {};\n\
+      var __hasManyClasses__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new #{Error}(__model__.name.toLowerCase());\n\
+      var __errors__ = new #{Error}(__class__.name.toLowerCase());\n\
       var __validations__ = [];\n\
-      Object.defineProperties(self, {\n\
+      Object.defineProperties(object, {\n\
         'errors': {get: #{errors}, enumerable: false },\n\
         'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
@@ -302,18 +254,17 @@ Xikitita.Model = function(name, body){
       var validates = #{validates};\n\
       \n\
       var def = #{def};\n\
-      var defSelf = #{defSelf};\n\
+      var defClass = #{defClass};\n\
       \n\
       #{validatesOf}\n\
       \n\
-      (#{body})(this);\n\
+      (#{body})(object);\n\
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      (#{new})(this);\n\
+      (#{new})(object);\n\
     };"
-    .replace(/#{name}/, name)
-    .replace(/#{model}/, name)
+    .replace(/#{name}/g, name)
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
     .replace(/#{id}/, Xikitita.id.toString())
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
@@ -325,17 +276,17 @@ Xikitita.Model = function(name, body){
     .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{def}/, Xikitita.def.toString())
-    .replace(/#{defSelf}/, Xikitita.defSelf.toString())
+    .replace(/#{defClass}/, Xikitita.defClass.toString())
     .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
-  var Model = eval(name);
+  var Class = eval(name);
 
-  Object.defineProperty(Model, 'toTranslated', {
+  Object.defineProperty(Class, 'toTranslated', {
     get: function(){
-      var modelName = Model.name.toLowerCase();
-      var pathMember = ['models', modelName, 'member'].join('.');
-      var pathCollection = ['models', modelName, 'collection'].join('.');
+      var className = Class.name.toLowerCase();
+      var pathMember = ['classes', className, 'member'].join('.');
+      var pathCollection = ['classes', className, 'collection'].join('.');
 
       return {
         member: I18n.t(pathMember),
@@ -344,44 +295,92 @@ Xikitita.Model = function(name, body){
     }
   });
 
-  Object.defineProperties(Model.prototype, {
+  Object.defineProperties(Class.prototype, {
     'toJson': { get: function () { return JSON.stringify(this); } },
     'asJson': { get: function () { return JSON.parse(this.toJson); } },
     'Xikitita': { get: function () { return Xikitita; } }
   });
 
-  new Model();
+  new Class();
 
-  this.models[name] = Model;
+  this.classes[name] = Class;
   return this;
 }
-Xikitita.belongsTo = function(model, options){
+
+Xikitita.id = function(id){
+  __id__ = id;
+
+  Object.defineProperty(object, '__idValue__', {
+    get: function(){ return object[__id__]; }
+  });
+};
+
+Xikitita.attrAccessible = function(){
+  var attrNames = Array.prototype.slice.call(arguments);
+  if(__attrAccessible__.length === 0){
+    attrNames.unshift(__id__);
+  }
+
+  attrNames.forEach(function(attrName){
+    object[attrName] = null;
+    __attrAccessible__.push(attrName);
+  });
+};
+
+Xikitita.new = function(){
+  if(typeof __initAttributes__ === 'string'){
+    __initAttributes__ = JSON.parse(__initAttributes__);
+  }
+  
+  Object.keys(__initAttributes__).forEach(function(attrName){
+    if(__attrAccessible__.indexOf(attrName) < 0){
+      throw new TypeError(__class__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
+    }
+    object[attrName] = __initAttributes__[attrName];
+  });
+
+  __afterNew__.forEach(function(callback){
+    callback();
+  })
+};
+
+Xikitita.def = function(name, body){
+  Object.defineProperty(object, name, {
+    value: body, 
+    enumerable: false
+  });
+};
+
+Xikitita.defClass = function(name, body){
+  __class__[name] = __class__[name] || body;
+};
+Xikitita.belongsTo = function(classNameSingularized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || model + '_id';
+    var foreingKey = options.foreingKey || classNameSingularized + '_id';
     var referenceKey = options.referenceKey || 'id';
 
-    Object.defineProperty(self, model, {
+    Object.defineProperty(object, classNameSingularized, {
       get: function(){
-        self[model] = __belongsToModels__[model] || null;
-        return __belongsToModels__[model];
+        object[classNameSingularized] = __belongsToClasses__[classNameSingularized] || null;
+        return __belongsToClasses__[classNameSingularized];
       },
       set: function(value){
         value = value || null;
 
-        var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
+        var classTitleize = classNameSingularized.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Class = eval( classTitleize );
 
         if (value !== null && value.constructor.name === 'Object'){
-          value = new Model(value);
+          value = new Class(value);
         }
-        __belongsToModels__[model] = value;
+        __belongsToClasses__[classNameSingularized] = value;
 
         var idValue = null;
         if (value !== null){
           idValue = value[referenceKey];
         }
 
-        self[foreingKey] = idValue;
+        object[foreingKey] = idValue;
       }
     });
 
@@ -389,61 +388,61 @@ Xikitita.belongsTo = function(model, options){
     
     __afterNew__.push(function(){
       var value = {};
-      value[referenceKey] = self[foreingKey];
-      __belongsToModels__[model] = value;
+      value[referenceKey] = object[foreingKey];
+      __belongsToClasses__[classNameSingularized] = value;
     });
   };
 
-Xikitita.hasOne = function(model, options){
+Xikitita.hasOne = function(classNameSingularized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+    var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
 
-    Object.defineProperty(self, model, {
+    Object.defineProperty(object, classNameSingularized, {
       get: function(){
-        self[model] = __hasOneModels__[model] || null;
-        return __hasOneModels__[model];
+        object[classNameSingularized] = __hasOneClasses__[classNameSingularized] || null;
+        return __hasOneClasses__[classNameSingularized];
       },
       set: function(value){
         value = value || null;
 
-        var Model = eval( model.capitalize );
+        var Class = eval( classNameSingularized.capitalize );
 
         if (value !== null){
-          value[foreingKey] = self[__id__];
+          value[foreingKey] = object[__id__];
           if (value.constructor.name === 'Object'){
-            value = new Model(value);
+            value = new Class(value);
           }
         }
 
-        __hasOneModels__[model] = value;
+        __hasOneClasses__[classNameSingularized] = value;
       }
     });
   };
 
-Xikitita.hasMany = function(models, options){
+Xikitita.hasMany = function(classNamePluralized, options){
     var options = options || {};
-    var foreingKey = options.foreingKey || __model__.name.toLowerCase() + '_id';
+    var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
 
-    Object.defineProperty(self, models, {
+    Object.defineProperty(object, classNamePluralized, {
       get: function(){
-        self[models] = __hasManyModels__[models];
-        return __hasManyModels__[models];
+        object[classNamePluralized] = __hasManyClasses__[classNamePluralized];
+        return __hasManyClasses__[classNamePluralized];
       },
       set: function(values){
         values = values || null;
 
-        var Model = eval( models.singularize.capitalize );
+        var Class = eval( classNamePluralized.singularize.capitalize );
 
         if (values !== null){
           values.forEach(function(value){
-            value[foreingKey] = self[__id__];
+            value[foreingKey] = object[__id__];
             if (value.constructor.name === 'Object'){
-              value = new Model(value);
+              value = new Class(value);
             }
           })
         }
 
-        __hasManyModels__[models] = values;
+        __hasManyClasses__[classNamePluralized] = values;
       }
     });
   };
@@ -455,11 +454,10 @@ Xikitita.validates = function(attrName, optionsValidators){
     }
 
     __validations__.push(function(){
-      var value = self[attrName];
-      var object = self;
+      var value = object[attrName];
 
-      if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
-        var messageName = self.Xikitita.validators[validatorName].messageName;
+      if (!object.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
+        var messageName = object.Xikitita.validators[validatorName].messageName;
         var path = ['errors', 'messages', messageName].join('.');
         __errors__.add(attrName, I18n.t(path));
       };

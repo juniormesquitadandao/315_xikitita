@@ -1,13 +1,13 @@
 var expect = require('expect.js');
 var Xikitita = require('../../temp/xikitita.js');
 
-describe('Model', function() {
+describe('Class', function() {
 
   before(function() {
     Xikitita
       .init
       .I18n('en', {
-        models: {
+        classes: {
           customer: {
             member: 'one customer',
             collection: 'many customers'
@@ -26,25 +26,25 @@ describe('Model', function() {
           }
         }
       })
-      .Model('Customer', function(){
+      .Class('Customer', function(){
         attrAccessible('name', 'phone');
       })
-      .Model('User', function(){
+      .Class('User', function(){
         attrAccessible('email');
         belongsTo('customer');
         belongsTo('permission');
       })
-      .Model('Permission', function(){
+      .Class('Permission', function(){
         attrAccessible('name');
         hasMany('customers');
       })
-      .Model('Stub', function(){
+      .Class('Stub', function(){
 
-        def('instanceMethod', function(){
+        def('objectMethod', function(){
           return this;
         });
 
-        defSelf('classMethod', function(){
+        defClass('classMethod', function(){
           return this.name;
         });
 
@@ -59,10 +59,10 @@ describe('Model', function() {
   });
 
   it('::def', function() {
-    expect(new Stub().instanceMethod().toJson).to.be('{"id":null}');
+    expect(new Stub().objectMethod().toJson).to.be('{"id":null}');
   });
 
-  it('::defSelf', function() {
+  it('::defClass', function() {
     expect(Stub.classMethod()).to.be('Stub');
   });
 
@@ -81,7 +81,7 @@ describe('Model', function() {
     })
 
     Xikitita
-      .Model('Stub', function(){
+      .Class('Stub', function(){
         attrAccessible('one', 'two');
       })
 
@@ -99,7 +99,7 @@ describe('Model', function() {
 
   it('primaryKey', function () {
     Xikitita
-      .Model('Stub', function(){
+      .Class('Stub', function(){
         id('id_stub');
       })
 
@@ -110,9 +110,9 @@ describe('Model', function() {
 
   it('foreingKey', function () {
     Xikitita
-      .Model('Stub', function(){
+      .Class('Stub', function(){
       })
-      .Model('Stub2', function(){
+      .Class('Stub2', function(){
         belongsTo('stub', {foreingKey: 'id_stub'});
       })
 
@@ -122,10 +122,10 @@ describe('Model', function() {
 
   it('referenceKey', function () {
     Xikitita
-      .Model('Stub', function(){
+      .Class('Stub', function(){
         id('id_stub');
       })
-      .Model('Stub2', function(){
+      .Class('Stub2', function(){
         belongsTo('stub', {referenceKey: 'id_stub'});
       })
 
