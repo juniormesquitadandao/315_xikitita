@@ -40,11 +40,11 @@ describe('Class', function() {
       })
       .Class('Stub', function(){
 
-        def('instanceMethod', function(){
+        def('objectMethod', function(){
           return this;
         });
 
-        defSelf('classMethod', function(){
+        defClass('classMethod', function(){
           return this.name;
         });
 
@@ -59,10 +59,10 @@ describe('Class', function() {
   });
 
   it('::def', function() {
-    expect(new Stub().instanceMethod().toJson).to.be('{"id":null}');
+    expect(new Stub().objectMethod().toJson).to.be('{"id":null}');
   });
 
-  it('::defSelf', function() {
+  it('::defClass', function() {
     expect(Stub.classMethod()).to.be('Stub');
   });
 
