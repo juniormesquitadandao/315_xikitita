@@ -12,7 +12,7 @@ gulp.task('default', function() {
     'app/models/inflection.js', 
     'app/models/i18n.js', 
     'app/models/error.js', 
-    'app/models/model.js', 
+    'app/models/class.js', 
     'app/models/association.js', 
     'app/models/validation.js', 
     'app/models/validator.js', 

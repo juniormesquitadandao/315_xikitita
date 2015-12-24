@@ -16,10 +16,10 @@ describe('Base', function() {
       });
   });
 
-  it('::models', function () {
-    var modelNames = Object.keys(Xikitita.models).join(', ');
+  it('::classes', function () {
+    var classNames = Object.keys(Xikitita.classes).join(', ');
 
-    expect(modelNames).to.be('Customer, User, Permission, Stub');
+    expect(classNames).to.be('Customer, User, Permission, Stub');
   });
 
 });

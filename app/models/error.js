@@ -1,6 +1,6 @@
-Xikitita.Error = function(modelName){
+Xikitita.Error = function(className){
   var __this__ = this;
-  var modelName = modelName;
+  var __className__ = className;
 
   Object.defineProperties(__this__, {
     toJson: { 
@@ -54,7 +54,7 @@ Xikitita.Error = function(modelName){
         var fullMessages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          var path = ['attributes', modelName, attrName].join('.');
+          var path = ['attributes', __className__, attrName].join('.');
           var attrNameTranslated = I18n.t(path);
 
           __this__[attrName].forEach(function(message){
