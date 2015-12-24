@@ -13,7 +13,7 @@ describe('Validation', function() {
           }
         }
       })
-      .Model('Customer', function(){
+      .Class('Customer', function(){
         attrAccessible('name', 'phone');
 
         validatesPresenceOf('name');

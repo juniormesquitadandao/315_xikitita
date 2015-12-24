@@ -1,24 +1,24 @@
 var expect = require('expect.js');
 var Xikitita = require('../../temp/xikitita.js');
 
-describe('Model', function() {
+describe('Association', function() {
 
   before(function() {
     Xikitita
       .init
-      .Model('Customer', function(){
+      .Class('Customer', function(){
         attrAccessible('name', 'phone');
       })
-      .Model('User', function(){
+      .Class('User', function(){
         attrAccessible('email');
         belongsTo('customer');
         belongsTo('permission');
       })
-      .Model('Permission', function(){
+      .Class('Permission', function(){
         attrAccessible('name');
         hasMany('customers');
       })
-      .Model('Stub', function(){
+      .Class('Stub', function(){
       });
   });
 
@@ -39,7 +39,7 @@ describe('Model', function() {
 
   it('hasOne', function () {
     Xikitita
-      .Model('Customer', function(){
+      .Class('Customer', function(){
         attrAccessible('name', 'phone');
         hasOne('user');
       })

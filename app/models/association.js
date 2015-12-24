@@ -12,10 +12,10 @@ Xikitita.belongsTo = function(model, options){
         value = value || null;
 
         var modelTitleize = model.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Model = eval( modelTitleize );
+        var Class = eval( modelTitleize );
 
         if (value !== null && value.constructor.name === 'Object'){
-          value = new Model(value);
+          value = new Class(value);
         }
         __belongsToModels__[model] = value;
 
@@ -49,12 +49,12 @@ Xikitita.hasOne = function(model, options){
       set: function(value){
         value = value || null;
 
-        var Model = eval( model.capitalize );
+        var Class = eval( model.capitalize );
 
         if (value !== null){
           value[foreingKey] = self[__id__];
           if (value.constructor.name === 'Object'){
-            value = new Model(value);
+            value = new Class(value);
           }
         }
 
