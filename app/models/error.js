@@ -1,42 +1,41 @@
 Xikitita.Error = function(modelName){
-
+  var __this__ = this;
   var modelName = modelName;
 
-  Object.defineProperties(this, {
+  Object.defineProperties(__this__, {
     toJson: { 
       get: function () { 
-        return JSON.stringify(this); 
+        return JSON.stringify(__this__); 
       } 
     },
     asJson: { 
       get: function () { 
-        return JSON.parse(this.toJson); 
+        return JSON.parse(__this__.toJson); 
       } 
     },
     isAny: {
       get: function(){
-        return Object.keys(this).isAny;
+        return Object.keys(__this__).isAny;
       }
     },
     isEmpty: {
       get: function(){
-        return !this.isAny;
+        return !__this__.isAny;
       }
     },
     add: {
       value: function(attrName, message){
-        this[attrName] = this[attrName] || [];
-        this[attrName].push(message);
+        __this__[attrName] = __this__[attrName] || [];
+        __this__[attrName].push(message);
       }
     },
     clear: {
       get: function(){
-        for (var attrName in this) delete this[attrName];
+        for (var attrName in __this__) delete __this__[attrName];
       }
     },
     messages: {
       get: function(){
-        var __this__ =  this;
         var messages = [];
 
         Object.keys(__this__).forEach(function(attrName){
@@ -52,11 +51,11 @@ Xikitita.Error = function(modelName){
     },
     fullMessages: {
       get: function(){
-        var __this__ =  this;
         var fullMessages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
+          var path = ['attributes', modelName, attrName].join('.');
+          var attrNameTranslated = I18n.t(path);
 
           __this__[attrName].forEach(function(message){
             var fullMessage = I18n

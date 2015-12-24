@@ -145,44 +145,43 @@ Xikitita.I18n = function(locale, translations){
   return this;
 }
 Xikitita.Error = function(modelName){
-
+  var __this__ = this;
   var modelName = modelName;
 
-  Object.defineProperties(this, {
+  Object.defineProperties(__this__, {
     toJson: { 
       get: function () { 
-        return JSON.stringify(this); 
+        return JSON.stringify(__this__); 
       } 
     },
     asJson: { 
       get: function () { 
-        return JSON.parse(this.toJson); 
+        return JSON.parse(__this__.toJson); 
       } 
     },
     isAny: {
       get: function(){
-        return Object.keys(this).isAny;
+        return Object.keys(__this__).isAny;
       }
     },
     isEmpty: {
       get: function(){
-        return !this.isAny;
+        return !__this__.isAny;
       }
     },
     add: {
       value: function(attrName, message){
-        this[attrName] = this[attrName] || [];
-        this[attrName].push(message);
+        __this__[attrName] = __this__[attrName] || [];
+        __this__[attrName].push(message);
       }
     },
     clear: {
       get: function(){
-        for (var attrName in this) delete this[attrName];
+        for (var attrName in __this__) delete __this__[attrName];
       }
     },
     messages: {
       get: function(){
-        var __this__ =  this;
         var messages = [];
 
         Object.keys(__this__).forEach(function(attrName){
@@ -198,11 +197,11 @@ Xikitita.Error = function(modelName){
     },
     fullMessages: {
       get: function(){
-        var __this__ =  this;
         var fullMessages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
+          var path = ['attributes', modelName, attrName].join('.');
+          var attrNameTranslated = I18n.t(path);
 
           __this__[attrName].forEach(function(message){
             var fullMessage = I18n
@@ -334,10 +333,12 @@ Xikitita.Model = function(name, body){
   Object.defineProperty(Model, 'toTranslated', {
     get: function(){
       var modelName = Model.name.toLowerCase();
+      var pathMember = ['models', modelName, 'member'].join('.');
+      var pathCollection = ['models', modelName, 'collection'].join('.');
 
       return {
-        member: I18n.t(['models', modelName, 'member'].join('.')),
-        collection: I18n.t(['models', modelName, 'collection'].join('.'))
+        member: I18n.t(pathMember),
+        collection: I18n.t(pathCollection)
       }
     }
   });
@@ -458,7 +459,8 @@ Xikitita.validates = function(attrName, optionsValidators){
 
       if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
         var messageName = self.Xikitita.validators[validatorName].messageName;
-        __errors__.add(attrName, I18n.t(['errors', 'messages', messageName].join('.')));
+        var path = ['errors', 'messages', messageName].join('.');
+        __errors__.add(attrName, I18n.t(path));
       };
     });
   });

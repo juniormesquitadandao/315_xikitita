@@ -111,10 +111,12 @@ Xikitita.Model = function(name, body){
   Object.defineProperty(Model, 'toTranslated', {
     get: function(){
       var modelName = Model.name.toLowerCase();
+      var pathMember = ['models', modelName, 'member'].join('.');
+      var pathCollection = ['models', modelName, 'collection'].join('.');
 
       return {
-        member: I18n.t(['models', modelName, 'member'].join('.')),
-        collection: I18n.t(['models', modelName, 'collection'].join('.'))
+        member: I18n.t(pathMember),
+        collection: I18n.t(pathCollection)
       }
     }
   });

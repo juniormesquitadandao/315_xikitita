@@ -11,7 +11,8 @@ Xikitita.validates = function(attrName, optionsValidators){
 
       if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
         var messageName = self.Xikitita.validators[validatorName].messageName;
-        __errors__.add(attrName, I18n.t(['errors', 'messages', messageName].join('.')));
+        var path = ['errors', 'messages', messageName].join('.');
+        __errors__.add(attrName, I18n.t(path));
       };
     });
   });
