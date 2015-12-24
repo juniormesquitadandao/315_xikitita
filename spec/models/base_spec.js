@@ -6,13 +6,13 @@ describe('Base', function() {
   before(function() {
     Xikitita
       .init
-      .Model('Customer', function(){
+      .Class('Customer', function(){
       })
-      .Model('User', function(){
+      .Class('User', function(){
       })
-      .Model('Permission', function(){
+      .Class('Permission', function(){
       })
-      .Model('Stub', function(){
+      .Class('Stub', function(){
       });
   });
 

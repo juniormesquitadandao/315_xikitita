@@ -46,7 +46,7 @@ Xikitita.defSelf = function(name, body){
   __model__[name] = __model__[name] || body;
 };
 
-Xikitita.Model = function(name, body){
+Xikitita.Class = function(name, body){
   
   eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
@@ -106,11 +106,11 @@ Xikitita.Model = function(name, body){
     .replace(/#{new}/, Xikitita.new.toString())
     .replace(/#{body}/, body.toString())
   );
-  var Model = eval(name);
+  var Class = eval(name);
 
-  Object.defineProperty(Model, 'toTranslated', {
+  Object.defineProperty(Class, 'toTranslated', {
     get: function(){
-      var modelName = Model.name.toLowerCase();
+      var modelName = Class.name.toLowerCase();
       var pathMember = ['models', modelName, 'member'].join('.');
       var pathCollection = ['models', modelName, 'collection'].join('.');
 
@@ -121,14 +121,14 @@ Xikitita.Model = function(name, body){
     }
   });
 
-  Object.defineProperties(Model.prototype, {
+  Object.defineProperties(Class.prototype, {
     'toJson': { get: function () { return JSON.stringify(this); } },
     'asJson': { get: function () { return JSON.parse(this.toJson); } },
     'Xikitita': { get: function () { return Xikitita; } }
   });
 
-  new Model();
+  new Class();
 
-  this.models[name] = Model;
+  this.models[name] = Class;
   return this;
 }
