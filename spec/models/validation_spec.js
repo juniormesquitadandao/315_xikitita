@@ -16,7 +16,8 @@ describe('Validation', function() {
       .Model('Customer', function(){
         attrAccessible('name', 'phone');
 
-        validatesPresenceOf('name', 'phone');
+        validatesPresenceOf('name');
+        validates('phone', {presence: true});
       });      
   });
  

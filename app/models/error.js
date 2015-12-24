@@ -36,12 +36,12 @@ Xikitita.Error = function(modelName){
     },
     messages: {
       get: function(){
-        var self =  this;
+        var __this__ =  this;
         var messages = [];
 
-        Object.keys(self).forEach(function(attrName){
+        Object.keys(__this__).forEach(function(attrName){
           
-          self[attrName].forEach(function(message){
+          __this__[attrName].forEach(function(message){
             messages.push(message);
           });
 
@@ -52,13 +52,13 @@ Xikitita.Error = function(modelName){
     },
     fullMessages: {
       get: function(){
-        var self =  this;
+        var __this__ =  this;
         var fullMessages = [];
 
-        Object.keys(self).forEach(function(attrName){
+        Object.keys(__this__).forEach(function(attrName){
           var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
 
-          self[attrName].forEach(function(message){
+          __this__[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
               .replace(/#{attribute}/, attrNameTranslated)

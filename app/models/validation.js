@@ -1,14 +1,17 @@
-Xikitita.validates = function(attrName, validators){
-  Object.keys(validators).forEach(function(validator){
-    var options = Object.create({});
-    if (typeof validators[validator] === 'Object') {
-      options = Object.create(validators[validator]);
+Xikitita.validates = function(attrName, optionsValidators){
+  Object.keys(optionsValidators).forEach(function(validatorName){
+    var options = {};
+    if (typeof optionsValidators[validatorName] === 'Object') {
+      options = optionsValidators[validatorName];
     }
 
     __validations__.push(function(){
-      if (!self.Xikitita.validators[validator].call(self[attrName], attrName, self, options)) {
-        var messageKey = self.Xikitita.validators[validator].messageKey;
-        __errors__.add(attrName, I18n.t('errors.messages.' + messageKey));
+      var value = self[attrName];
+      var object = self;
+
+      if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
+        var messageName = self.Xikitita.validators[validatorName].messageName;
+        __errors__.add(attrName, I18n.t(['errors', 'messages', messageName].join('.')));
       };
     });
   });

@@ -180,12 +180,12 @@ Xikitita.Error = function(modelName){
     },
     messages: {
       get: function(){
-        var self =  this;
+        var __this__ =  this;
         var messages = [];
 
-        Object.keys(self).forEach(function(attrName){
+        Object.keys(__this__).forEach(function(attrName){
           
-          self[attrName].forEach(function(message){
+          __this__[attrName].forEach(function(message){
             messages.push(message);
           });
 
@@ -196,13 +196,13 @@ Xikitita.Error = function(modelName){
     },
     fullMessages: {
       get: function(){
-        var self =  this;
+        var __this__ =  this;
         var fullMessages = [];
 
-        Object.keys(self).forEach(function(attrName){
+        Object.keys(__this__).forEach(function(attrName){
           var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
 
-          self[attrName].forEach(function(message){
+          __this__[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
               .replace(/#{attribute}/, attrNameTranslated)
@@ -443,17 +443,20 @@ Xikitita.hasMany = function(models, options){
       }
     });
   };
-Xikitita.validates = function(attrName, validators){
-  Object.keys(validators).forEach(function(validator){
-    var options = Object.create({});
-    if (typeof validators[validator] === 'Object') {
-      options = Object.create(validators[validator]);
+Xikitita.validates = function(attrName, optionsValidators){
+  Object.keys(optionsValidators).forEach(function(validatorName){
+    var options = {};
+    if (typeof optionsValidators[validatorName] === 'Object') {
+      options = optionsValidators[validatorName];
     }
 
     __validations__.push(function(){
-      if (!self.Xikitita.validators[validator].call(self[attrName], attrName, self, options)) {
-        var messageKey = self.Xikitita.validators[validator].messageKey;
-        __errors__.add(attrName, I18n.t('errors.messages.' + messageKey));
+      var value = self[attrName];
+      var object = self;
+
+      if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
+        var messageName = self.Xikitita.validators[validatorName].messageName;
+        __errors__.add(attrName, I18n.t(['errors', 'messages', messageName].join('.')));
       };
     });
   });
@@ -494,8 +497,7 @@ Xikitita.isValid = function(){
   return __errors__.isEmpty;
 };
 
-Xikitita.Validator = function(name, messageKey, body){
-  Xikitita.validators[name] = {messageKey: messageKey, call: body};
-
+Xikitita.Validator = function(name, messageName, body){
+  Xikitita.validators[name] = {messageName: messageName, call: body};
   return this;
 }

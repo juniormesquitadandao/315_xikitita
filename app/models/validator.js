@@ -1,5 +1,4 @@
-Xikitita.Validator = function(name, messageKey, body){
-  Xikitita.validators[name] = {messageKey: messageKey, call: body};
-
+Xikitita.Validator = function(name, messageName, body){
+  Xikitita.validators[name] = {messageName: messageName, call: body};
   return this;
 }
