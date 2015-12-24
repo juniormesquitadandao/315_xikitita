@@ -1,18 +1,14 @@
-var Xikitita = {};
-Xikitita.window = this;
-Xikitita.models = {};
-Xikitita.inflection = { singular: {}, plural: {} };
-Xikitita.translations = {};
-Xikitita.validators = {};
+var Xikitita = {window: this};
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     this.models = {};
-    this.inflection = {
-      singular: {},
-      plural: {}
-    };
+    this.inflection = { singular: {}, plural: {} };
     this.translations = {};
+    this.validators = {};
+    this.Validator('presence', 'blank', function(value, attrName, instance, options){
+      return value !== null;
+    });
 
     eval.call(this.window, "var I18n;");
 
