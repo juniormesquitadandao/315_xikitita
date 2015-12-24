@@ -5,17 +5,31 @@ var insert = require('gulp-insert');
 
 gulp.task('default', function() {
   
-  gulp.src(['app/models/base.js', 'app/models/model.js', 'app/models/xikitita.js'])
+  var src = [
+    'app/models/string.js', 
+    'app/models/array.js', 
+    'app/models/base.js', 
+    'app/models/inflection.js', 
+    'app/models/i18n.js', 
+    'app/models/error.js', 
+    'app/models/model.js', 
+    'app/models/association.js', 
+    'app/models/validation.js', 
+    'app/models/validator.js', 
+    'app/models/xikitita.js' 
+  ]
+
+  gulp.src(src)
     .pipe(concat('xikitita.js'))
     .pipe(insert.prepend('\'use strict\';\n\n'))
     .pipe(minify())
     .pipe(gulp.dest(''))
   
 
-  gulp.src(['app/models/base.js', 'app/models/model.js', 'app/models/xikitita.js'])
+  gulp.src(src)
     .pipe(concat('xikitita.js'))
     .pipe(insert.prepend('\'use strict\';\n\n'))
     .pipe(insert.append('\n\nmodule.exports = Xikitita;'))
-    .pipe(gulp.dest('spec/models'));
+    .pipe(gulp.dest('temp'));
 
 });

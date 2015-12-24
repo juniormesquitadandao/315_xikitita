@@ -1,5 +1,5 @@
 var expect = require('expect.js');
-var Xikitita = require('./xikitita.js');
+var Xikitita = require('../../temp/xikitita.js');
 
 describe('I18n', function() {
 
