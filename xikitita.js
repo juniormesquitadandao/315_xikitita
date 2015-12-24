@@ -258,11 +258,11 @@ Xikitita.Class = function(name, body){
       \n\
       #{validatesOf}\n\
       \n\
-      (#{body})(this);\n\
+      (#{body})(object);\n\
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      (#{new})(this);\n\
+      (#{new})(object);\n\
     };"
     .replace(/#{name}/g, name)
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
