@@ -7,7 +7,7 @@ describe('Class', function() {
     Xikitita
       .init
       .I18n('en', {
-        models: {
+        classes: {
           customer: {
             member: 'one customer',
             collection: 'many customers'

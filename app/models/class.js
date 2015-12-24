@@ -25,7 +25,7 @@ Xikitita.new = function(){
   
   Object.keys(__initAttributes__).forEach(function(attrName){
     if(__attrAccessible__.indexOf(attrName) < 0){
-      throw new TypeError(__model__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
+      throw new TypeError(__class__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
     }
     self[attrName] = __initAttributes__[attrName];
   });
@@ -43,14 +43,14 @@ Xikitita.def = function(name, body){
 };
 
 Xikitita.defSelf = function(name, body){
-  __model__[name] = __model__[name] || body;
+  __class__[name] = __class__[name] || body;
 };
 
 Xikitita.Class = function(name, body){
   
   eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
-      var __model__ =  #{model};\n\
+      var __class__ =  #{name};\n\
       var __attrAccessible__ = [];\n\
       \n\
       var self = this;\n\
@@ -60,16 +60,16 @@ Xikitita.Class = function(name, body){
       var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
-      var __belongsToModels__ = {};\n\
+      var __belongsToClasses__ = {};\n\
       var belongsTo = #{belongsTo};\n\
       \n\
-      var __hasOneModels__ = {};\n\
+      var __hasOneClasses__ = {};\n\
       var hasOne = #{hasOne};\n\
       \n\
-      var __hasManyModels__ = {};\n\
+      var __hasManyClasses__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new #{Error}(__model__.name.toLowerCase());\n\
+      var __errors__ = new #{Error}(__class__.name.toLowerCase());\n\
       var __validations__ = [];\n\
       Object.defineProperties(self, {\n\
         'errors': {get: #{errors}, enumerable: false },\n\
@@ -89,8 +89,7 @@ Xikitita.Class = function(name, body){
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (#{new})(this);\n\
     };"
-    .replace(/#{name}/, name)
-    .replace(/#{model}/, name)
+    .replace(/#{name}/g, name)
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
     .replace(/#{id}/, Xikitita.id.toString())
     .replace(/#{belongsTo}/, Xikitita.belongsTo.toString())
@@ -110,9 +109,9 @@ Xikitita.Class = function(name, body){
 
   Object.defineProperty(Class, 'toTranslated', {
     get: function(){
-      var modelName = Class.name.toLowerCase();
-      var pathMember = ['models', modelName, 'member'].join('.');
-      var pathCollection = ['models', modelName, 'collection'].join('.');
+      var className = Class.name.toLowerCase();
+      var pathMember = ['classes', className, 'member'].join('.');
+      var pathCollection = ['classes', className, 'collection'].join('.');
 
       return {
         member: I18n.t(pathMember),
@@ -129,6 +128,6 @@ Xikitita.Class = function(name, body){
 
   new Class();
 
-  this.models[name] = Class;
+  this.classes[name] = Class;
   return this;
 }

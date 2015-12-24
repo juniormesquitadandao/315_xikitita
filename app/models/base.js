@@ -4,7 +4,7 @@ Object.defineProperty(Xikitita, 'init', {
   get: function(){
     var __this__ = this;
 
-    __this__.models = {};
+    __this__.classes = {};
     __this__.inflection = { singular: {}, plural: {} };
     __this__.translations = {};
     __this__.validators = {};
