@@ -6,15 +6,11 @@ Object.defineProperty(Xikitita, 'init', {
     this.inflection = { singular: {}, plural: {} };
     this.translations = {};
     this.validators = {};
-    this.Validator('presence', 'blank', function(value, attrName, instance, options){
-      return value !== null;
-    });
 
     eval.call(this.window, "var I18n;");
-
     I18n = {
       locale: 'en',
-      t: function(path, params){
+      translate: function(path, params){
         var translation = path;
         var translations = Xikitita.translations[I18n.locale];
         path.split('.').forEach(function(key){
@@ -31,7 +27,7 @@ Object.defineProperty(Xikitita, 'init', {
 
         return translation;
       },
-      l: function(value, format){
+      localize: function(value, format){
         format = format || 'default';
         var formatted = value;
 
@@ -48,12 +44,19 @@ Object.defineProperty(Xikitita, 'init', {
 
         }
         else if(typeof value === 'boolean' ){
-          formatted = Xikitita.translations[I18n.locale].logical[format](value);
+          formatted = Xikitita.translations[I18n.locale].logic[format](value);
         }
 
         return formatted;
       }
     }
+
+    I18n.t = I18n.translate
+    I18n.l = I18n.localize
+
+    this.Validator('presence', 'blank', function(value, attrName, instance, options){
+      return value !== null;
+    });
 
     return this;
   }

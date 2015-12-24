@@ -19,8 +19,8 @@ describe('I18n', function() {
           default: function(value){
             return '9,999,999';
           }, 
-          cliente: function(value){
-            return '9,999,999 Clientes';
+          customer: function(value){
+            return '9,999,999 Customers';
           } 
         },  
         decimal: {
@@ -31,7 +31,7 @@ describe('I18n', function() {
             return '$ 999.99';
           }
         },  
-        logical: {
+        logic: {
           default: function(value){
             return 'yes';
           }, 
@@ -39,8 +39,8 @@ describe('I18n', function() {
             return 'YES';
           }
         },  
-        parent: {
-          child: 'message #{name}'   
+        parentPath: {
+          childPath: 'message #{name}'   
         }
       })
       .I18n('en-US', {
@@ -49,15 +49,15 @@ describe('I18n', function() {
             return '2015 01 01';
           }, 
           year: function(value){
-            return 'Year 2015';
+            return '2015 YEAR';
           } 
         },  
         integer: {
           default: function(value){
             return '9 999 999';
           }, 
-          cliente: function(value){
-            return 'Clientes 9 999 999';
+          customer: function(value){
+            return '9 999 999 Customers';
           } 
         },  
         decimal: {
@@ -68,7 +68,7 @@ describe('I18n', function() {
             return '$ 999.99 USD';
           }
         },  
-        logical: {
+        logic: {
           default: function(value){
             return 'yes USD';
           }, 
@@ -76,8 +76,8 @@ describe('I18n', function() {
             return 'YES USD';
           }
         },  
-        parent: {
-          child: '#{name} message'   
+        parentPath: {
+          childPath: '#{name} message'   
         }
       });
   });
@@ -89,47 +89,55 @@ describe('I18n', function() {
     expect(I18n.locale).to.be('en-US');
   });
 
-  it('#t', function () {
+  it('#translate', function () {
     I18n.locale = 'en';
 
-    expect(I18n.t('parent')).to.be('parent');
-    expect(I18n.t('parent.child')).to.be('message #{name}');
-    expect(I18n.t('parent.child', {name: 'Name'})).to.be('message Name');
+    expect(I18n.translate('parentPath')).to.be('parentPath');
+    expect(I18n.translate('parentPath.childPath')).to.be('message #{name}');
+    expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('message Name');
 
     I18n.locale = 'en-US';
 
-    expect(I18n.t('parent')).to.be('parent');
-    expect(I18n.t('parent.child')).to.be('#{name} message');
-    expect(I18n.t('parent.child', {name: 'Name'})).to.be('Name message');
+    expect(I18n.translate('parentPath')).to.be('parentPath');
+    expect(I18n.translate('parentPath.childPath')).to.be('#{name} message');
+    expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('Name message');
   });
 
-  it('#l', function () {
+  it('#localize', function () {
     var date = new Date('01-01-2015');
     var integer = 9999999;
     var decimal = 999.99;
-    var logical = true;
+    var logic = true;
 
     I18n.locale = 'en';
 
-    expect(I18n.l(date)).to.be('2015-01-01');
-    expect(I18n.l(date, 'year')).to.be('2015');
-    expect(I18n.l(integer)).to.be('9,999,999');
-    expect(I18n.l(integer, 'cliente')).to.be('9,999,999 Clientes');
-    expect(I18n.l(decimal)).to.be('999.99');
-    expect(I18n.l(decimal, 'currency')).to.be('$ 999.99');
-    expect(I18n.l(logical)).to.be('yes');
-    expect(I18n.l(logical, 'up')).to.be('YES');
+    expect(I18n.localize(date)).to.be('2015-01-01');
+    expect(I18n.localize(date, 'year')).to.be('2015');
+    expect(I18n.localize(integer)).to.be('9,999,999');
+    expect(I18n.localize(integer, 'customer')).to.be('9,999,999 Customers');
+    expect(I18n.localize(decimal)).to.be('999.99');
+    expect(I18n.localize(decimal, 'currency')).to.be('$ 999.99');
+    expect(I18n.localize(logic)).to.be('yes');
+    expect(I18n.localize(logic, 'up')).to.be('YES');
 
     I18n.locale = 'en-US';
 
-    expect(I18n.l(date)).to.be('2015 01 01');
-    expect(I18n.l(date, 'year')).to.be('Year 2015');
-    expect(I18n.l(integer)).to.be('9 999 999');
-    expect(I18n.l(integer, 'cliente')).to.be('Clientes 9 999 999');
-    expect(I18n.l(decimal)).to.be('999.99 USD');
-    expect(I18n.l(decimal, 'currency')).to.be('$ 999.99 USD');
-    expect(I18n.l(logical)).to.be('yes USD');
-    expect(I18n.l(logical, 'up')).to.be('YES USD');
+    expect(I18n.localize(date)).to.be('2015 01 01');
+    expect(I18n.localize(date, 'year')).to.be('2015 YEAR');
+    expect(I18n.localize(integer)).to.be('9 999 999');
+    expect(I18n.localize(integer, 'customer')).to.be('9 999 999 Customers');
+    expect(I18n.localize(decimal)).to.be('999.99 USD');
+    expect(I18n.localize(decimal, 'currency')).to.be('$ 999.99 USD');
+    expect(I18n.localize(logic)).to.be('yes USD');
+    expect(I18n.localize(logic, 'up')).to.be('YES USD');
+  });
+
+  it('#t', function () {
+    expect(I18n.t.toString()).to.be(I18n.translate.toString());
+  });
+
+  it('#l', function () {
+    expect(I18n.l.toString()).to.be(I18n.localize.toString());
   });
 
 });
