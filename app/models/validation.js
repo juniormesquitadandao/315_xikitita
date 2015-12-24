@@ -6,11 +6,10 @@ Xikitita.validates = function(attrName, optionsValidators){
     }
 
     __validations__.push(function(){
-      var value = self[attrName];
-      var object = self;
+      var value = object[attrName];
 
-      if (!self.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
-        var messageName = self.Xikitita.validators[validatorName].messageName;
+      if (!object.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
+        var messageName = object.Xikitita.validators[validatorName].messageName;
         var path = ['errors', 'messages', messageName].join('.');
         __errors__.add(attrName, I18n.t(path));
       };
