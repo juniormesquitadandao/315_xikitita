@@ -1,4 +1,7 @@
-Xikitita.Error = function(){
+Xikitita.Error = function(model){
+
+  var __model__ = model;
+
   Object.defineProperties(this, {
     toJson: { 
       get: function () { 
@@ -55,7 +58,12 @@ Xikitita.Error = function(){
         Object.keys(self).forEach(function(attrName){
           
           self[attrName].forEach(function(message){
-            fullMessages.push( attrName + ' ' + message);
+            var fullMessage = I18n
+              .t('errors.format')
+              .replace(/#{attribute}/, attrName)
+              .replace(/#{message}/, message);
+
+            fullMessages.push(fullMessage);
           });
 
         });

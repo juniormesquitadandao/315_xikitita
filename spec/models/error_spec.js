@@ -3,6 +3,19 @@ var Xikitita = require('../../temp/xikitita.js');
 
 describe('Error', function() {
 
+  before(function() {
+    Xikitita
+      .init
+      .I18n('en', {
+        errors:{
+          format: '#{attribute} #{message}',
+          messages: {
+            blank: "can't be blank"
+          }
+        }
+      });      
+  });
+
   it('#toJson', function () {
     var error = new Xikitita.Error();
 
@@ -61,7 +74,8 @@ describe('Error', function() {
   });
 
   it('#fullMessages', function () {
-    var error = new Xikitita.Error();
+    function Stub(){};    
+    var error = new Xikitita.Error(Stub);
 
     error.add('attrName1', 'message2');
     error.add('attrName2', 'message1');
