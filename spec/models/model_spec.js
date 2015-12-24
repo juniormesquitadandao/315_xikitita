@@ -6,6 +6,26 @@ describe('Model', function() {
   before(function() {
     Xikitita
       .init
+      .I18n('en', {
+        models: {
+          customer: {
+            member: 'one customer',
+            collection: 'many customers'
+          },
+          user: {
+            member: 'one user',
+            collection: 'many users'
+          },
+          permission: {
+            member: 'one permission',
+            collection: 'many permissions'
+          },
+          stub: {
+            member: 'one stub',
+            collection: 'many stub'
+          }
+        }
+      })
       .Model('Customer', function(){
         attrAccessible('name', 'phone');
       })
@@ -116,4 +136,19 @@ describe('Model', function() {
   it('attrAccessible', function () {
     expect(new Customer().toJson).to.be('{"id":null,"name":null,"phone":null}');
   });
+
+  it('::toTranslated.member', function () {
+    expect(Customer.toTranslated.member).to.be('one customer');
+    expect(User.toTranslated.member).to.be('one user');
+    expect(Permission.toTranslated.member).to.be('one permission');
+    expect(Stub.toTranslated.member).to.be('one stub');
+  });
+
+  it('::toTranslated.collection', function () {
+    expect(Customer.toTranslated.collection).to.be('many customers');
+    expect(User.toTranslated.collection).to.be('many users');
+    expect(Permission.toTranslated.collection).to.be('many permissions');
+    expect(Stub.toTranslated.collection).to.be('many stub');
+  });
+
 });

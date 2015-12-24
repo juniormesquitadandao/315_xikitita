@@ -329,10 +329,21 @@ Xikitita.Model = function(name, body){
   );
   var Model = eval(name);
 
+  Object.defineProperty(Model, 'toTranslated', {
+    get: function(){
+      var modelName = Model.name.toLowerCase();
+
+      return {
+        member: I18n.t(['models', modelName, 'member'].join('.')),
+        collection: I18n.t(['models', modelName, 'collection'].join('.'))
+      }
+    }
+  });
+
   Object.defineProperties(Model.prototype, {
-    "toJson": { get: function () { return JSON.stringify(this); } },
-    "asJson": { get: function () { return JSON.parse(this.toJson); } },
-    "Xikitita": { get: function () { return Xikitita; } }
+    'toJson': { get: function () { return JSON.stringify(this); } },
+    'asJson': { get: function () { return JSON.parse(this.toJson); } },
+    'Xikitita': { get: function () { return Xikitita; } }
   });
 
   new Model();
