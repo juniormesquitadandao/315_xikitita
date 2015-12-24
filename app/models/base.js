@@ -2,17 +2,19 @@ var Xikitita = {window: this};
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
-    this.models = {};
-    this.inflection = { singular: {}, plural: {} };
-    this.translations = {};
-    this.validators = {};
+    var __this__ = this;
 
-    eval.call(this.window, "var I18n;");
+    __this__.models = {};
+    __this__.inflection = { singular: {}, plural: {} };
+    __this__.translations = {};
+    __this__.validators = {};
+
+    eval.call(__this__.window, "var I18n;");
     I18n = {
       locale: 'en',
       translate: function(path, params){
         var translation = path;
-        var translations = Xikitita.translations[I18n.locale];
+        var translations = __this__.translations[I18n.locale];
         path.split('.').forEach(function(key){
           translations = translations[key];
         });
@@ -32,19 +34,19 @@ Object.defineProperty(Xikitita, 'init', {
         var formatted = value;
 
         if(typeof value === 'object' && value.constructor.name === 'Date'){
-          formatted = Xikitita.translations[I18n.locale].date[format](value);
+          formatted = __this__.translations[I18n.locale].date[format](value);
         }
         else if(typeof value === 'number' ){
           
-          var functionFormat = Xikitita.translations[I18n.locale].integer[format];
+          var functionFormat = __this__.translations[I18n.locale].integer[format];
           if(/\./.test(value)){
-            functionFormat = Xikitita.translations[I18n.locale].decimal[format];
+            functionFormat = __this__.translations[I18n.locale].decimal[format];
           }
           formatted = functionFormat(value);
 
         }
         else if(typeof value === 'boolean' ){
-          formatted = Xikitita.translations[I18n.locale].logic[format](value);
+          formatted = __this__.translations[I18n.locale].logic[format](value);
         }
 
         return formatted;
@@ -54,10 +56,10 @@ Object.defineProperty(Xikitita, 'init', {
     I18n.t = I18n.translate
     I18n.l = I18n.localize
 
-    this.Validator('presence', 'blank', function(value, attrName, instance, options){
+    __this__.Validator('presence', 'blank', function(value, attrName, object, options){
       return value !== null;
     });
 
-    return this;
+    return __this__;
   }
 });
