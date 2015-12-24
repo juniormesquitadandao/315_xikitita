@@ -69,7 +69,7 @@ Xikitita.Model = function(name, body){
       var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new #{Error}(__model__);\n\
+      var __errors__ = new #{Error}(__model__.name.toLowerCase());\n\
       var __validations__ = [];\n\
       Object.defineProperties(self, {\n\
         'errors': {get: #{errors}, enumerable: false },\n\

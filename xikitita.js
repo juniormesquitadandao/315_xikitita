@@ -142,9 +142,9 @@ Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
-Xikitita.Error = function(model){
+Xikitita.Error = function(modelName){
 
-  var __model__ = model;
+  var modelName = modelName;
 
   Object.defineProperties(this, {
     toJson: { 
@@ -200,11 +200,12 @@ Xikitita.Error = function(model){
         var fullMessages = [];
 
         Object.keys(self).forEach(function(attrName){
-          
+          var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
+
           self[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
-              .replace(/#{attribute}/, attrName)
+              .replace(/#{attribute}/, attrNameTranslated)
               .replace(/#{message}/, message);
 
             fullMessages.push(fullMessage);
@@ -289,7 +290,7 @@ Xikitita.Model = function(name, body){
       var __hasManyModels__ = {};\n\
       var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new #{Error}(__model__);\n\
+      var __errors__ = new #{Error}(__model__.name.toLowerCase());\n\
       var __validations__ = [];\n\
       Object.defineProperties(self, {\n\
         'errors': {get: #{errors}, enumerable: false },\n\

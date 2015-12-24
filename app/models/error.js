@@ -1,6 +1,6 @@
-Xikitita.Error = function(model){
+Xikitita.Error = function(modelName){
 
-  var __model__ = model;
+  var modelName = modelName;
 
   Object.defineProperties(this, {
     toJson: { 
@@ -56,11 +56,12 @@ Xikitita.Error = function(model){
         var fullMessages = [];
 
         Object.keys(self).forEach(function(attrName){
-          
+          var attrNameTranslated = I18n.t(['attributes', modelName, attrName].join('.'));
+
           self[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
-              .replace(/#{attribute}/, attrName)
+              .replace(/#{attribute}/, attrNameTranslated)
               .replace(/#{message}/, message);
 
             fullMessages.push(fullMessage);

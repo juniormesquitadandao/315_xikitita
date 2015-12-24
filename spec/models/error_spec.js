@@ -12,7 +12,18 @@ describe('Error', function() {
           messages: {
             blank: "can't be blank"
           }
+        },
+        attributes: {
+          stub: {
+            attrName1: 'one',
+            attrName2: 'two'
+          }
         }
+      })
+      .Model('Stub', function(){
+        attrAccessible('attrName1', 'attrName2');
+        
+        validatesPresenceOf('attrName1', 'attrName2');
       });      
   });
 
@@ -74,13 +85,12 @@ describe('Error', function() {
   });
 
   it('#fullMessages', function () {
-    function Stub(){};    
-    var error = new Xikitita.Error(Stub);
+    var error = new Stub().errors;
 
     error.add('attrName1', 'message2');
     error.add('attrName2', 'message1');
 
-    expect(error.fullMessages.toJson).to.be('["attrName1 message2","attrName2 message1"]');
+    expect(error.fullMessages.toJson).to.be('["one message2","two message1"]');
   });
 
 });
