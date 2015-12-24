@@ -367,8 +367,8 @@ Xikitita.belongsTo = function(classNameSingularized, options){
       set: function(value){
         value = value || null;
 
-        var modelTitleize = classNameSingularized.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-        var Class = eval( modelTitleize );
+        var classTitleize = classNameSingularized.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+        var Class = eval( classTitleize );
 
         if (value !== null && value.constructor.name === 'Object'){
           value = new Class(value);
@@ -431,13 +431,13 @@ Xikitita.hasMany = function(classNamePluralized, options){
       set: function(values){
         values = values || null;
 
-        var Model = eval( classNamePluralized.singularize.capitalize );
+        var Class = eval( classNamePluralized.singularize.capitalize );
 
         if (values !== null){
           values.forEach(function(value){
             value[foreingKey] = object[__id__];
             if (value.constructor.name === 'Object'){
-              value = new Model(value);
+              value = new Class(value);
             }
           })
         }
