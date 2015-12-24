@@ -49,7 +49,7 @@ describe('Validation', function() {
           }
         }
       })
-      .Model('Cliente', function(){
+      .Model('Customer', function(){
         attrAccessible('name', 'phone');
 
         validatesPresenceOf('name', 'phone');
@@ -57,19 +57,19 @@ describe('Validation', function() {
   });
  
   it('#valid', function(){
-    var cliente = new Cliente();
+    var customer = new Customer();
 
-    expect(cliente.errors).to.be.a(Object);
-    expect(cliente.isValid).to.be(false);
-    expect(cliente.errors.toJson).to.be('{"name":["can\'t be blank"],"phone":["can\'t be blank"]}');
+    expect(customer.errors).to.be.a(Object);
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"phone":["can\'t be blank"]}');
 
-    cliente.name = 'Name';
-    expect(cliente.isValid).to.be(false);
-    expect(cliente.errors.toJson).to.be('{"phone":["can\'t be blank"]}');
+    customer.name = 'Name';
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank"]}');
 
-    cliente.phone = '0000000';
-    expect(cliente.isValid).to.be(true);
-    expect(cliente.errors.toJson).to.be('{}');
+    customer.phone = '0000000';
+    expect(customer.isValid).to.be(true);
+    expect(customer.errors.toJson).to.be('{}');
   });
 
 });

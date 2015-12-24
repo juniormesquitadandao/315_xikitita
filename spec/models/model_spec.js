@@ -6,17 +6,17 @@ describe('Model', function() {
   before(function() {
     Xikitita
       .init
-      .Model('Cliente', function(){
+      .Model('Customer', function(){
         attrAccessible('name', 'phone');
       })
       .Model('User', function(){
         attrAccessible('email');
-        belongsTo('cliente');
+        belongsTo('customer');
         belongsTo('permission');
       })
       .Model('Permission', function(){
         attrAccessible('name');
-        hasMany('clientes');
+        hasMany('customers');
       })
       .Model('Stub', function(){
 
@@ -32,7 +32,7 @@ describe('Model', function() {
   });
 
   it('::name', function () {
-    expect(Cliente.name).to.be('Cliente');
+    expect(Customer.name).to.be('Customer');
     expect(User.name).to.be('User');
     expect(Permission.name).to.be('Permission');
     expect(Stub.name).to.be('Stub');
@@ -114,6 +114,6 @@ describe('Model', function() {
   });
 
   it('attrAccessible', function () {
-    expect(new Cliente().toJson).to.be('{"id":null,"name":null,"phone":null}');
+    expect(new Customer().toJson).to.be('{"id":null,"name":null,"phone":null}');
   });
 });

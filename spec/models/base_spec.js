@@ -6,7 +6,7 @@ describe('Base', function() {
   before(function() {
     Xikitita
       .init
-      .Model('Cliente', function(){
+      .Model('Customer', function(){
       })
       .Model('User', function(){
       })
@@ -19,7 +19,7 @@ describe('Base', function() {
   it('::models', function () {
     var modelNames = Object.keys(Xikitita.models).join(', ');
 
-    expect(modelNames).to.be('Cliente, User, Permission, Stub');
+    expect(modelNames).to.be('Customer, User, Permission, Stub');
   });
 
 });
