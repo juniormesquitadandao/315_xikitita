@@ -151,4 +151,56 @@ describe('Class', function() {
     expect(Stub.toTranslated.collection).to.be('many stub');
   });
 
+  it('#reset', function () {
+    var customer = new Customer({name: 'Name', phone: '0000'});
+
+    customer.name = null;
+    customer.phone = null;
+    customer.reset
+
+    expect(customer.toJson).to.be('{"id":null,"name":"Name","phone":"0000"}');
+  });
+
+  it('#changes', function () {
+    Xikitita
+      .Class('Stub', function(){
+        id('id_stub');
+
+        attrAccessible('one', 'two')
+      })
+
+    var stub = new Stub();
+
+    stub.one = 'One';
+    stub.two = 'Two';
+
+    expect(stub.changes.toJson).to.be('{"one":[null,"One"],"two":[null,"Two"]}');
+    expect(stub.changes_id_stub.toJson).to.be('[]');
+    expect(stub.changes_name.toJson).to.be('[null,"One"]');
+    expect(stub.changes_phone.toJson).to.be('[null,"Two"]');
+  });
+
+  it('#changed', function () {
+    Xikitita
+      .Class('Stub', function(){
+        id('id_stub');
+
+        attrAccessible('one', 'two')
+      })
+
+    var stub = new Stub();
+
+    expect(stub.changed).to.be(false);
+    expect(stub.changed_id_stub).to.be(false);
+    expect(stub.changed_name).to.be(false);
+    expect(stub.changed_phone).to.be(false);
+
+    stub.id = 1;
+
+    expect(stub.changed).to.be(true);
+    expect(stub.changed_id_stub).to.be(true);
+    expect(stub.changed_name).to.be(false);
+    expect(stub.changed_phone).to.be(false);
+  });
+
 });

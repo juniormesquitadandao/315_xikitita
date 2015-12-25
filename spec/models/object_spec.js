@@ -9,19 +9,19 @@ describe('Array', function() {
   });
   
   it('#toJson', function () {
-    expect([].toJson).to.be('[]');
+    expect({}.toJson).to.be('{}');
   });
 
   it('#asJson', function () {
-    expect([].asJson).to.be.a(Object);
+    expect({}.asJson).to.be.a(Object);
   });
 
   it('#isAny', function () {
-    expect([].isAny).to.be(false);
+    expect({}.isAny).to.be(false);
   });
 
   it('#isEmpty', function () {
-    expect([].isEmpty).to.be(true);
+    expect({}.isEmpty).to.be(true);
   });
 
 });

@@ -3,26 +3,7 @@ Xikitita.Error = function(className){
   var __className__ = className;
 
   Object.defineProperties(__this__, {
-    toJson: { 
-      get: function () { 
-        return JSON.stringify(__this__); 
-      } 
-    },
-    asJson: { 
-      get: function () { 
-        return JSON.parse(__this__.toJson); 
-      } 
-    },
-    isAny: {
-      get: function(){
-        return Object.keys(__this__).isAny;
-      }
-    },
-    isEmpty: {
-      get: function(){
-        return !__this__.isAny;
-      }
-    },
+
     add: {
       value: function(attrName, message){
         __this__[attrName] = __this__[attrName] || [];

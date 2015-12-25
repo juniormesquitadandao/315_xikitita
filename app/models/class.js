@@ -39,6 +39,9 @@ Xikitita.Class = function(name, body){
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
+      Object.defineProperties(object, {\n\
+        'reset': {get: #{reset}, enumerable: false }\n\
+      });\n\
       (#{new})(object);\n\
     };"
     .replace(/#{name}/g, name)
@@ -50,12 +53,13 @@ Xikitita.Class = function(name, body){
     .replace(/#{Error}/, Xikitita.Error.toString())
     .replace(/#{errors}/, Xikitita.errors.toString())
     .replace(/#{isValid}/, Xikitita.isValid.toString())
-    .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{def}/, Xikitita.def.toString())
     .replace(/#{defClass}/, Xikitita.defClass.toString())
-    .replace(/#{new}/, Xikitita.new.toString())
+    .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{body}/, body.toString())
+    .replace(/#{reset}/, Xikitita.reset.toString())
+    .replace(/#{new}/, Xikitita.new.toString())
   );
   var Class = eval(name);
 
@@ -73,9 +77,7 @@ Xikitita.Class = function(name, body){
   });
 
   Object.defineProperties(Class.prototype, {
-    'toJson': { get: function () { return JSON.stringify(this); } },
-    'asJson': { get: function () { return JSON.parse(this.toJson); } },
-    'Xikitita': { get: function () { return Xikitita; } }
+    Xikitita: { get: function () { return Xikitita; } }
   });
 
   new Class();
@@ -119,6 +121,12 @@ Xikitita.new = function(){
   __afterNew__.forEach(function(callback){
     callback();
   })
+};
+
+Xikitita.reset = function(){ 
+  Object.keys(__initAttributes__).forEach(function(attrName){
+    object[attrName] = __initAttributes__[attrName];
+  });
 };
 
 Xikitita.def = function(name, body){

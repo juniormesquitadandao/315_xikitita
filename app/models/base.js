@@ -1,8 +1,30 @@
-var Xikitita = {window: this};
+var Xikitita = {
+  window: this,
+  beforeInit: [],
+  defineProperties: function(prototype, properties){
+    var __this__ = this;
+
+    Object.keys(properties).forEach(function(property){
+      __this__.defineProperty(prototype, property, properties[property]);
+    });
+
+  },
+  defineProperty: function(prototype, property, body){
+   
+    if(!prototype.hasOwnProperty(property)){
+      Object.defineProperty(prototype, property, body);
+    } 
+
+  }
+};
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     var __this__ = this;
+    
+    __this__.beforeInit.forEach(function(body){
+      body();
+    });
 
     __this__.classes = {};
     __this__.inflection = { singular: {}, plural: {} };

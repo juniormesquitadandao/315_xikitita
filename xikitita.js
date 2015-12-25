@@ -1,67 +1,32 @@
 'use strict';
 
-Object.defineProperties(String.prototype, {
-  capitalize: { 
-    get: function(){
-      return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-    }
+var Xikitita = {
+  window: this,
+  beforeInit: [],
+  defineProperties: function(prototype, properties){
+    var __this__ = this;
+
+    Object.keys(properties).forEach(function(property){
+      __this__.defineProperty(prototype, property, properties[property]);
+    });
+
   },
-  pluralize: { 
-    get: function(){
-      var irregular = this;
-      var regex = irregular;
-      var replace = Xikitita.inflection.plural[irregular] || null;
-
-      if(!replace){
-        regex = /$/;
-        replace = 's';
-      }
-
-      return this.replace(regex, replace);
-    }
-  },
-  singularize: { 
-    get: function(){
-      var irregular = this;
-      var regex = irregular;
-      var replace = Xikitita.inflection.singular[irregular] || null;
-
-      if(!replace){
-        regex = /s$/;
-        replace = '';
-      }
-
-      return this.replace(regex, replace);
-    }
-  }
-});
-Object.defineProperties(Array.prototype, {
-  toJson: { 
-    get: function () { 
-      return JSON.stringify(this); 
-    }
-  },
-  asJson: { 
-    get: function () { 
-      return JSON.parse(this.toJson); 
+  defineProperty: function(prototype, property, body){
+   
+    if(!prototype.hasOwnProperty(property)){
+      Object.defineProperty(prototype, property, body);
     } 
-  },
-  isAny: { get: function () { 
-    return this.length > 0; 
-    }
-  },
-  isEmpty: { 
-    get: function () { 
-      return !this.isAny;
-    }
-  }
-});
 
-var Xikitita = {window: this};
+  }
+};
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
     var __this__ = this;
+    
+    __this__.beforeInit.forEach(function(body){
+      body();
+    });
 
     __this__.classes = {};
     __this__.inflection = { singular: {}, plural: {} };
@@ -122,6 +87,72 @@ Object.defineProperty(Xikitita, 'init', {
     return __this__;
   }
 });
+Xikitita.beforeInit.push(function(){
+
+  Xikitita.defineProperties(Object.prototype, {
+    toJson: {
+      get: function () { 
+        return JSON.stringify(this); 
+      }
+    },
+    asJson: {
+      get: function () { 
+        return JSON.parse(this.toJson); 
+      } 
+    },
+    isAny: {
+      get: function () {
+        return Object.keys(this).length > 0; 
+      }
+    },
+    isEmpty: { 
+      get: function () { 
+        return !this.isAny;
+      }
+    }
+  });
+
+});
+
+Xikitita.beforeInit.push(function(){
+
+  Xikitita.defineProperties(String.prototype, {
+    capitalize: { 
+      get: function(){
+        return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+      }
+    },
+    pluralize: { 
+      get: function(){
+        var irregular = this;
+        var regex = irregular;
+        var replace = Xikitita.inflection.plural[irregular] || null;
+
+        if(!replace){
+          regex = /$/;
+          replace = 's';
+        }
+
+        return this.replace(regex, replace);
+      }
+    },
+    singularize: { 
+      get: function(){
+        var irregular = this;
+        var regex = irregular;
+        var replace = Xikitita.inflection.singular[irregular] || null;
+
+        if(!replace){
+          regex = /s$/;
+          replace = '';
+        }
+
+        return this.replace(regex, replace);
+      }
+    }
+  });
+
+});
 Xikitita.Inflection = function(body){
   var __this__ = this;
 
@@ -150,26 +181,7 @@ Xikitita.Error = function(className){
   var __className__ = className;
 
   Object.defineProperties(__this__, {
-    toJson: { 
-      get: function () { 
-        return JSON.stringify(__this__); 
-      } 
-    },
-    asJson: { 
-      get: function () { 
-        return JSON.parse(__this__.toJson); 
-      } 
-    },
-    isAny: {
-      get: function(){
-        return Object.keys(__this__).isAny;
-      }
-    },
-    isEmpty: {
-      get: function(){
-        return !__this__.isAny;
-      }
-    },
+
     add: {
       value: function(attrName, message){
         __this__[attrName] = __this__[attrName] || [];
@@ -262,6 +274,9 @@ Xikitita.Class = function(name, body){
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
+      Object.defineProperties(object, {\n\
+        'reset': {get: #{reset}, enumerable: false }\n\
+      });\n\
       (#{new})(object);\n\
     };"
     .replace(/#{name}/g, name)
@@ -273,12 +288,13 @@ Xikitita.Class = function(name, body){
     .replace(/#{Error}/, Xikitita.Error.toString())
     .replace(/#{errors}/, Xikitita.errors.toString())
     .replace(/#{isValid}/, Xikitita.isValid.toString())
-    .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{def}/, Xikitita.def.toString())
     .replace(/#{defClass}/, Xikitita.defClass.toString())
-    .replace(/#{new}/, Xikitita.new.toString())
+    .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{body}/, body.toString())
+    .replace(/#{reset}/, Xikitita.reset.toString())
+    .replace(/#{new}/, Xikitita.new.toString())
   );
   var Class = eval(name);
 
@@ -296,9 +312,7 @@ Xikitita.Class = function(name, body){
   });
 
   Object.defineProperties(Class.prototype, {
-    'toJson': { get: function () { return JSON.stringify(this); } },
-    'asJson': { get: function () { return JSON.parse(this.toJson); } },
-    'Xikitita': { get: function () { return Xikitita; } }
+    Xikitita: { get: function () { return Xikitita; } }
   });
 
   new Class();
@@ -342,6 +356,12 @@ Xikitita.new = function(){
   __afterNew__.forEach(function(callback){
     callback();
   })
+};
+
+Xikitita.reset = function(){ 
+  Object.keys(__initAttributes__).forEach(function(attrName){
+    object[attrName] = __initAttributes__[attrName];
+  });
 };
 
 Xikitita.def = function(name, body){
