@@ -6,7 +6,7 @@ describe('Validator', function() {
   before(function() {
     Xikitita
       .init
-      .Validator('custom', 'customKey', function(value, attrName, object, options){
+      .Validator('Custom', 'customKey', function(value, attrName, object, options){
         return value;
       });
   });

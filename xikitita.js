@@ -560,7 +560,7 @@ Xikitita.afterInit.push(function(){
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.plural[irregular] || null;
+        var replace = Xikitita.inflection.singular[irregular] || null;
 
         if(!replace){
           regex = /$/;
@@ -574,7 +574,7 @@ Xikitita.afterInit.push(function(){
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.singular[irregular] || null;
+        var replace = Xikitita.inflection.plural[irregular] || null;
 
         if(!replace){
           regex = /s$/;
