@@ -176,8 +176,8 @@ describe('Class', function() {
 
     expect(stub.changes.toJson).to.be('{"one":[null,"One"],"two":[null,"Two"]}');
     expect(stub.changes_id_stub.toJson).to.be('[]');
-    expect(stub.changes_name.toJson).to.be('[null,"One"]');
-    expect(stub.changes_phone.toJson).to.be('[null,"Two"]');
+    expect(stub.changes_one.toJson).to.be('[null,"One"]');
+    expect(stub.changes_two.toJson).to.be('[null,"Two"]');
   });
 
   it('#changed', function () {
@@ -192,15 +192,15 @@ describe('Class', function() {
 
     expect(stub.changed).to.be(false);
     expect(stub.changed_id_stub).to.be(false);
-    expect(stub.changed_name).to.be(false);
-    expect(stub.changed_phone).to.be(false);
+    expect(stub.changed_one).to.be(false);
+    expect(stub.changed_two).to.be(false);
 
-    stub.id = 1;
+    stub.id_stub = 1;
 
     expect(stub.changed).to.be(true);
     expect(stub.changed_id_stub).to.be(true);
-    expect(stub.changed_name).to.be(false);
-    expect(stub.changed_phone).to.be(false);
+    expect(stub.changed_one).to.be(false);
+    expect(stub.changed_two).to.be(false);
   });
 
 });

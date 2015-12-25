@@ -39,10 +39,13 @@ Xikitita.Class = function(name, body){
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      Object.defineProperties(object, {\n\
-        'reset': {get: #{reset}, enumerable: false }\n\
-      });\n\
       (#{new})(object);\n\
+      \n\
+      Object.defineProperties(object, {\n\
+        'reset': {get: #{reset}, enumerable: false },\n\
+        'changes': {get: #{changes}, enumerable: false },\n\
+        'changed': {get: #{changed}, enumerable: false }\n\
+      });\n\
     };"
     .replace(/#{name}/g, name)
     .replace(/#{attrAccessible}/, Xikitita.attrAccessible.toString())
@@ -58,8 +61,10 @@ Xikitita.Class = function(name, body){
     .replace(/#{defClass}/, Xikitita.defClass.toString())
     .replace(/#{validatesOf}/, Xikitita.validatesOf())
     .replace(/#{body}/, body.toString())
-    .replace(/#{reset}/, Xikitita.reset.toString())
     .replace(/#{new}/, Xikitita.new.toString())
+    .replace(/#{reset}/, Xikitita.reset.toString())
+    .replace(/#{changes}/, Xikitita.changes.toString())
+    .replace(/#{changed}/, Xikitita.changed.toString())
   );
   var Class = eval(name);
 
@@ -111,6 +116,31 @@ Xikitita.new = function(){
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
   
+  __attrAccessible__.forEach(function(attrName){
+    if(typeof __initAttributes__[attrName] === 'undefined'){
+      __initAttributes__[attrName] = null;
+    }
+
+    var attrName = attrName;
+    __afterNew__.push(function(){
+
+      var changes_attrName = ['changes', attrName].join('_');
+      Object.defineProperty(object, changes_attrName, {
+        get: function(){
+          return this.changes[attrName] || [];
+        }
+      });
+
+      var changed_attrName = ['changed', attrName].join('_');
+      Object.defineProperty(object, changed_attrName, {
+        get: function(){
+          return this[changes_attrName].isAny;
+        }
+      });
+
+    });
+  });
+
   Object.keys(__initAttributes__).forEach(function(attrName){
     if(__attrAccessible__.indexOf(attrName) < 0){
       throw new TypeError(__class__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
@@ -127,6 +157,25 @@ Xikitita.reset = function(){
   Object.keys(__initAttributes__).forEach(function(attrName){
     object[attrName] = __initAttributes__[attrName];
   });
+};
+
+Xikitita.changes = function(){
+  var changes = {};
+
+  __attrAccessible__.forEach(function(attrName){
+    var initialValue = __initAttributes__[attrName] || null;
+    var actualValue = object[attrName];
+
+    if(initialValue !== actualValue){
+      changes[attrName] = [initialValue, actualValue];
+    }
+  });
+
+  return changes;
+};
+
+Xikitita.changed = function(){
+  return this.changes.isAny;
 };
 
 Xikitita.def = function(name, body){
