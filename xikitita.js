@@ -2,7 +2,7 @@
 
 var Xikitita = {
   window: this,
-  beforeInit: [],
+  afterInit: [],
   defineProperties: function(prototype, properties){
     var __this__ = this;
 
@@ -22,136 +22,18 @@ var Xikitita = {
 
 Object.defineProperty(Xikitita, 'init', {
   get: function(){
-    var __this__ = this;
-    
-    __this__.beforeInit.forEach(function(body){
+
+    this.classes = {};
+    this.inflection = { singular: {}, plural: {} };
+    this.translations = {};
+    this.validators = {};
+
+    this.afterInit.forEach(function(body){
       body();
     });
 
-    __this__.classes = {};
-    __this__.inflection = { singular: {}, plural: {} };
-    __this__.translations = {};
-    __this__.validators = {};
-
-    eval.call(__this__.window, "var I18n;");
-    I18n = {
-      locale: 'en',
-      translate: function(path, params){
-        var translation = path;
-        var translations = __this__.translations[I18n.locale];
-        path.split('.').forEach(function(key){
-          translations = translations[key];
-        });
-
-        if(typeof translations  === 'string'){
-          translation = translations;
-          params = params || {};
-          Object.keys(params).forEach(function(param) {
-            translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
-          });
-        }
-
-        return translation;
-      },
-      localize: function(value, format){
-        format = format || 'default';
-        var formatted = value;
-
-        if(typeof value === 'object' && value.constructor.name === 'Date'){
-          formatted = __this__.translations[I18n.locale].date[format](value);
-        }
-        else if(typeof value === 'number' ){
-          
-          var functionFormat = __this__.translations[I18n.locale].integer[format];
-          if(/\./.test(value)){
-            functionFormat = __this__.translations[I18n.locale].decimal[format];
-          }
-          formatted = functionFormat(value);
-
-        }
-        else if(typeof value === 'boolean' ){
-          formatted = __this__.translations[I18n.locale].logic[format](value);
-        }
-
-        return formatted;
-      }
-    }
-
-    I18n.t = I18n.translate
-    I18n.l = I18n.localize
-
-    __this__.Validator('presence', 'blank', function(value, attrName, object, options){
-      return value !== null;
-    });
-
-    return __this__;
+    return this;
   }
-});
-Xikitita.beforeInit.push(function(){
-
-  Xikitita.defineProperties(Object.prototype, {
-    toJson: {
-      get: function () { 
-        return JSON.stringify(this); 
-      }
-    },
-    asJson: {
-      get: function () { 
-        return JSON.parse(this.toJson); 
-      } 
-    },
-    isAny: {
-      get: function () {
-        return Object.keys(this).length > 0; 
-      }
-    },
-    isEmpty: { 
-      get: function () { 
-        return !this.isAny;
-      }
-    }
-  });
-
-});
-
-Xikitita.beforeInit.push(function(){
-
-  Xikitita.defineProperties(String.prototype, {
-    capitalize: { 
-      get: function(){
-        return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-      }
-    },
-    pluralize: { 
-      get: function(){
-        var irregular = this;
-        var regex = irregular;
-        var replace = Xikitita.inflection.plural[irregular] || null;
-
-        if(!replace){
-          regex = /$/;
-          replace = 's';
-        }
-
-        return this.replace(regex, replace);
-      }
-    },
-    singularize: { 
-      get: function(){
-        var irregular = this;
-        var regex = irregular;
-        var replace = Xikitita.inflection.singular[irregular] || null;
-
-        if(!replace){
-          regex = /s$/;
-          replace = '';
-        }
-
-        return this.replace(regex, replace);
-      }
-    }
-  });
-
 });
 Xikitita.Inflection = function(body){
   var __this__ = this;
@@ -176,6 +58,59 @@ Xikitita.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
+
+Xikitita.afterInit.push(function(){
+  var __this__ = Xikitita;
+  
+  eval.call(__this__.window, "var I18n;");
+
+  I18n = {
+    locale: 'en',
+    translate: function(path, params){
+      var translation = path;
+      var translations = __this__.translations[I18n.locale];
+      path.split('.').forEach(function(key){
+        translations = translations[key];
+      });
+
+      if(typeof translations  === 'string'){
+        translation = translations;
+        params = params || {};
+        Object.keys(params).forEach(function(param) {
+          translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+        });
+      }
+
+      return translation;
+    },
+    localize: function(value, format){
+      format = format || 'default';
+      var formatted = value;
+
+      if(typeof value === 'object' && value.constructor.name === 'Date'){
+        formatted = __this__.translations[I18n.locale].date[format](value);
+      }
+      else if(typeof value === 'number' ){
+        
+        var functionFormat = __this__.translations[I18n.locale].integer[format];
+        if(/\./.test(value)){
+          functionFormat = __this__.translations[I18n.locale].decimal[format];
+        }
+        formatted = functionFormat(value);
+
+      }
+      else if(typeof value === 'boolean' ){
+        formatted = __this__.translations[I18n.locale].logic[format](value);
+      }
+
+      return formatted;
+    }
+  }
+
+  I18n.t = I18n.translate
+  I18n.l = I18n.localize
+
+});
 Xikitita.Error = function(className){
   var __this__ = this;
   var __className__ = className;
@@ -575,6 +510,80 @@ Xikitita.isValid = function(){
 };
 
 Xikitita.Validator = function(name, messageName, body){
-  Xikitita.validators[name] = {messageName: messageName, call: body};
+  this.validators[name] = {messageName: messageName, call: body};
   return this;
 }
+
+Xikitita.afterInit.push(function(){
+
+  Xikitita.Validator('presence', 'blank', function(value, attrName, object, options){
+    return value !== null;
+  });
+
+});
+Xikitita.afterInit.push(function(){
+
+  Xikitita.defineProperties(Object.prototype, {
+    toJson: {
+      get: function () { 
+        return JSON.stringify(this); 
+      }
+    },
+    asJson: {
+      get: function () { 
+        return JSON.parse(this.toJson); 
+      } 
+    },
+    isAny: {
+      get: function () {
+        return Object.keys(this).length > 0; 
+      }
+    },
+    isEmpty: { 
+      get: function () { 
+        return !this.isAny;
+      }
+    }
+  });
+
+});
+
+Xikitita.afterInit.push(function(){
+
+  Xikitita.defineProperties(String.prototype, {
+    capitalize: { 
+      get: function(){
+        return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
+      }
+    },
+    pluralize: { 
+      get: function(){
+        var irregular = this;
+        var regex = irregular;
+        var replace = Xikitita.inflection.plural[irregular] || null;
+
+        if(!replace){
+          regex = /$/;
+          replace = 's';
+        }
+
+        return this.replace(regex, replace);
+      }
+    },
+    singularize: { 
+      get: function(){
+        var irregular = this;
+        var regex = irregular;
+        var replace = Xikitita.inflection.singular[irregular] || null;
+
+        if(!replace){
+          regex = /s$/;
+          replace = '';
+        }
+
+        return this.replace(regex, replace);
+      }
+    }
+  });
+
+});

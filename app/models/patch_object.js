@@ -1,4 +1,4 @@
-Xikitita.beforeInit.push(function(){
+Xikitita.afterInit.push(function(){
 
   Xikitita.defineProperties(Object.prototype, {
     toJson: {

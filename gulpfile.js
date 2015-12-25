@@ -7,8 +7,6 @@ gulp.task('default', function() {
   
   var src = [
     'app/models/base.js', 
-    'app/models/patch_object.js', 
-    'app/models/patch_string.js', 
     'app/models/inflection.js', 
     'app/models/i18n.js', 
     'app/models/error.js', 
@@ -16,7 +14,8 @@ gulp.task('default', function() {
     'app/models/association.js', 
     'app/models/validation.js', 
     'app/models/validator.js', 
-    'app/models/xikitita.js' 
+    'app/models/patch_object.js', 
+    'app/models/patch_string.js'
   ]
 
   gulp.src(src)
