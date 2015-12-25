@@ -347,6 +347,25 @@ Xikitita.attrAccessible = function(){
 };
 
 Xikitita.new = function(){
+  function defineChangesToAttrName(attrName){
+    var changes_attrName = ['changes', attrName].join('_');
+    Object.defineProperty(object, changes_attrName, {
+      get: function(){
+        return this.changes[attrName] || [];
+      }
+    });
+  }
+
+  function defineChangedToAttrName(attrName){
+    var changes_attrName = ['changes', attrName].join('_');
+    var changed_attrName = ['changed', attrName].join('_');
+    Object.defineProperty(object, changed_attrName, {
+      get: function(){
+        return this[changes_attrName].isAny;
+      }
+    });
+  }
+
   if(typeof __initAttributes__ === 'string'){
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
@@ -356,23 +375,9 @@ Xikitita.new = function(){
       __initAttributes__[attrName] = null;
     }
 
-    var attrName = attrName;
     __afterNew__.push(function(){
-
-      var changes_attrName = ['changes', attrName].join('_');
-      Object.defineProperty(object, changes_attrName, {
-        get: function(){
-          return this.changes[attrName] || [];
-        }
-      });
-
-      var changed_attrName = ['changed', attrName].join('_');
-      Object.defineProperty(object, changed_attrName, {
-        get: function(){
-          return this[changes_attrName].isAny;
-        }
-      });
-
+      defineChangesToAttrName(attrName);
+      defineChangedToAttrName(attrName);
     });
   });
 
