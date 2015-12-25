@@ -8,35 +8,43 @@ describe('I18n', function() {
       .init
       .I18n('en', {
         date: {
-          default: function(value){
-            return '2015-01-01';
-          }, 
-          year: function(value){
-            return '2015';
-          } 
-        },  
+          formats: {
+            default: function(value){
+              return '2015-01-01';
+            }, 
+            year: function(value){
+              return '2015';
+            }
+          }
+        },
         integer: {
-          default: function(value){
-            return '9,999,999';
-          }, 
-          customer: function(value){
-            return '9,999,999 Customers';
-          } 
+          formats: {
+            default: function(value){
+              return '9,999,999';
+            }, 
+            customer: function(value){
+              return '9,999,999 Customers';
+            } 
+          }
         },  
         decimal: {
-          default: function(value){
-            return '999.99';
-          }, 
-          currency: function(value){
-            return '$ 999.99';
+          formats: {
+            default: function(value){
+              return '999.99';
+            }, 
+            currency: function(value){
+              return '$ 999.99';
+            }            
           }
         },  
         logic: {
-          default: function(value){
-            return 'yes';
-          }, 
-          up: function(value){
-            return 'YES';
+          formats: {
+            default: function(value){
+              return 'yes';
+            }, 
+            up: function(value){
+              return 'YES';
+            }            
           }
         },  
         parentPath: {
@@ -45,35 +53,43 @@ describe('I18n', function() {
       })
       .I18n('en-US', {
         date: {
-          default: function(value){
-            return '2015 01 01';
-          }, 
-          year: function(value){
-            return '2015 YEAR';
-          } 
+          formats: {
+            default: function(value){
+              return '2015 01 01';
+            }, 
+            year: function(value){
+              return '2015 YEAR';
+            }
+          }
         },  
         integer: {
-          default: function(value){
-            return '9 999 999';
-          }, 
-          customer: function(value){
-            return '9 999 999 Customers';
-          } 
+          formats: {
+            default: function(value){
+              return '9 999 999';
+            }, 
+            customer: function(value){
+              return '9 999 999 Customers';
+            }            
+          }
         },  
         decimal: {
-          default: function(value){
-            return '999.99 USD';
-          }, 
-          currency: function(value){
-            return '$ 999.99 USD';
+          formats: {
+            default: function(value){
+              return '999.99 USD';
+            }, 
+            currency: function(value){
+              return '$ 999.99 USD';
+            }            
           }
         },  
         logic: {
-          default: function(value){
-            return 'yes USD';
-          }, 
-          up: function(value){
-            return 'YES USD';
+          formats: {
+            default: function(value){
+              return 'yes USD';
+            }, 
+            up: function(value){
+              return 'YES USD';
+            }
           }
         },  
         parentPath: {

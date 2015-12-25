@@ -32,19 +32,19 @@ Xikitita.afterInit.push(function(){
       var formatted = value;
 
       if(typeof value === 'object' && value.constructor.name === 'Date'){
-        formatted = __this__.translations[I18n.locale].date[format](value);
+        formatted = __this__.translations[I18n.locale].date.formats[format](value);
       }
       else if(typeof value === 'number' ){
         
-        var functionFormat = __this__.translations[I18n.locale].integer[format];
+        var functionFormat = __this__.translations[I18n.locale].integer.formats[format];
         if(/\./.test(value)){
-          functionFormat = __this__.translations[I18n.locale].decimal[format];
+          functionFormat = __this__.translations[I18n.locale].decimal.formats[format];
         }
         formatted = functionFormat(value);
 
       }
       else if(typeof value === 'boolean' ){
-        formatted = __this__.translations[I18n.locale].logic[format](value);
+        formatted = __this__.translations[I18n.locale].logic.formats[format](value);
       }
 
       return formatted;
