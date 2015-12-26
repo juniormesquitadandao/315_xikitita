@@ -50,7 +50,7 @@ describe('Xikitita', function() {
             long: '%B %d, %Y',
             short: '%b %d',
             custom: function(value){
-              return 'use external lib to date';
+              return 'use external lib to format date';
             }
           },
           monthNames: [
@@ -77,7 +77,7 @@ describe('Xikitita', function() {
             meridiem: '%h:%M:%S %p %z',
             meridiemLong: '%h:%M %p',
             custom: function(value){
-              return 'use external lib to time';
+              return 'use external lib to format time';
             }
           },
           pm: 'pm'
@@ -89,7 +89,7 @@ describe('Xikitita', function() {
             long: '%B %d, %Y %H:%M',
             short: '%d %b %H:%M',
             custom: function(value){
-              return 'use external lib to date/time';
+              return 'use external lib to format date/time';
             }
           },
           pm: 'pm'
@@ -97,14 +97,14 @@ describe('Xikitita', function() {
         integer: {
           formats: {
             default: function(value){
-              return 'use external lib to integer';
+              return 'use external lib to format integer';
             }
           }
         },
         decimal: {
           formats: {
             default: function(value){
-              return 'use external lib to decimal';
+              return 'use external lib to format decimal';
             }
           }
         },
@@ -176,7 +176,7 @@ describe('Xikitita', function() {
             long: '%d de %B de %Y',
             short: '%d de %B',
             custom: function(value){
-              return 'usar lib externa para data';
+              return 'usar lib externa para formatar data';
             }
           },
           monthNames: [
@@ -203,7 +203,7 @@ describe('Xikitita', function() {
             meridiem: '%h:%M:%S %p %z',
             meridiemLong: '%h:%M %p',
             custom: function(value){
-              return 'usar lib externa para hora';
+              return 'usar lib externa para formatar hora';
             }
           },
           pm: 'pm'
@@ -215,7 +215,7 @@ describe('Xikitita', function() {
             long: '%d de %B de %Y, %H:%M',
             short: '%d de %B, %H:%M',
             custom: function(value){
-              return 'usar lib externa para data/hora';
+              return 'usar lib externa para formatar data/hora';
             }
           },
           pm: 'pm'
@@ -223,14 +223,14 @@ describe('Xikitita', function() {
         integer: {
           formats: {
             default: function(value){
-              return 'usar lib externa para inteiro';
+              return 'usar lib externa para formatar inteiro';
             }
           }
         },
         decimal: {
           formats: {
             default: function(value){
-              return 'usar lib externa para decimal';
+              return 'usar lib externa para formatar decimal';
             }
           }
         },
@@ -247,12 +247,12 @@ describe('Xikitita', function() {
           messages: {
             blank: 'não pode ficar em branco',
             too_long: {
-              one: 'é muito longo (máximo é 1 caractere)',
-              other: 'é muito longo (máximo: %{count} caracteres)'
+              one: 'é muito format longo (máximo é 1 caractere)',
+              other: 'é muito format longo (máximo: %{count} caracteres)'
             },
             too_short: {
-              one: 'é muito curto (mínimo é 1 caractere)',
-              other: 'é muito curto (mínimo: %{count} caracteres)'
+              one: 'é muito format curto format (mínimo é 1 caractere)',
+              other: 'é muito format curto format (mínimo: %{count} caracteres)'
             },
             wrong_length: {
               one: 'não possui o tamanho esperado (deve ter 1 caractere)',
@@ -286,22 +286,22 @@ describe('Xikitita', function() {
     expect(I18n.l(date)).to.be('2015-11-15');
     expect(I18n.l(date, {format: 'long'})).to.be('November 15, 2015');
     expect(I18n.l(date, {format: 'short'})).to.be('Nov 15');
-    expect(I18n.l(date, {format: 'custom'})).to.be('use external lib to date');
+    expect(I18n.l(date, {format: 'custom'})).to.be('use external lib to format date');
 
     expect(I18n.l(date, {dateType: 'time'})).to.be('00:00:00 GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'time', format: 'long'})).to.be('00:00');
     expect(I18n.l(date, {dateType: 'time', format: 'meridiem'})).to.be('12:00:00 am GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
-    expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('use external lib to time');
+    expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('use external lib to format time');
 
     expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('November 15, 2015 00:00');
     expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 Nov 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('use external lib to date/time');
+    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('use external lib to format date/time');
 
-    expect(I18n.l(0)).to.be('use external lib to integer');
-    expect(I18n.l(0.0)).to.be('use external lib to integer');
-    expect(I18n.l(0.0, {forceDecimal: true})).to.be('use external lib to decimal');
+    expect(I18n.l(0)).to.be('use external lib to format integer');
+    expect(I18n.l(0.0)).to.be('use external lib to format integer');
+    expect(I18n.l(0.0, {forceDecimal: true})).to.be('use external lib to format decimal');
     expect(I18n.l(true)).to.be('Yes');
     expect(I18n.l(false)).to.be('No');
 
@@ -312,22 +312,22 @@ describe('Xikitita', function() {
     expect(I18n.l(date)).to.be('15/11/2015');
     expect(I18n.l(date, {format: 'long'})).to.be('15 de Novembro de 2015');
     expect(I18n.l(date, {format: 'short'})).to.be('15 de Novembro');
-    expect(I18n.l(date, {format: 'custom'})).to.be('usar lib externa para data');
+    expect(I18n.l(date, {format: 'custom'})).to.be('usar lib externa para formatar data');
 
     expect(I18n.l(date, {dateType: 'time'})).to.be('00:00:00 GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'time', format: 'long'})).to.be('00:00');
     expect(I18n.l(date, {dateType: 'time', format: 'meridiem'})).to.be('12:00:00 am GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
-    expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('usar lib externa para hora');
+    expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('usar lib externa para formatar hora');
 
     expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Dom, 15 de Novembro de 2015, 00:00:00 GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('15 de Novembro de 2015, 00:00');
     expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 de Novembro, 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('usar lib externa para data/hora');
+    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('usar lib externa para formatar data/hora');
 
-    expect(I18n.l(0)).to.be('usar lib externa para inteiro');
-    expect(I18n.l(0.0)).to.be('usar lib externa para inteiro');
-    expect(I18n.l(0.0, {forceDecimal: true})).to.be('usar lib externa para decimal');
+    expect(I18n.l(0)).to.be('usar lib externa para formatar inteiro');
+    expect(I18n.l(0.0)).to.be('usar lib externa para formatar inteiro');
+    expect(I18n.l(0.0, {forceDecimal: true})).to.be('usar lib externa para formatar decimal');
     expect(I18n.l(true)).to.be('Sim');
     expect(I18n.l(false)).to.be('Não');
   });
