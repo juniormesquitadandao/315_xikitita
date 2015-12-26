@@ -63,11 +63,6 @@ describe('I18n', function() {
             'October',
             'November',
             'December'
-          ],
-          order: [
-            'year',
-            'month',
-            'day'
           ]
         },
         time: {
@@ -112,8 +107,8 @@ describe('I18n', function() {
         logic: {
           formats: {
             default: {
-              true: 'yes',
-              false: 'no'
+              true: 'Yes',
+              false: 'No'
             }
           }
         },
@@ -121,51 +116,116 @@ describe('I18n', function() {
           childPath: 'message %{name}'   
         }
       })
-      .I18n('en-US', {
+      .I18n('pt-BR', {
         date: {
+          abbrDayNames: [
+            'Dom',
+            'Seg',
+            'Ter',
+            'Qua',
+            'Qui',
+            'Sex',
+            'Sáb'
+          ],
+          abbrMonthNames: [
+            null,
+            'Jan',
+            'Fev',
+            'Mar',
+            'Abr',
+            'Mai',
+            'Jun',
+            'Jul',
+            'Ago',
+            'Set',
+            'Out',
+            'Nov',
+            'Dez'
+          ],
+          dayNames: [
+            'Domingo',
+            'Segunda-feira',
+            'Terça-feira',
+            'Quarta-feira',
+            'Quinta-feira',
+            'Sexta-feira',
+            'Sábado'
+          ],
           formats: {
-            default: '%Y %m %d', 
-            year: '%Y YEAR'
-          }
-        },  
+            default: '%d/%m/%Y',
+            long: '%d de %B de %Y',
+            short: '%d de %B',
+            custom: function(value){
+              return value.toString();
+            }
+          },
+          monthNames: [
+            null,
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro'
+          ]
+        },
+        time: {
+          am: 'am',
+          formats: {
+            default: '%H:%M:%S %z',
+            long: '%H:%M',
+            meridiem: '%h:%M:%S %p %z',
+            meridiemLong: '%h:%M %p',
+            custom: function(value){
+              return value.toString();
+            }
+          },
+          pm: 'pm'
+        },
+        dateTime: {
+          am: 'am',
+          formats: {
+            default: '%a, %d de %B de %Y, %H:%M:%S %z',
+            long: '%d de %B de %Y, %H:%M',
+            short: '%d de %B, %H:%M',
+            custom: function(value){
+              return value.toString();
+            }
+          },
+          pm: 'pm'
+        },
         integer: {
           formats: {
             default: function(value){
-              return '9 999 999';
-            }, 
-            customer: function(value){
-              return '9 999 999 Customers';
-            }            
+              return '9.999.999';
+            }
           }
-        },  
+        },
         decimal: {
           formats: {
             default: function(value){
-              return '999.99 USD';
-            }, 
-            currency: function(value){
-              return '$ 999.99 USD';
-            }            
-          }
-        },  
-        logic: {
-          formats: {
-            default: function(value){
-              return 'yes USD';
-            }, 
-            up: function(value){
-              return 'YES USD';
+              return '9.999.999,99';
             }
           }
-        },  
-        time: {
-          am: 'am',
-          pm: 'pm'
+        },
+        logic: {
+          formats: {
+            default: {
+              true: 'Sim',
+              false: 'Não'
+            }
+          }
         },
         parentPath: {
-          childPath: '%{name} message'   
+          childPath: 'message %{name}'   
         }
-      });
+      })
   });
 
   it('#locale', function () {
@@ -215,18 +275,31 @@ describe('I18n', function() {
 
     expect(I18n.localize(integer)).to.be('9,999,999');
     expect(I18n.localize(decimal)).to.be('9,999,999.99');
-    expect(I18n.localize(logic)).to.be('yes');
-    expect(I18n.localize(!logic)).to.be('no');
+    expect(I18n.localize(logic)).to.be('Yes');
+    expect(I18n.localize(!logic)).to.be('No');
 
-    I18n.locale = 'en-US';
+    I18n.locale = 'pt-BR';
 
-    expect(I18n.localize(date)).to.be('2015 01 01');
-    expect(I18n.localize(integer)).to.be('9 999 999');
-    expect(I18n.localize(integer, 'customer')).to.be('9 999 999 Customers');
-    expect(I18n.localize(decimal)).to.be('999.99 USD');
-    expect(I18n.localize(decimal, 'currency')).to.be('$ 999.99 USD');
-    expect(I18n.localize(logic)).to.be('yes USD');
-    expect(I18n.localize(logic, 'up')).to.be('YES USD');
+    expect(I18n.localize(myDateBirth)).to.be('18/08/1988');
+    expect(I18n.localize(myDateBirth, {format: 'long'})).to.be('18 de Agosto de 1988');
+    expect(I18n.localize(myDateBirth, {format: 'short'})).to.be('18 de Agosto');
+    expect(I18n.localize(myDateBirth, {format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(I18n.localize(myDateBirth, {dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
+    expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'long'})).to.be('18:00');
+    expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'meridiem'})).to.be('06:00:00 pm GMT-0300 (BRT)');
+    expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'meridiemLong'})).to.be('06:00 pm');
+    expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(I18n.localize(myDateBirth, {dateType: 'dateTime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
+    expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'long'})).to.be('18 de Agosto de 1988, 18:00');
+    expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'short'})).to.be('18 de Agosto, 18:00');
+    expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(I18n.localize(integer)).to.be('9.999.999');
+    expect(I18n.localize(decimal)).to.be('9.999.999,99');
+    expect(I18n.localize(logic)).to.be('Sim');
+    expect(I18n.localize(!logic)).to.be('Não');
   });
 
   it('#t', function () {
