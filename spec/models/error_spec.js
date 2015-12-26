@@ -8,7 +8,7 @@ describe('Error', function() {
       .init
       .I18n('en', {
         errors:{
-          format: '#{attribute} #{message}',
+          format: '%{attribute} %{message}',
           messages: {
             blank: "can't be blank"
           }

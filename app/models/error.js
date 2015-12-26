@@ -41,8 +41,8 @@ Xikitita.Error = function(className){
           __this__[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
-              .replace(/#{attribute}/, attrNameTranslated)
-              .replace(/#{message}/, message);
+              .replace(/%{attribute}/, attrNameTranslated)
+              .replace(/%{message}/, message);
 
             fullMessages.push(fullMessage);
           });

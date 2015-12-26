@@ -205,8 +205,8 @@ Xikitita.Error = function(className){
           __this__[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
-              .replace(/#{attribute}/, attrNameTranslated)
-              .replace(/#{message}/, message);
+              .replace(/%{attribute}/, attrNameTranslated)
+              .replace(/%{message}/, message);
 
             fullMessages.push(fullMessage);
           });
@@ -512,7 +512,7 @@ Xikitita.validates = function(attrName, optionsValidators){
     if (typeof optionsValidators[validatorName] === 'object') {
       options = optionsValidators[validatorName];
     }
-    
+
     __validations__.push(function(){
       var value = object[attrName];
       var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
@@ -520,7 +520,9 @@ Xikitita.validates = function(attrName, optionsValidators){
       if (!result.success) {
         var messageName = result.failMessageName;
         var path = ['errors', 'messages', messageName].join('.');
-        __errors__.add(attrName, I18n.t(path));
+        var params = result.params || {};
+        
+        __errors__.add(attrName, I18n.t(path, params));
       };
     });
   });
