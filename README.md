@@ -47,7 +47,7 @@ Implementing some Active Record features  in Javascript client side:
             long: '%B %d, %Y',
             short: '%b %d',
             custom: function(value){
-              return 'use external lib to date';
+              return 'use external lib to format date';
             }
           },
           monthNames: [
@@ -74,7 +74,7 @@ Implementing some Active Record features  in Javascript client side:
             meridiem: '%h:%M:%S %p %z',
             meridiemLong: '%h:%M %p',
             custom: function(value){
-              return 'use external lib to time';
+              return 'use external lib to format time';
             }
           },
           pm: 'pm'
@@ -86,7 +86,7 @@ Implementing some Active Record features  in Javascript client side:
             long: '%B %d, %Y %H:%M',
             short: '%d %b %H:%M',
             custom: function(value){
-              return 'use external lib to date/time';
+              return 'use external lib to format date/time';
             }
           },
           pm: 'pm'
@@ -94,14 +94,14 @@ Implementing some Active Record features  in Javascript client side:
         integer: {
           formats: {
             default: function(value){
-              return 'use external lib to integer';
+              return 'use external lib to format integer';
             }
           }
         },
         decimal: {
           formats: {
             default: function(value){
-              return 'use external lib to decimal';
+              return 'use external lib to format decimal';
             }
           }
         },
@@ -128,8 +128,7 @@ Implementing some Active Record features  in Javascript client side:
             wrong_length: {
               one: 'is the wrong length (should be 1 character)',
               other: 'is the wrong length (should be %{count} characters)'
-            },
-            other_than: 'must be other than %{count}'
+            }
           }
         }
       })
@@ -173,7 +172,7 @@ Implementing some Active Record features  in Javascript client side:
             long: '%d de %B de %Y',
             short: '%d de %B',
             custom: function(value){
-              return 'usar lib externa para data';
+              return 'usar lib externa para formatar data';
             }
           },
           monthNames: [
@@ -200,7 +199,7 @@ Implementing some Active Record features  in Javascript client side:
             meridiem: '%h:%M:%S %p %z',
             meridiemLong: '%h:%M %p',
             custom: function(value){
-              return 'usar lib externa para hora';
+              return 'usar lib externa para formatar hora';
             }
           },
           pm: 'pm'
@@ -212,7 +211,7 @@ Implementing some Active Record features  in Javascript client side:
             long: '%d de %B de %Y, %H:%M',
             short: '%d de %B, %H:%M',
             custom: function(value){
-              return 'usar lib externa para data/hora';
+              return 'usar lib externa para formatar data/hora';
             }
           },
           pm: 'pm'
@@ -220,14 +219,14 @@ Implementing some Active Record features  in Javascript client side:
         integer: {
           formats: {
             default: function(value){
-              return 'usar lib externa para inteiro';
+              return 'usar lib externa para formatar inteiro';
             }
           }
         },
         decimal: {
           formats: {
             default: function(value){
-              return 'usar lib externa para decimal';
+              return 'usar lib externa para formatar decimal';
             }
           }
         },
@@ -254,10 +253,69 @@ Implementing some Active Record features  in Javascript client side:
             wrong_length: {
               one: 'não possui o tamanho esperado (deve ter 1 caractere)',
               other: 'não possui o tamanho esperado (%{count} caracteres)'
-            },
-            other_than: 'deve ser diferente de %{count}'
+            }
           }
         }
-      });
+      })
+      .Validator('Length', function(value, attrName, object, options){
+        var validators = {
+          maximum: function(maxValue){
+            return {
+              success: value < maxValue,
+              fail: {
+                messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
+                params: {
+                  count: maxValue 
+                }
+              }
+            };
+          },
+          minimum: function(minValue){
+            return {
+              success: value > minValue,
+              fail: {
+                messageName: minValue === 1 ? 'too_short.one' : 'too_short.other',
+                params: {
+                  count: minValue
+                }
+              }
+            };
+          },
+          in: function(inValues){
+            var __maximum__ = this.maximum(inValues[0]);
+            if (__maximum__.success){
+              return this.minimum(inValues[1]);
+            }
+            return __maximum__;
+          },
+          is: function(isValue){
+            return {
+              success: value === isValue,
+              fail: {
+                messageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other',
+                params: {
+                 count: isValue
+                }
+              }
+            };
+          }
+        };
 
+        var lastResult = {success: true};
+        Object.keys(validators).forEach(function(validator){
+
+          var validatorValue = options[validator] || null;
+          if(validatorValue){
+
+            var actualResult = validators[validator](validatorValue);
+            if(!actualResult.success){
+
+              lastResult = actualResult;
+            }
+          }
+
+        });
+
+        return lastResult;
+      });
   ```
