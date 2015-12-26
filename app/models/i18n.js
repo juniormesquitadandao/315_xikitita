@@ -16,19 +16,24 @@ Xikitita.afterInit.push(function(){
       path.split('.').forEach(function(key){
         translations = translations[key];
       });
-
+ 
       if(typeof translations  === 'string'){
         translation = translations;
         params = params || {};
-        Object.keys(params).forEach(function(param) {
-          translation = translation.replace(new RegExp('#{' + param + '}', 'ig'), params[param]);
+        Object.keys(params).forEach(function(param) {          
+          translation = translation.replace(new RegExp('%{' + param + '}', 'ig'), params[param]);
         });
+      }else if(typeof translations === 'object' && translations.constructor.name === 'Array'){
+        translation = translations;
       }
 
       return translation;
     },
-    localize: function(value, format){
-      format = format || 'default';
+    localize: function(value, options){
+      options = options || {};
+
+      var format = options.format || 'default';
+      var dateType = options.dateType || 'date';
       var formatted = value;
 
       if(typeof value === 'object' && value.constructor.name === 'Date'){
@@ -42,20 +47,35 @@ Xikitita.afterInit.push(function(){
         var meridiem = hours < 12 ? 'am' : 'pm';
         var zone = value.toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1];
 
-        formatted = __this__.translations[I18n.locale].date.formats[format]
-          .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
-          .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
-          .replace(/%m/g, new String(month + 100).toString().substr(1))
-          .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
-          .replace(/%B/g, I18n.t('date.monthNames')[month])
-          .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
-          .replace(/%Y/g, year)
-          .replace(/%h/g, hours || 24 - 12 )
-          .replace(/%H/g, hours)
-          .replace(/%M/g, minutes)
-          .replace(/%S/g, seconds)
-          .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
-          .replace(/%z/g, zone);
+        formatted = __this__.translations[I18n.locale][dateType].formats[format];
+
+        var formattedTo = {
+          date: function(){
+            formatted = formatted
+              .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
+              .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
+              .replace(/%m/g, new String(month + 100).toString().substr(1))
+              .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
+              .replace(/%B/g, I18n.t('date.monthNames')[month])
+              .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
+              .replace(/%Y/g, year);
+          },
+          time: function(){
+            formatted = formatted
+              .replace(/%h/g, new String( (hours || 24) - 12 + 100 ).toString().substr(1) )
+              .replace(/%H/g, new String(hours + 100).toString().substr(1) )
+              .replace(/%M/g, new String(minutes + 100).toString().substr(1) )
+              .replace(/%S/g, new String(seconds + 100).toString().substr(1) )
+              .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
+              .replace(/%z/g, zone);
+          },
+          dateTime: function(){
+            this.date();
+            this.time();
+          }
+        }
+
+        formattedTo[dateType]();
       }
       else if(typeof value === 'number' ){
         

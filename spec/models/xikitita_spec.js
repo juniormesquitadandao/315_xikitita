@@ -184,10 +184,10 @@ describe('Xikitita', function() {
   });
 
   it('I18n', function(){
-    var date = new Date('01-01-2016');
+    var date = new Date('11-15-2015');
 
     expect(I18n.locale).to.be('en');
-    expect(I18n.l(date)).to.be('2016-01-01');
+    expect(I18n.l(date)).to.be('2015-11-15');
   });
 
 });
