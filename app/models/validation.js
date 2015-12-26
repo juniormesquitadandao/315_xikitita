@@ -1,10 +1,10 @@
 Xikitita.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};
-    if (typeof optionsValidators[validatorName] === 'Object') {
+    if (typeof optionsValidators[validatorName] === 'object') {
       options = optionsValidators[validatorName];
     }
-
+    
     __validations__.push(function(){
       var value = object[attrName];
       var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
@@ -22,18 +22,33 @@ Xikitita.validatesOf = function(){
   var validatesOf = [];
 
   Object.keys(Xikitita.validators).forEach(function(validator){
-    validatesOf.push('var validates#{validator}Of = ' 
-        .replace(/#{validator}/, validator.capitalize)
+
+    validatesOf.push('var validates%{validator}Of = ' 
+        .replace(/%{validator}/, validator.capitalize)
       + function(){
+
           var attrNames = Array.prototype.slice.call(arguments);
-          
+          var last = attrNames.pop();
+
+          var validatorName = '%{validatorName}';
+          var options = {};
+          options[validatorName] = true;
+
+          if(typeof last === 'object'){
+            options[validatorName] = last;
+          }else{
+            attrNames.push(last);          
+          }
+
           attrNames.forEach(function(attrName){
-            validates(attrName, '#{options}');
+            validates(attrName, options);
           });
+
         }.toString()
-        .replace(/'#{options}'/, '{' + validator + ': true}')
+        .replace(/%{validatorName}/, validator)
       + ';'
     );
+
   });
 
   return validatesOf.join('\n');

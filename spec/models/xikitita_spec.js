@@ -275,36 +275,44 @@ describe('Xikitita', function() {
             };
           },
           in: function(inValues){
-            var __maximum__ = maximum(inValues[0]);
+            var __maximum__ = this.maximum(inValues[0]);
             if (__maximum__.success){
-              return minimum(inValues[1]);
+              return this.minimum(inValues[1]);
             }
             return __maximum__;
           },
           is: function(isValue){
             return {
               success: value === isValue,
-              failMessageName: minValue === 1 ? 'wrong_length.one' : 'wrong_length.other'
+              failMessageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other'
             };
           }
         };
 
-        var lastValidator = {success: true};
+        var lastResult = {success: true};
         Object.keys(validators).forEach(function(validator){
 
           var validatorValue = options[validator] || null;
           if(validatorValue){
 
-            var actualValidador = validators[validator](validatorValue);
-            if(!actualValidador.success){
+            var actualResult = validators[validator](validatorValue);
+            if(!actualResult.success){
 
-              lastValidator = actualValidador;
+              lastResult = actualResult;
             }
           }
 
         });
 
-        return lastValidator;
+        return lastResult;
+      })
+      .Class('Stub', function(){
+
+        attrAccessible('one', 'two');
+
+        validatesLengthOf('one', {in: [1, 10]});
+        validatesLengthOf('two', {is: 5});
+
       });
   });
 
@@ -374,6 +382,12 @@ describe('Xikitita', function() {
     expect(I18n.l(0.0, {forceDecimal: true})).to.be('usar lib externa para formatar decimal');
     expect(I18n.l(true)).to.be('Sim');
     expect(I18n.l(false)).to.be('Não');
+  });
+
+  it('Stub', function(){
+    var stub = new Stub();
+
+    expect(stub.isValid).to.be(false);
   });
 
 });
