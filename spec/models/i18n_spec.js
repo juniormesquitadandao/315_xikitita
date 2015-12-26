@@ -275,6 +275,8 @@ describe('I18n', function() {
 
     expect(I18n.localize(integer)).to.be('9,999,999');
     expect(I18n.localize(decimal)).to.be('9,999,999.99');
+    expect(I18n.localize(0.0)).to.be('9,999,999');
+    expect(I18n.localize(0.0, {forceDecimal: true})).to.be('9,999,999.99');
     expect(I18n.localize(logic)).to.be('Yes');
     expect(I18n.localize(!logic)).to.be('No');
 

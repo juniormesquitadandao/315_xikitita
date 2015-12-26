@@ -85,16 +85,16 @@ Xikitita.afterInit.push(function(){
         
         formatBy[typeof formatted]();
       }
-      else if(typeof value === 'number' ){
+      else if(typeof value === 'number'){
         
         var functionFormat = __this__.translations[I18n.locale].integer.formats[format];
-        if(/\./.test(value)){
+        if(/\./.test(value) || options.forceDecimal){
           functionFormat = __this__.translations[I18n.locale].decimal.formats[format];
         }
         formatted = functionFormat(value);
 
       }
-      else if(typeof value === 'boolean' ){
+      else if(typeof value === 'boolean'){
         formatted = __this__.translations[I18n.locale].logic.formats[format][value];
       }
 
