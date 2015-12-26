@@ -9,7 +9,12 @@ describe('Validator', function() {
       .Validator('Custom', function(value, attrName, object, options){
         return {
           success: value,
-          failMessageName: 'custom'
+          fail: {
+            messageName: 'custom',
+            params: {
+              custom: 'custom' 
+            }
+          }
         };
       });
   });
@@ -19,13 +24,13 @@ describe('Validator', function() {
   });
 
   it('::validators.presence', function(){
-    expect(Xikitita.validators.presence(null).toJson).to.be('{"success":false,"failMessageName":"blank"}');
-    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":true,"failMessageName":"blank"}');
+    expect(Xikitita.validators.presence(null).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
   });
 
   it('::validators.custom', function(){
-    expect(Xikitita.validators.custom(false).toJson).to.be('{"success":false,"failMessageName":"custom"}');
-    expect(Xikitita.validators.custom(true).toJson).to.be('{"success":true,"failMessageName":"custom"}');
+    expect(Xikitita.validators.custom(false).toJson).to.be('{"success":false,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
+    expect(Xikitita.validators.custom(true).toJson).to.be('{"success":true,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
   });
 
 });

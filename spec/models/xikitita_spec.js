@@ -265,18 +265,22 @@ describe('Xikitita', function() {
           maximum: function(maxValue){
             return {
               success: value < maxValue,
-              failMessageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
-              params: {
-                count: maxValue 
+              fail: {
+                messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
+                params: {
+                  count: maxValue 
+                }
               }
             };
           },
           minimum: function(minValue){
             return {
               success: value > minValue,
-              failMessageName: minValue === 1 ? 'too_short.one' : 'too_short.other',
-              params: {
-                count: minValue
+              fail: {
+                messageName: minValue === 1 ? 'too_short.one' : 'too_short.other',
+                params: {
+                  count: minValue
+                }
               }
             };
           },
@@ -290,9 +294,11 @@ describe('Xikitita', function() {
           is: function(isValue){
             return {
               success: value === isValue,
-              failMessageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other',
-              params: {
-               count: isValue
+              fail: {
+                messageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other',
+                params: {
+                 count: isValue
+                }
               }
             };
           }

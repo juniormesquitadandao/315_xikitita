@@ -8,7 +8,9 @@ Xikitita.afterInit.push(function(){
   Xikitita.Validator('Presence', function(value, attrName, object, options){
     return {
       success: value !== null,
-      failMessageName: 'blank'
+      fail: {
+        messageName: 'blank'
+      }
     };
   });
 

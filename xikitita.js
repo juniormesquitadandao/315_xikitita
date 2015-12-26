@@ -518,10 +518,10 @@ Xikitita.validates = function(attrName, optionsValidators){
       var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
 
       if (!result.success) {
-        var messageName = result.failMessageName;
+        var messageName = result.fail.messageName;
         var path = ['errors', 'messages', messageName].join('.');
-        var params = result.params || {};
-        
+        var params = result.fail.params || {};
+
         __errors__.add(attrName, I18n.t(path, params));
       };
     });
@@ -588,7 +588,9 @@ Xikitita.afterInit.push(function(){
   Xikitita.Validator('Presence', function(value, attrName, object, options){
     return {
       success: value !== null,
-      failMessageName: 'blank'
+      fail: {
+        messageName: 'blank'
+      }
     };
   });
 
