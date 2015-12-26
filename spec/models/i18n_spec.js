@@ -223,7 +223,7 @@ describe('I18n', function() {
           }
         },
         parentPath: {
-          childPath: 'message %{name}'   
+          childPath: 'mensagem %{name}'   
         }
       })
   });
@@ -242,11 +242,11 @@ describe('I18n', function() {
     expect(I18n.translate('parentPath.childPath')).to.be('message %{name}');
     expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('message Name');
 
-    I18n.locale = 'en-US';
+    I18n.locale = 'pt-BR';
 
     expect(I18n.translate('parentPath')).to.be('parentPath');
-    expect(I18n.translate('parentPath.childPath')).to.be('%{name} message');
-    expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('Name message');
+    expect(I18n.translate('parentPath.childPath')).to.be('mensagem %{name}');
+    expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('mensagem Name');
   });
 
   it('#localize', function () {
