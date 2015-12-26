@@ -99,30 +99,22 @@ describe('I18n', function() {
           formats: {
             default: function(value){
               return '9,999,999';
-            }, 
-            customer: function(value){
-              return '9,999,999 Customers';
-            } 
+            }
           }
-        },  
+        },
         decimal: {
           formats: {
             default: function(value){
-              return '999.99';
-            }, 
-            currency: function(value){
-              return '$ 999.99';
-            }            
+              return '9,999,999.99';
+            }
           }
-        },  
+        },
         logic: {
           formats: {
-            default: function(value){
-              return 'yes';
-            }, 
-            up: function(value){
-              return 'YES';
-            }            
+            default: {
+              true: 'yes',
+              false: 'no'
+            }
           }
         },
         parentPath: {
@@ -200,7 +192,7 @@ describe('I18n', function() {
   it('#localize', function () {
     var myDateBirth = new Date('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
     var integer = 9999999;
-    var decimal = 999.99;
+    var decimal = 9999999.99;
     var logic = true;
 
     I18n.locale = 'en';
@@ -222,12 +214,9 @@ describe('I18n', function() {
     expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
 
     expect(I18n.localize(integer)).to.be('9,999,999');
-    expect(I18n.localize(integer, 'customer')).to.be('9,999,999 Customers');
-    expect(I18n.localize(decimal)).to.be('999.99');
-    expect(I18n.localize(decimal, 'currency')).to.be('$ 999.99');
+    expect(I18n.localize(decimal)).to.be('9,999,999.99');
     expect(I18n.localize(logic)).to.be('yes');
-    expect(I18n.localize(logic, 'up')).to.be('YES');
-
+    expect(I18n.localize(!logic)).to.be('no');
 
     I18n.locale = 'en-US';
 

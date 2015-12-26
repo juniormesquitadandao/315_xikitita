@@ -95,7 +95,7 @@ Xikitita.afterInit.push(function(){
 
       }
       else if(typeof value === 'boolean' ){
-        formatted = __this__.translations[I18n.locale].logic.formats[format](value);
+        formatted = __this__.translations[I18n.locale].logic.formats[format][value];
       }
 
       return formatted;
