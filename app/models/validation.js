@@ -7,9 +7,10 @@ Xikitita.validates = function(attrName, optionsValidators){
 
     __validations__.push(function(){
       var value = object[attrName];
+      var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
 
-      if (!object.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
-        var messageName = object.Xikitita.validators[validatorName].messageName;
+      if (!result.success) {
+        var messageName = result.failMessageName;
         var path = ['errors', 'messages', messageName].join('.');
         __errors__.add(attrName, I18n.t(path));
       };

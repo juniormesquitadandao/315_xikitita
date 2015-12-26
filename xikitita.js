@@ -515,9 +515,10 @@ Xikitita.validates = function(attrName, optionsValidators){
 
     __validations__.push(function(){
       var value = object[attrName];
+      var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
 
-      if (!object.Xikitita.validators[validatorName].call(value, attrName, object, options)) {
-        var messageName = object.Xikitita.validators[validatorName].messageName;
+      if (!result.success) {
+        var messageName = result.failMessageName;
         var path = ['errors', 'messages', messageName].join('.');
         __errors__.add(attrName, I18n.t(path));
       };
@@ -560,15 +561,18 @@ Xikitita.isValid = function(){
   return __errors__.isEmpty;
 };
 
-Xikitita.Validator = function(name, messageName, body){
-  this.validators[name.toLowerCase()] = {messageName: messageName, call: body};
+Xikitita.Validator = function(name, body){
+  this.validators[name.toLowerCase()] = body;
   return this;
 }
 
 Xikitita.afterInit.push(function(){
 
-  Xikitita.Validator('Presence', 'blank', function(value, attrName, object, options){
-    return value !== null;
+  Xikitita.Validator('Presence', function(value, attrName, object, options){
+    return {
+      success: value !== null,
+      failMessageName: 'blank'
+    };
   });
 
 });

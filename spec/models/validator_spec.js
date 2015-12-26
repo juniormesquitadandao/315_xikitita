@@ -6,8 +6,11 @@ describe('Validator', function() {
   before(function() {
     Xikitita
       .init
-      .Validator('Custom', 'customKey', function(value, attrName, object, options){
-        return value;
+      .Validator('Custom', function(value, attrName, object, options){
+        return {
+          success: value,
+          failMessageName: 'custom'
+        };
       });
   });
 
@@ -16,13 +19,13 @@ describe('Validator', function() {
   });
 
   it('::validators.presence', function(){
-    expect(Xikitita.validators.presence.call(null)).to.be(false);
-    expect(Xikitita.validators.presence.call({})).to.be(true);
+    expect(Xikitita.validators.presence(null).toJson).to.be('{"success":false,"failMessageName":"blank"}');
+    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":true,"failMessageName":"blank"}');
   });
 
   it('::validators.custom', function(){
-    expect(Xikitita.validators.custom.call(false)).to.be(false);
-    expect(Xikitita.validators.custom.call(true)).to.be(true);
+    expect(Xikitita.validators.custom(false).toJson).to.be('{"success":false,"failMessageName":"custom"}');
+    expect(Xikitita.validators.custom(true).toJson).to.be('{"success":true,"failMessageName":"custom"}');
   });
 
 });
