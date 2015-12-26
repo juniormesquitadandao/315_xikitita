@@ -88,7 +88,30 @@ Xikitita.afterInit.push(function(){
       var formatted = value;
 
       if(typeof value === 'object' && value.constructor.name === 'Date'){
-        formatted = __this__.translations[I18n.locale].date.formats[format](value);
+        var dayWeak = value.getDay();
+        var month = value.getMonth() + 1;
+        var dayMonth = value.getDate();
+        var year = value.getFullYear();
+        var hours = value.getHours();
+        var minutes = value.getMinutes();
+        var seconds = value.getSeconds();
+        var meridiem = hours < 12 ? 'am' : 'pm';
+        var zone = value.toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1];
+
+        formatted = __this__.translations[I18n.locale].date.formats[format]
+          .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
+          .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
+          .replace(/%m/g, new String(month + 100).toString().substr(1))
+          .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
+          .replace(/%B/g, I18n.t('date.monthNames')[month])
+          .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
+          .replace(/%Y/g, year)
+          .replace(/%h/g, hours || 24 - 12 )
+          .replace(/%H/g, hours)
+          .replace(/%M/g, minutes)
+          .replace(/%S/g, seconds)
+          .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
+          .replace(/%z/g, zone);
       }
       else if(typeof value === 'number' ){
         

@@ -46,33 +46,9 @@ describe('Xikitita', function() {
             'Saturday'
           ],
           formats: {
-            default: function(value){ 
-              "%Y-%m-%d"
-
-              var day = value.getDate();
-              var month = value.getMonth() + 1;
-              var year = value.getFullYear();
-
-              return [year, new String(100 + month).toString().substr(1), new String(100 + day).toString().substr(1)].join('-');
-            },
-            long: function(value){
-              "%B %d, %Y"
-
-              var day = value.getDate();
-              var month = value.getMonth() + 1;
-              var year = value.getFullYear();
-
-              return day+' '+this.date.monthNames[month]+', '+year;
-            },
-            short: function(value){
-              "%b %d"
-
-              var day = value.getDate();
-              var month = value.getMonth() + 1;
-              var year = value.getFullYear();
-
-              return day+' '+this.date.monthNames[month];
-            }
+            default: '%Y-%m-%d',
+            long: '%B %d, %Y',
+            short: '%b %d'
           },
           monthNames: [
             null,

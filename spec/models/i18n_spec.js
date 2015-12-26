@@ -8,14 +8,64 @@ describe('I18n', function() {
       .init
       .I18n('en', {
         date: {
+          abbrDayNames: [
+            'Sun',
+            'Mon',
+            'Tue',
+            'Wed',
+            'Thu',
+            'Fri',
+            'Sat'
+          ],
+          abbrMonthNames: [
+            null,
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+          ],
+          dayNames: [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+          ],
           formats: {
-            default: function(value){
-              return '2015-01-01';
-            }, 
-            year: function(value){
-              return '2015';
-            }
-          }
+            default: '%Y-%m-%d',
+            long: '%B %d, %Y',
+            short: '%b %d'
+          },
+          monthNames: [
+            null,
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+          ],
+          order: [
+            'year',
+            'month',
+            'day'
+          ]
         },
         integer: {
           formats: {
@@ -46,7 +96,11 @@ describe('I18n', function() {
               return 'YES';
             }            
           }
-        },  
+        },
+        time: {
+          am: 'am',
+          pm: 'pm'
+        },
         parentPath: {
           childPath: 'message #{name}'   
         }
@@ -54,12 +108,8 @@ describe('I18n', function() {
       .I18n('en-US', {
         date: {
           formats: {
-            default: function(value){
-              return '2015 01 01';
-            }, 
-            year: function(value){
-              return '2015 YEAR';
-            }
+            default: '%Y %m %d', 
+            year: '%Y YEAR'
           }
         },  
         integer: {
@@ -92,6 +142,10 @@ describe('I18n', function() {
             }
           }
         },  
+        time: {
+          am: 'am',
+          pm: 'pm'
+        },
         parentPath: {
           childPath: '#{name} message'   
         }
@@ -128,7 +182,6 @@ describe('I18n', function() {
     I18n.locale = 'en';
 
     expect(I18n.localize(date)).to.be('2015-01-01');
-    expect(I18n.localize(date, 'year')).to.be('2015');
     expect(I18n.localize(integer)).to.be('9,999,999');
     expect(I18n.localize(integer, 'customer')).to.be('9,999,999 Customers');
     expect(I18n.localize(decimal)).to.be('999.99');
@@ -139,7 +192,6 @@ describe('I18n', function() {
     I18n.locale = 'en-US';
 
     expect(I18n.localize(date)).to.be('2015 01 01');
-    expect(I18n.localize(date, 'year')).to.be('2015 YEAR');
     expect(I18n.localize(integer)).to.be('9 999 999');
     expect(I18n.localize(integer, 'customer')).to.be('9 999 999 Customers');
     expect(I18n.localize(decimal)).to.be('999.99 USD');
