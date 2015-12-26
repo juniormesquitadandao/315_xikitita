@@ -131,8 +131,7 @@ describe('Xikitita', function() {
             wrong_length: {
               one: 'is the wrong length (should be 1 character)',
               other: 'is the wrong length (should be %{count} characters)'
-            },
-            other_than: 'must be other than %{count}'
+            }
           }
         }
       })
@@ -247,20 +246,65 @@ describe('Xikitita', function() {
           messages: {
             blank: 'não pode ficar em branco',
             too_long: {
-              one: 'é muito format longo (máximo é 1 caractere)',
-              other: 'é muito format longo (máximo: %{count} caracteres)'
+              one: 'é muito longo (máximo é 1 caractere)',
+              other: 'é muito longo (máximo: %{count} caracteres)'
             },
             too_short: {
-              one: 'é muito format curto format (mínimo é 1 caractere)',
-              other: 'é muito format curto format (mínimo: %{count} caracteres)'
+              one: 'é muito curto (mínimo é 1 caractere)',
+              other: 'é muito curto format (mínimo: %{count} caracteres)'
             },
             wrong_length: {
               one: 'não possui o tamanho esperado (deve ter 1 caractere)',
               other: 'não possui o tamanho esperado (%{count} caracteres)'
-            },
-            other_than: 'deve ser diferente de %{count}'
+            }
           }
         }
+      })
+      .Validator('Length', function(value, attrName, object, options){
+        var validators = {
+          maximum: function(maxValue){
+            return {
+              success: value < maxValue,
+              failMessageName: maxValue === 1 ? 'too_long.one' : 'too_long.other'
+            };
+          },
+          minimum: function(minValue){
+            return {
+              success: value > minValue,
+              failMessageName: minValue === 1 ? 'too_short.one' : 'too_short.other'
+            };
+          },
+          in: function(inValues){
+            var __maximum__ = maximum(inValues[0]);
+            if (__maximum__.success){
+              return minimum(inValues[1]);
+            }
+            return __maximum__;
+          },
+          is: function(isValue){
+            return {
+              success: value === isValue,
+              failMessageName: minValue === 1 ? 'wrong_length.one' : 'wrong_length.other'
+            };
+          }
+        };
+
+        var lastValidator = {success: true};
+        Object.keys(validators).forEach(function(validator){
+
+          var validatorValue = options[validator] || null;
+          if(validatorValue){
+
+            var actualValidador = validators[validator](validatorValue);
+            if(!actualValidador.success){
+
+              lastValidator = actualValidador;
+            }
+          }
+
+        });
+
+        return lastValidator;
       });
   });
 
