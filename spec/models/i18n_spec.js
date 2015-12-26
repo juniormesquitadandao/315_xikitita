@@ -44,7 +44,10 @@ describe('I18n', function() {
           formats: {
             default: '%Y-%m-%d',
             long: '%B %d, %Y',
-            short: '%b %d'
+            short: '%b %d',
+            custom: function(value){
+              return value.toString();
+            }
           },
           monthNames: [
             null,
@@ -74,6 +77,9 @@ describe('I18n', function() {
             long: '%H:%M',
             meridiem: '%h:%M:%S %p %z',
             meridiemLong: '%h:%M %p',
+            custom: function(value){
+              return value.toString();
+            }
           },
           pm: 'pm'
         },
@@ -82,7 +88,10 @@ describe('I18n', function() {
           formats: {
             default: '%a, %d %b %Y %H:%M:%S %z',
             long: '%B %d, %Y %H:%M',
-            short: '%d %b %H:%M'
+            short: '%d %b %H:%M',
+            custom: function(value){
+              return value.toString();
+            }
           },
           pm: 'pm'
         },
@@ -199,15 +208,18 @@ describe('I18n', function() {
     expect(I18n.localize(myDateBirth)).to.be('1988-08-18');
     expect(I18n.localize(myDateBirth, {format: 'long'})).to.be('August 18, 1988');
     expect(I18n.localize(myDateBirth, {format: 'short'})).to.be('Aug 18');
+    expect(I18n.localize(myDateBirth, {format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
 
     expect(I18n.localize(myDateBirth, {dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
     expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'long'})).to.be('18:00');
     expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'meridiem'})).to.be('06:00:00 pm GMT-0300 (BRT)');
     expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'meridiemLong'})).to.be('06:00 pm');
+    expect(I18n.localize(myDateBirth, {dateType: 'time', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
 
     expect(I18n.localize(myDateBirth, {dateType: 'dateTime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
     expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'long'})).to.be('August 18, 1988 18:00');
     expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'short'})).to.be('18 Aug 18:00');
+    expect(I18n.localize(myDateBirth, {dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
 
     expect(I18n.localize(integer)).to.be('9,999,999');
     expect(I18n.localize(integer, 'customer')).to.be('9,999,999 Customers');

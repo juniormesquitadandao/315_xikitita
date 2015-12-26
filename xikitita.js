@@ -105,33 +105,36 @@ Xikitita.afterInit.push(function(){
 
         formatted = __this__.translations[I18n.locale][dateType].formats[format];
 
-        var formattedTo = {
-          date: function(){
-            formatted = formatted
-              .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
-              .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
-              .replace(/%m/g, new String(month + 100).toString().substr(1))
-              .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
-              .replace(/%B/g, I18n.t('date.monthNames')[month])
-              .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
-              .replace(/%Y/g, year);
-          },
-          time: function(){
-            formatted = formatted
-              .replace(/%h/g, new String( (hours || 24) - 12 + 100 ).toString().substr(1) )
-              .replace(/%H/g, new String(hours + 100).toString().substr(1) )
-              .replace(/%M/g, new String(minutes + 100).toString().substr(1) )
-              .replace(/%S/g, new String(seconds + 100).toString().substr(1) )
-              .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
-              .replace(/%z/g, zone);
-          },
-          dateTime: function(){
-            this.date();
-            this.time();
+        if(typeof formatted === 'string'){
+          var formattedTo = {
+            date: function(){
+              formatted = formatted
+                .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
+                .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
+                .replace(/%m/g, new String(month + 100).toString().substr(1))
+                .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
+                .replace(/%B/g, I18n.t('date.monthNames')[month])
+                .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
+                .replace(/%Y/g, year);
+            },
+            time: function(){
+              formatted = formatted
+                .replace(/%h/g, new String( (hours || 24) - 12 + 100 ).toString().substr(1) )
+                .replace(/%H/g, new String(hours + 100).toString().substr(1) )
+                .replace(/%M/g, new String(minutes + 100).toString().substr(1) )
+                .replace(/%S/g, new String(seconds + 100).toString().substr(1) )
+                .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
+                .replace(/%z/g, zone);
+            },
+            dateTime: function(){
+              this.date();
+              this.time();
+            }
           }
+          formattedTo[dateType]();
+        }else{
+          formatted = formatted(value);          
         }
-
-        formattedTo[dateType]();
       }
       else if(typeof value === 'number' ){
         
