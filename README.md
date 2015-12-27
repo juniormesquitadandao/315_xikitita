@@ -1,7 +1,7 @@
 # Xikitita (EloquentJs + Rails Active Record)
 Implementing some Active Record features  in Javascript client side:
-##Customer
-###design
+######Customer
+#######Design
 ```yml
 Custormer:
   name: attribute, required
@@ -14,7 +14,7 @@ Custormer:
   fullName: object method
   className: class method 
 ```
-###implementation
+#######Implementation
 ```javascript
 Xikitita
   .Class('Customer', function(){
@@ -56,7 +56,7 @@ Xikitita
 
   });
 ```
-###how to
+#######How to
 ```javascript
 var customer = new Customer();
 console.log(customer.toJson)
