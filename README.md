@@ -56,7 +56,7 @@ Xikitita
 
   });
 ```
-
+###how to
 ```javascript
 var customer = new Customer();
 console.log(customer.toJson)
