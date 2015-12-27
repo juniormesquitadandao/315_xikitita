@@ -1,5 +1,5 @@
-# Xikitita (EloquentJs + Rails Active Record)
-Implementing some Active Record features  in Javascript client side:
+# Xikitita (Active Record Client Side)
+Implementing some Active Record features in Javascript client side. Based on the ebook Eloquent Javascript 2nd edition and Rails Active Record
 ```js
 Xikitita
   .init
