@@ -41,11 +41,11 @@ describe('Class', function() {
       .Class('Stub', function(){
 
         def('objectMethod', function(){
-          return this;
+          return object;
         });
 
         defClass('classMethod', function(){
-          return this.name;
+          return __class__.name;
         });
 
       });

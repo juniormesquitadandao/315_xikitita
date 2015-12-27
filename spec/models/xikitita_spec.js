@@ -363,6 +363,20 @@ describe('Xikitita', function() {
             }
           };
         });
+
+        def('fullName', function(){
+          return [object.name, object.lastName].join(' ');
+        });
+
+        defClass('className', function(){
+          return __class__.name;
+        });
+
+      })
+      .Class('User', function(){
+
+        belongsTo('customer')
+
       });
   });
 
@@ -445,6 +459,7 @@ describe('Xikitita', function() {
 
   it('Customer', function(){
     var customer = new Customer();
+    expect(customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"disctrict":null,"phone":null}');
 
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
@@ -470,6 +485,24 @@ describe('Xikitita', function() {
     customer = new Customer('{"name": "Name", "lastName": "lastName", "document": "0", "street": "xxxxxxxx", "disctrict": "xxxxxxxx", "phone": "000000000"}');
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"user":["can\'t be new record"]}');
+
+    customer.user = {id: 0};
+    expect(customer.isValid).to.be(true);
+    expect(customer.errors.toJson).to.be('{}');
+    expect(customer.toJson).to.be('{"id":null,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","disctrict":"xxxxxxxx","phone":"000000000"}');
+    expect(customer.user.toJson).to.be('{"id":0,"customer_id":null}');
+    expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"disctrict":null,"phone":null}');
+
+    customer.id = 0;
+    expect(customer.toJson).to.be('{"id":0,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","disctrict":"xxxxxxxx","phone":"000000000"}');
+    expect(customer.user.toJson).to.be('{"id":0,"customer_id":0}');
+    expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"disctrict":null,"phone":null}');
+
+    expect(customer.fullName()).to.be('Name lastName');
+    expect(customer.className).to.be(undefined);
+
+    expect(Customer.fullName).to.be(undefined);
+    expect(Customer.className()).to.be('Customer');
   });
 
 });
