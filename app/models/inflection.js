@@ -7,11 +7,11 @@ Xikitita.Inflection = function(body){
   }
 
   eval("new function (){\n\
-      var irregular = #{irregular};\n\
-      (#{body})(this);\n\
+      var irregular = %{irregular};\n\
+      (%{body})(this);\n\
     };"
-    .replace(/#{irregular}/, irregular.toString())
-    .replace(/#{body}/, body.toString())
+    .replace(/%{irregular}/, irregular.toString())
+    .replace(/%{body}/, body.toString())
   );
 
   return __this__;
