@@ -1,5 +1,36 @@
 # Xikitita (EloquentJs + Rails Active Record)
 Implementing some Active Record features  in Javascript client side:
+```js
+Xikitita
+  .init
+  .Inflection(function(){
+    irregular('singularWord', 'pluralWord');
+  })
+  //I18n: create as you like
+  .I18n('locale', {
+  })
+  .I18n('otherLocale', {
+  })
+  //Validator: create as you like
+  .Validator('CustomValidator', function(value, attrName, object, options){
+  })
+  //Class: create as you like
+  .Class('ClassName', function(){
+    belongsTo('otherClassName');
+  })
+  .Class('OtherClassName', function(){
+    hasOne('className');
+  });
+
+var className = new ClassName();
+var otherClassName = new OtherClassName();
+I18n.transalate('path.subPath');
+I18n.localize(new Date());
+'singularWord'.pluralize;
+[].isEmpty;
+{}.toJson;
+'{}'.asJson;
+```
 #####Customer
 ######Design
 ```yml
@@ -15,7 +46,7 @@ Custormer:
   className: class method 
 ```
 ######Implementation
-```javascript
+```js
 Xikitita
   .Class('Customer', function(){
 
@@ -57,7 +88,7 @@ Xikitita
   });
 ```
 ######How to
-```javascript
+```js
 var customer = new Customer();
 console.log(customer.toJson)
 ('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');

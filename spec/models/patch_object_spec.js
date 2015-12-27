@@ -12,12 +12,14 @@ describe('Patch Object', function() {
     expect({}.toJson).to.be('{}');
     expect([].toJson).to.be('[]');
     expect(new function(){}().toJson).to.be('{}');
+    expect('{}'.toJson).to.be('{}');
   });
 
   it('#asJson', function () {
     expect({}.asJson).to.be.a(Object);
     expect([].asJson).to.be.a(Object);
     expect(new function(){}().asJson).to.be.a(Object);
+    expect('{}'.asJson).to.be.a(Object);
   });
 
   it('#isAny', function () {
