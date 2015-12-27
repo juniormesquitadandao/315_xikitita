@@ -24,7 +24,7 @@ Xikitita
 
 var className = new ClassName();
 var otherClassName = new OtherClassName();
-I18n.transalate('path.subPath');
+I18n.translate('path.subPath');
 I18n.localize(new Date());
 'singularWord'.pluralize;
 [].isEmpty;
