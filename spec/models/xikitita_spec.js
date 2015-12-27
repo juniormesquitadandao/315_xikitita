@@ -131,7 +131,8 @@ describe('Xikitita', function() {
             wrong_length: {
               one: 'is the wrong length (should be 1 character)',
               other: 'is the wrong length (should be %{count} characters)'
-            }
+            },
+            newRecord: 'can\'t be new record'
           }
         }
       })
@@ -256,7 +257,8 @@ describe('Xikitita', function() {
             wrong_length: {
               one: 'não possui o tamanho esperado (deve ter 1 caractere)',
               other: 'não possui o tamanho esperado (%{count} caracteres)'
-            }
+            },
+            newRecord: 'não pode ser novo registro'
           }
         }
       })
@@ -353,8 +355,13 @@ describe('Xikitita', function() {
             minimum: 9
           }
         });
-        validate(function(){
-          //name is digits?
+        validate('user', function(){
+          return {
+            success: object.user && typeof object.user.id === 'number',
+            fail: {
+              messageName: 'newRecord'
+            }
+          };
         });
       });
   });
@@ -440,29 +447,29 @@ describe('Xikitita', function() {
     var customer = new Customer();
 
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
 
     customer = new Customer({name: '', lastName: '', document: '', street: '', disctrict: '', phone: ''});
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"street":["is too short (minimum is 8 characters)"],"disctrict":["is too short (minimum is 8 characters)"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"street":["is too short (minimum is 8 characters)"],"disctrict":["is too short (minimum is 8 characters)"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
 
     customer = new Customer({name: 'Name', lastName: 'Last Name', document: '000000000000000'});
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
 
     customer.phone = '0';
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"phone":["is too short (minimum is 9 characters)"]}');
+    expect(customer.errors.toJson).to.be('{"phone":["is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
 
     customer.phone = '000000000';
     customer.street = 'xxxxxxxxxxxxxxxxx';
     customer.disctrict = 'xxxxxxxxxxxxxxxxx';
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"street":["is too long (maximum is 16 characters)"],"disctrict":["is too long (maximum is 16 characters)"]}');
+    expect(customer.errors.toJson).to.be('{"street":["is too long (maximum is 16 characters)"],"disctrict":["is too long (maximum is 16 characters)"],"user":["can\'t be new record"]}');
 
     customer = new Customer('{"name": "Name", "lastName": "lastName", "document": "0", "street": "xxxxxxxx", "disctrict": "xxxxxxxx", "phone": "000000000"}');
-    expect(customer.isValid).to.be(true);
-    expect(customer.errors.toJson).to.be('{}');
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"user":["can\'t be new record"]}');
   });
 
 });

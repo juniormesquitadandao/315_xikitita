@@ -9,7 +9,8 @@ describe('Validation', function() {
       .I18n('en', {
         errors:{
           messages: {
-            blank: "can't be blank"
+            blank: 'can\'t be blank',
+            diff: 'can\'t be diff (%{first} !== %{last})'
           }
         }
       })
@@ -18,6 +19,18 @@ describe('Validation', function() {
 
         validatesPresenceOf('name');
         validates('phone', {presence: true});
+        validate('base', function(){
+          return {
+            success: object.name === object.phone,
+            fail: {
+              messageName: 'diff',
+              params: {
+                first: object.name,
+                last: object.phone
+              }
+            }
+          };
+        });
       });      
   });
  
@@ -30,11 +43,11 @@ describe('Validation', function() {
 
     customer.name = 'Name';
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank"]}');
+    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank"],"base":["can\'t be diff (Name !== null)"]}');
 
     customer.phone = '0000000';
-    expect(customer.isValid).to.be(true);
-    expect(customer.errors.toJson).to.be('{}');
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"base":["can\'t be diff (Name !== 0000000)"]}');
   });
 
 });

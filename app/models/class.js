@@ -28,6 +28,8 @@ Xikitita.Class = function(name, body){
         'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
       \n\
+      var validate = #{validate};\n\
+      \n\
       var validates = #{validates};\n\
       \n\
       var def = #{def};\n\
@@ -56,6 +58,7 @@ Xikitita.Class = function(name, body){
     .replace(/#{Error}/, Xikitita.Error.toString())
     .replace(/#{errors}/, Xikitita.errors.toString())
     .replace(/#{isValid}/, Xikitita.isValid.toString())
+    .replace(/#{validate}/, Xikitita.validate.toString())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{def}/, Xikitita.def.toString())
     .replace(/#{defClass}/, Xikitita.defClass.toString())

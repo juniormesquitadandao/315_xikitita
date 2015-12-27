@@ -249,6 +249,8 @@ Xikitita.Class = function(name, body){
         'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
       \n\
+      var validate = #{validate};\n\
+      \n\
       var validates = #{validates};\n\
       \n\
       var def = #{def};\n\
@@ -277,6 +279,7 @@ Xikitita.Class = function(name, body){
     .replace(/#{Error}/, Xikitita.Error.toString())
     .replace(/#{errors}/, Xikitita.errors.toString())
     .replace(/#{isValid}/, Xikitita.isValid.toString())
+    .replace(/#{validate}/, Xikitita.validate.toString())
     .replace(/#{validates}/, Xikitita.validates.toString())
     .replace(/#{def}/, Xikitita.def.toString())
     .replace(/#{defClass}/, Xikitita.defClass.toString())
@@ -506,6 +509,22 @@ Xikitita.hasMany = function(classNamePluralized, options){
       }
     });
   };
+Xikitita.validate = function(attrName, body){
+
+  __validations__.push(function(){
+    var result = body.call();
+
+    if (!result.success) {
+      var messageName = result.fail.messageName;
+      var path = ['errors', 'messages', messageName].join('.');
+      var params = result.fail.params || {};
+
+      __errors__.add(attrName, I18n.t(path, params));
+    };
+  });
+
+};
+
 Xikitita.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};

@@ -1,3 +1,19 @@
+Xikitita.validate = function(attrName, body){
+
+  __validations__.push(function(){
+    var result = body.call();
+
+    if (!result.success) {
+      var messageName = result.fail.messageName;
+      var path = ['errors', 'messages', messageName].join('.');
+      var params = result.fail.params || {};
+
+      __errors__.add(attrName, I18n.t(path, params));
+    };
+  });
+
+};
+
 Xikitita.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};
