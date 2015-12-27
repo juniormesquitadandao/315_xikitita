@@ -6,8 +6,9 @@ Xikitita.Validator = function(name, body){
 Xikitita.afterInit.push(function(){
 
   Xikitita.Validator('Presence', function(value, attrName, object, options){
+    
     return {
-      success: value !== null,
+      success: value ? value.isAny : ['number', 'boolean'].indexOf(typeof value) > -1,
       fail: {
         messageName: 'blank'
       }

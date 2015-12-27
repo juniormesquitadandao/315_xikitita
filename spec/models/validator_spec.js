@@ -25,7 +25,16 @@ describe('Validator', function() {
 
   it('::validators.presence', function(){
     expect(Xikitita.validators.presence(null).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence([]).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence('').toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+
+    expect(Xikitita.validators.presence(0).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence({0: ''}).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence([0]).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence('0').toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence(true).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xikitita.validators.presence(false).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
   });
 
   it('::validators.custom', function(){

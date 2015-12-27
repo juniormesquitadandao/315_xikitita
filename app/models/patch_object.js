@@ -13,7 +13,7 @@ Xikitita.afterInit.push(function(){
     },
     isAny: {
       get: function () {
-        return Object.keys(this).length > 0; 
+        return Object.keys(this).length > 0 || this.constructor.name === 'Boolean'; 
       }
     },
     isEmpty: { 

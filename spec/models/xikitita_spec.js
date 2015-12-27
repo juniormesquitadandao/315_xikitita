@@ -264,7 +264,7 @@ describe('Xikitita', function() {
         var validators = {
           maximum: function(maxValue){
             return {
-              success: value < maxValue,
+              success: value ? value.length <= maxValue : false,
               fail: {
                 messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
                 params: {
@@ -275,7 +275,7 @@ describe('Xikitita', function() {
           },
           minimum: function(minValue){
             return {
-              success: value > minValue,
+              success: value ? value.length >= minValue: false,
               fail: {
                 messageName: minValue === 1 ? 'too_short.one' : 'too_short.other',
                 params: {
@@ -285,15 +285,15 @@ describe('Xikitita', function() {
             };
           },
           in: function(inValues){
-            var __maximum__ = this.maximum(inValues[0]);
-            if (__maximum__.success){
-              return this.minimum(inValues[1]);
+            var result = this.minimum(inValues[0]);
+            if (result.success){
+              return this.maximum(inValues[1]);
             }
-            return __maximum__;
+            return result;
           },
           is: function(isValue){
             return {
-              success: value === isValue,
+              success: value ? value.length === isValue : false,
               fail: {
                 messageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other',
                 params: {
@@ -311,6 +311,10 @@ describe('Xikitita', function() {
           if(validatorValue){
 
             var actualResult = validators[validator](validatorValue);
+            if(options.allowNull && value === null){
+              actualResult.success = true;
+            }
+
             if(!actualResult.success){
 
               lastResult = actualResult;
@@ -328,19 +332,43 @@ describe('Xikitita', function() {
         validatesLengthOf('one', {in: [1, 10]});
         validatesLengthOf('two', {is: 5});
 
+      })
+      .Class('Customer', function(){
+
+        attrAccessible('name', 'lastName', 'document', 'street', 'disctrict', 'phone');
+
+        hasOne('user');
+
+        validatesPresenceOf('name', 'lastName');
+        validates('document', {
+          presence: true
+        });
+        validatesLengthOf('street', 'disctrict', {
+          in: [8, 16],
+          allowNull: true}
+        );
+        validates('phone', { 
+          presence: true,
+          length: {
+            minimum: 9
+          }
+        });
+        validate(function(){
+          //name is digits?
+        });
       });
   });
 
   it('Inflection', function(){
     expect('customer'.pluralize).to.be('customers');
     expect('user'.pluralize).to.be('users');
-    expect('permission'.pluralize).to.be('permissions');
+    expect('persona'.pluralize).to.be('personas');
     expect('fish'.pluralize).to.be('fish');
     expect('person'.pluralize).to.be('people');
 
     expect('customers'.singularize).to.be('customer');
     expect('users'.singularize).to.be('user');
-    expect('permissions'.singularize).to.be('permission');
+    expect('personas'.singularize).to.be('persona');
     expect('fish'.singularize).to.be('fish');
     expect('people'.singularize).to.be('person');
   });
@@ -405,7 +433,36 @@ describe('Xikitita', function() {
     var stub = new Stub();
 
     expect(stub.isValid).to.be(false);
-    expect(stub.errors.toJson).to.be('{"one":["is too short (minimum is 10 characters)"],"two":["is the wrong length (should be 5 characters)"]}');
+    expect(stub.errors.toJson).to.be('{"one":["is too short (minimum is 1 character)"],"two":["is the wrong length (should be 5 characters)"]}');
+  });
+
+  it('Customer', function(){
+    var customer = new Customer();
+
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+
+    customer = new Customer({name: '', lastName: '', document: '', street: '', disctrict: '', phone: ''});
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"street":["is too short (minimum is 8 characters)"],"disctrict":["is too short (minimum is 8 characters)"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+
+    customer = new Customer({name: 'Name', lastName: 'Last Name', document: '000000000000000'});
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank","is too short (minimum is 9 characters)"]}');
+
+    customer.phone = '0';
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"phone":["is too short (minimum is 9 characters)"]}');
+
+    customer.phone = '000000000';
+    customer.street = 'xxxxxxxxxxxxxxxxx';
+    customer.disctrict = 'xxxxxxxxxxxxxxxxx';
+    expect(customer.isValid).to.be(false);
+    expect(customer.errors.toJson).to.be('{"street":["is too long (maximum is 16 characters)"],"disctrict":["is too long (maximum is 16 characters)"]}');
+
+    customer = new Customer('{"name": "Name", "lastName": "lastName", "document": "0", "street": "xxxxxxxx", "disctrict": "xxxxxxxx", "phone": "000000000"}');
+    expect(customer.isValid).to.be(true);
+    expect(customer.errors.toJson).to.be('{}');
   });
 
 });

@@ -317,5 +317,27 @@ Implementing some Active Record features  in Javascript client side:
         });
 
         return lastResult;
+      })
+      .Class('Customer', function(){
+
+        attrAccessible('name', 'lastName', 'document', 'street', 'disctrict', 'phone');
+
+        hasOne('user');
+
+        validatesPresenceOf('name', 'lastName');
+        validates('document', {
+          presence: true
+        });
+        validatesLengthOf('street', 'disctrict', {
+          in: [8, 16],
+          allowNull: true}
+        );
+        validates('phone', { 
+          presence: true,
+          length: {
+            minimum: 9
+          }
+        });
+
       });
   ```
