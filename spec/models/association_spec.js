@@ -72,11 +72,17 @@ describe('Association', function() {
     expect(customer.user.customer).to.be(null);
     expect(customer.user.permission).to.be(null);
 
-    var customer = new Customer({user: {}});
-    expect(customer.toJson).to.be('{"id":null,"name":null,"phone":null}');
+    var customer = new Customer({name: 'Name', user: {}});
+    expect(customer.toJson).to.be('{"id":null,"name":"Name","phone":null}');
     expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"phone":null}');
     expect(customer.user.permission).to.be(null);
+
+    var customer = new Customer({name: 'Name', user: {permission_id: null}});
+    expect(customer.toJson).to.be('{"id":null,"name":"Name","phone":null}');
+    expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
+    expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"phone":null}');
+    expect(customer.user.permission.toJson).to.be('{"id":null,"name":null}');
   });
 
   it('hasMany', function () {

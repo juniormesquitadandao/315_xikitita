@@ -261,7 +261,6 @@ Xikitita.Class = function(name, body){
       (%{body})(object);\n\
       attrAccessible();\n\
       \n\
-      var __originalInitAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (%{new})(object);\n\
       \n\
@@ -356,16 +355,11 @@ Xikitita.new = function(){
     });
   }
 
-  if(typeof __originalInitAttributes__ === 'string'){
-    __originalInitAttributes__ = JSON.parse(__originalInitAttributes__);
+  if(typeof __initAttributes__ === 'string'){
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
   
   __attrAccessible__.forEach(function(attrName){
-    if(!__initAttributes__.hasOwnProperty(attrName)){
-      __initAttributes__[attrName] = null;
-    }
-
     __afterNew__.push(function(){
       defineChangesToAttrName(attrName);
       defineChangedToAttrName(attrName);
@@ -454,7 +448,7 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   attrAccessible(foreingKey);
   
   __afterNew__.push(function(){
-    if(__originalInitAttributes__.hasOwnProperty(foreingKey)){
+    if(__initAttributes__.hasOwnProperty(foreingKey)){
       var value = {};
       value[referenceKey] = object[foreingKey];
       __belongsToClasses__[classNameSingularized] = value;
