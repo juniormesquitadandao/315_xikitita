@@ -584,6 +584,47 @@ describe('Xikitita', function() {
     expect(user.persona.toJson).to.be('{"id":2,"name":null}');
     expect(user.customer).to.be.a(Customer);
     expect(user.persona).to.be.a(Persona);
-  })
+  });
+
+  it('Persona', function(){
+    var persona = new Persona();
+    expect(persona).to.be.a(Persona);
+    expect(persona.toJson).to.be('{"id":null,"name":null}');
+    expect(persona.isValid).to.be(false);
+    expect(persona.errors.toJson).to.be('{"name":["can\'t be blank"]}');
+
+    persona.name = 'Name';
+    expect(persona.toJson).to.be('{"id":null,"name":"Name"}');
+    expect(persona.isValid).to.be(true);
+    expect(persona.errors.toJson).to.be('{}');
+    expect(persona.users.toJson).to.be('[]');
+
+    persona.users.push(new User());
+    expect(persona.toJson).to.be('{"id":null,"name":"Name"}');
+    expect(persona.isValid).to.be(true);
+    expect(persona.errors.toJson).to.be('{}');
+    expect(persona.users.toJson).to.be('[{"id":null,"email":null,"customer_id":null,"persona_id":null}]'); 
+
+    persona.users = [{id: 1}];
+    expect(persona.toJson).to.be('{"id":null,"name":"Name"}');
+    expect(persona.isValid).to.be(true);
+    expect(persona.errors.toJson).to.be('{}');
+    expect(persona.users.toJson).to.be('[{"id":null,"email":null,"customer_id":null,"persona_id":null}]'); 
+    expect(persona.users[0]).to.be.a(User); 
+
+    var persona = new Persona({customer_id: null, persona_id: null});
+    expect(persona.toJson).to.be('{"id":null,"name":null}');
+    expect(persona.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(persona.persona.toJson).to.be('{"id":null,"name":null}');
+    expect(persona.customer).to.be.a(Customer);
+    expect(persona.persona).to.be.a(Persona);
+
+    var persona = new Persona({id: 0, customer_id: 1, persona_id: 2});
+    expect(persona.toJson).to.be('{"id":0,"email":null,"customer_id":1,"persona_id":2}');
+    expect(persona.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(persona.persona.toJson).to.be('{"id":2,"name":null}');
+    expect(persona.customer).to.be.a(Customer);
+    expect(persona.persona).to.be.a(Persona);
+  });
 
 });
