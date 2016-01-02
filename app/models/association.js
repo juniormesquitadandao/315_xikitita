@@ -31,6 +31,7 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   __belongsToClasses__[classNameSingularized] = null;
 
   attrAccessible(foreingKey);
+  attrAccessible(classNameSingularized);
   
   __afterNew__.push(function(){
     if(__initAttributes__.hasOwnProperty(foreingKey)){

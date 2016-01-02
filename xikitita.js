@@ -309,8 +309,6 @@ Xikitita.Class = function(name, body){
     Xikitita: { get: function () { return Xikitita; } }
   });
 
-  new Class();
-
   this.classes[name] = Class;
   return this;
 }
@@ -446,6 +444,7 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   __belongsToClasses__[classNameSingularized] = null;
 
   attrAccessible(foreingKey);
+  attrAccessible(classNameSingularized);
   
   __afterNew__.push(function(){
     if(__initAttributes__.hasOwnProperty(foreingKey)){

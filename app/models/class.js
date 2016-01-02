@@ -88,8 +88,6 @@ Xikitita.Class = function(name, body){
     Xikitita: { get: function () { return Xikitita; } }
   });
 
-  new Class();
-
   this.classes[name] = Class;
   return this;
 }

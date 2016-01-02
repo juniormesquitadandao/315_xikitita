@@ -335,6 +335,29 @@ describe('Xikitita', function() {
         validatesLengthOf('two', {is: 5});
 
       })
+      .Class('Stub1', function(){
+
+        id('id_stub1');
+
+        hasOne('stub2', {foreingKey: 'myStub_id'});
+        belongsTo('stub3', {referenceKey: 'id_stub3'});
+
+      })
+      .Class('Stub2', function(){
+
+        id('id_stub2');
+
+        belongsTo('stub1', {foreingKey: 'myStub_id', referenceKey: 'id_stub'});
+        belongsTo('stub3', {referenceKey: 'id_stub3'});
+
+      })
+      .Class('Stub3', function(){
+
+        id('id_stub3');
+
+        hasMany('stub1s', {foreingKey: 'id_stub3'});
+        hasMany('stub2s', {foreingKey: 'id_stub3'});        
+      })
       .Class('Customer', function(){
 
         attrAccessible('name', 'lastName', 'document', 'street', 'district', 'phone');
@@ -625,6 +648,24 @@ describe('Xikitita', function() {
     expect(persona.errors.toJson).to.be('{}');
     expect(persona.users.toJson).to.be('[{"id":1,"email":"email","customer_id":null,"persona_id":0},{"id":2,"email":"email2","customer_id":null,"persona_id":0}]'); 
     expect(persona.users[0]).to.be.a(User);
+  });
+
+  it('Stub1', function(){
+    var stub1 = new Stub1();
+    expect(stub1.toJson).to.be('{"id_stub1":null,"stub3_id":null}');
+    expect(stub1.stub2).to.be(null);
+    expect(stub1.stub3).to.be(null);
+
+    stub1.id_stub1 = 1;
+    stub1.stub2 = {id_stub2: 2};
+    stub1.stub3 = {id_stub3: 3};
+    expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
+    expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
+
+    var stub1 = new Stub1({id_stub1: 1, stub2: {id_stub2: 2}, stub3: {id_stub3: 3}});
+    expect(stub1.toJson).to.be('{"id_stub1":1,"stub3_id":3}');
+    expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
+    expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
   });
 
 });

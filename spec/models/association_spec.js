@@ -28,6 +28,11 @@ describe('Association', function() {
     expect(user.customer.toJson).to.be('{"id":1,"name":null,"phone":null}');
     expect(user.customer).to.be.a(Customer);
 
+    var user = new User({customer: {id: 1} });
+    expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":1,"permission_id":null}');
+    expect(user.customer.toJson).to.be('{"id":1,"name":null,"phone":null}');
+    expect(user.customer).to.be.a(Customer);
+
     var user = new User();
     expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
     expect(user.customer).to.be(null);
