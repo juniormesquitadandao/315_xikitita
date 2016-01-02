@@ -40,6 +40,7 @@ Xikitita.Class = function(name, body){
       (%{body})(object);\n\
       attrAccessible();\n\
       \n\
+      var __originalInitAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (%{new})(object);\n\
       \n\
@@ -134,12 +135,13 @@ Xikitita.new = function(){
     });
   }
 
-  if(typeof __initAttributes__ === 'string'){
+  if(typeof __originalInitAttributes__ === 'string'){
+    __originalInitAttributes__ = JSON.parse(__originalInitAttributes__);
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
   
   __attrAccessible__.forEach(function(attrName){
-    if(typeof __initAttributes__[attrName] === 'undefined'){
+    if(!__initAttributes__.hasOwnProperty(attrName)){
       __initAttributes__[attrName] = null;
     }
 

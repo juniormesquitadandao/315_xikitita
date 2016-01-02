@@ -23,17 +23,23 @@ describe('Association', function() {
   });
 
   it('belongsTo', function () {
-    expect(new User().toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
-    
     var user = new User({customer_id: 1});
     expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":1,"permission_id":null}');
+    expect(user.customer.toJson).to.be('{"id":1,"name":null,"phone":null}');
+    expect(user.customer).to.be.a(Customer);
+
+    var user = new User();
+    expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
+    expect(user.customer).to.be(null);
 
     user.customer = {id: 2, name: 'Name', phone: '00000000'};
     expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":2,"permission_id":null}');
+    expect(user.customer.toJson).to.be('{"id":2,"name":"Name","phone":"00000000"}');
     expect(user.customer).to.be.a(Customer);
 
     user = new User('{"email":null,"customer_id":1,"permission_id":null}');  
     expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":1,"permission_id":null}');
+    expect(user.customer.toJson).to.be('{"id":1,"name":null,"phone":null}');
     expect(user.customer).to.be.a(Customer);
   });
 
@@ -51,18 +57,32 @@ describe('Association', function() {
     customer.user = new User();
     expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
     expect(customer.user).to.be.a(User);
+    expect(customer.user.customer).to.be(null);
+    expect(customer.user.permission).to.be(null);
 
     customer.id = 1;
     expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":1,"permission_id":null}');
+    expect(customer.user).to.be.a(User);
+    expect(customer.user.customer).to.be(null);
+    expect(customer.user.permission).to.be(null);
 
     customer.user = new User();
     expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":1,"permission_id":null}');
+    expect(customer.user).to.be.a(User);
+    expect(customer.user.customer).to.be(null);
+    expect(customer.user.permission).to.be(null);
+
+    var customer = new Customer({user: {}});
+    expect(customer.toJson).to.be('{"id":null,"name":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"permission_id":null}');
+    expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"phone":null}');
+    expect(customer.user.permission).to.be(null);
   });
 
   it('hasMany', function () {
     var permission = new Permission();
     expect(permission.toJson).to.be('{"id":null,"name":null}');
-    expect(permission.customers).to.be(null);
+    expect(permission.customers.toJson).to.be('[]');
 
     permission.customers = [new Customer()];
     expect(permission.customers.toJson).to.be('[{"id":null,"name":null,"phone":null,"permission_id":null}]');

@@ -460,31 +460,38 @@ describe('Xikitita', function() {
   it('Customer', function(){
     var customer = new Customer();
     expect(customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user).to.be(null);
 
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer = new Customer({name: '', lastName: '', document: '', street: '', district: '', phone: ''});
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"lastName":["can\'t be blank"],"document":["can\'t be blank"],"street":["is too short (minimum is 8 characters)"],"district":["is too short (minimum is 8 characters)"],"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer = new Customer({name: 'Name', lastName: 'Last Name', document: '000000000000000'});
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank","is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer.phone = '0';
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"phone":["is too short (minimum is 9 characters)"],"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer.phone = '000000000';
     customer.street = 'xxxxxxxxxxxxxxxxx';
     customer.district = 'xxxxxxxxxxxxxxxxx';
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"street":["is too long (maximum is 16 characters)"],"district":["is too long (maximum is 16 characters)"],"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer = new Customer('{"name": "Name", "lastName": "lastName", "document": "0", "street": "xxxxxxxx", "district": "xxxxxxxx", "phone": "000000000"}');
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"user":["can\'t be new record"]}');
+    expect(customer.user).to.be(null);
 
     customer.user = {id: 0};
     expect(customer.isValid).to.be(true);
@@ -493,9 +500,9 @@ describe('Xikitita', function() {
     expect(customer.user.toJson).to.be('{"id":0,"customer_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
 
-    customer.id = 0;
-    expect(customer.toJson).to.be('{"id":0,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","district":"xxxxxxxx","phone":"000000000"}');
-    expect(customer.user.toJson).to.be('{"id":0,"customer_id":0}');
+    customer.id = 1;
+    expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","district":"xxxxxxxx","phone":"000000000"}');
+    expect(customer.user.toJson).to.be('{"id":0,"customer_id":1}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
 
     expect(customer.fullName()).to.be('Name lastName');
@@ -503,6 +510,16 @@ describe('Xikitita', function() {
 
     expect(Customer.fullName).to.be(undefined);
     expect(Customer.className()).to.be('Customer');
+
+    customer = new Customer({id: 1, name: 'Name', user: {id: 0}});
+    expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":0,"customer_id":1}');
+    expect(customer.user.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+
+    customer = new Customer({user: {}});
+    expect(customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":null,"customer_id":null}');
+    expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
   });
 
 });
