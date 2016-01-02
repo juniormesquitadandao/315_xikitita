@@ -87,11 +87,12 @@ Xikitita.hasMany = function(classNamePluralized, options){
       var Class = eval( classNamePluralized.singularize.capitalize );
 
       if (values !== null){
-        values.forEach(function(value){
+        values = values.map(function(value){
           value[foreingKey] = object[__id__];
           if (value.constructor.name === 'Object'){
             value = new Class(value);
           }
+          return value;
         })
       }
 

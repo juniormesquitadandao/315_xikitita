@@ -609,22 +609,22 @@ describe('Xikitita', function() {
     expect(persona.toJson).to.be('{"id":null,"name":"Name"}');
     expect(persona.isValid).to.be(true);
     expect(persona.errors.toJson).to.be('{}');
-    expect(persona.users.toJson).to.be('[{"id":null,"email":null,"customer_id":null,"persona_id":null}]'); 
+    expect(persona.users.toJson).to.be('[{"id":1,"email":null,"customer_id":null,"persona_id":null}]'); 
     expect(persona.users[0]).to.be.a(User); 
 
-    var persona = new Persona({customer_id: null, persona_id: null});
-    expect(persona.toJson).to.be('{"id":null,"name":null}');
-    expect(persona.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(persona.persona.toJson).to.be('{"id":null,"name":null}');
-    expect(persona.customer).to.be.a(Customer);
-    expect(persona.persona).to.be.a(Persona);
+    persona.id = 0;
+    expect(persona.toJson).to.be('{"id":0,"name":"Name"}');
+    expect(persona.isValid).to.be(true);
+    expect(persona.errors.toJson).to.be('{}');
+    expect(persona.users.toJson).to.be('[{"id":1,"email":null,"customer_id":null,"persona_id":0}]'); 
+    expect(persona.users[0]).to.be.a(User); 
 
-    var persona = new Persona({id: 0, customer_id: 1, persona_id: 2});
-    expect(persona.toJson).to.be('{"id":0,"email":null,"customer_id":1,"persona_id":2}');
-    expect(persona.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(persona.persona.toJson).to.be('{"id":2,"name":null}');
-    expect(persona.customer).to.be.a(Customer);
-    expect(persona.persona).to.be.a(Persona);
+    var persona = new Persona({id: 0, name: 'Name', users: [{id: 1, email: 'email'}, {id: 2, email: 'email2'} ]});
+    expect(persona.toJson).to.be('{"id":0,"name":"Name"}');
+    expect(persona.isValid).to.be(true);
+    expect(persona.errors.toJson).to.be('{}');
+    expect(persona.users.toJson).to.be('[{"id":1,"email":"email","customer_id":null,"persona_id":0},{"id":2,"email":"email2","customer_id":null,"persona_id":0}]'); 
+    expect(persona.users[0]).to.be.a(User);
   });
 
 });
