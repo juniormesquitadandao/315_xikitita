@@ -567,6 +567,26 @@ describe('Xikitita', function() {
     expect(customer.user.toJson).to.be( '{"id":null,"email":null,"customer_id":null,"persona_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
     expect(customer.user).to.be.a(User);
+
+    customer = new Customer({id: 1, name: "Name", user: {id: 0, email: 'email'}});
+    expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
+    expect(customer.user.persona).to.be(null);
+    expect(customer.changes.toJson).to.be('{}');
+
+    customer.name = null;
+    customer.user.email = null;
+    customer.user.persona = {id: 2};
+    expect(customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":0,"email":null,"customer_id":1,"persona_id":2}');
+    expect(customer.user.persona.toJson).to.be('{"id":2,"name":null}');
+    expect(customer.changes.toJson).to.be('{"name":["Name",null],"user":[{"id":0,"email":"email","customer_id":1,"persona_id":null},{"id":0,"email":null,"customer_id":1,"persona_id":2}]}');
+
+    customer.reset;
+    expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
+    expect(customer.user.persona).to.be(null);
+    expect(customer.changes.toJson).to.be('{}');
   });
 
   it('User', function(){

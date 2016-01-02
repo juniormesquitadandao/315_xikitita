@@ -166,10 +166,16 @@ describe('Class', function() {
       .Class('Stub', function(){
         id('id_stub');
 
-        attrAccessible('one', 'two')
-      })
+        attrAccessible('one', 'two');
 
-    var stub = new Stub();
+        belongsTo('stub2');
+
+      })
+      .Class('Stub2', function(){
+
+      });
+
+    var stub = new Stub({stub2: {}});
 
     stub.one = 'One';
     stub.two = 'Two';
