@@ -388,30 +388,44 @@ Xikitita.reset = function(){
   Object.keys(__initAttributes__).forEach(function(attrName){
     object[attrName] = __initAttributes__[attrName];
   });
+
+  Object.keys(object).forEach(function(attrName){
+    if(!__initAttributes__.hasOwnProperty(attrName)){
+      object[attrName] = null;
+    }
+  });
+
+  Object.keys(__belongsToClasses__).forEach(function(belongsTo){
+    if(!__initAttributes__.hasOwnProperty(belongsTo)){
+      object[belongsTo] = null;
+    }
+  });
+
 };
 
 Xikitita.changes = function(){
   var changes = {};
 
   __attrAccessible__.forEach(function(attrName){
-    var initialValue = __initAttributes__[attrName] || null;
-    var actualValue = object[attrName];
+  
+      var initialValue = __initAttributes__[attrName] === undefined ? null : __initAttributes__[attrName];
+      var actualValue = object[attrName];
 
-    if(initialValue && typeof initialValue === 'object' && actualValue && typeof actualValue == 'object'){
-      initialValue = initialValue.asJson;
+      if(initialValue && typeof initialValue === 'object' && actualValue && typeof actualValue == 'object'){
+        initialValue = initialValue.asJson;
 
-      Object.keys(actualValue).forEach(function(attrName){
-        if(!initialValue.hasOwnProperty(attrName)){
-          initialValue[attrName] = null;
+        Object.keys(actualValue).forEach(function(attrName){
+          if(!initialValue.hasOwnProperty(attrName)){
+            initialValue[attrName] = null;
+          }
+        });
+
+        if(initialValue.toJson !== actualValue.toJson){
+          changes[attrName] = [initialValue, actualValue];
         }
-      });
-
-      if(initialValue.toJson !== actualValue.toJson){
+      }else if(initialValue !== actualValue){
         changes[attrName] = [initialValue, actualValue];
       }
-    }else if(initialValue !== actualValue){
-      changes[attrName] = [initialValue, actualValue];
-    }
 
   });
 
@@ -468,6 +482,10 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   attrAccessible(classNameSingularized);
   
   __afterNew__.push(function(){
+    if(__initAttributes__.hasOwnProperty(classNameSingularized)){
+      __initAttributes__[foreingKey] = __initAttributes__[classNameSingularized][referenceKey] === undefined ? null : __initAttributes__[classNameSingularized][referenceKey];
+    }
+
     if(__initAttributes__.hasOwnProperty(foreingKey)){
       var value = {};
       value[referenceKey] = object[foreingKey];

@@ -34,6 +34,10 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   attrAccessible(classNameSingularized);
   
   __afterNew__.push(function(){
+    if(__initAttributes__.hasOwnProperty(classNameSingularized)){
+      __initAttributes__[foreingKey] = __initAttributes__[classNameSingularized][referenceKey] === undefined ? null : __initAttributes__[classNameSingularized][referenceKey];
+    }
+
     if(__initAttributes__.hasOwnProperty(foreingKey)){
       var value = {};
       value[referenceKey] = object[foreingKey];
