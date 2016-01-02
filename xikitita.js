@@ -688,6 +688,22 @@ Xikitita.afterInit.push(function(){
 
         return this.replace(regex, replace);
       }
+    },
+    interpolation: { 
+      value: function(params, identifier, isBoundary){
+        identifier = identifier || '#';
+        isBoundary = isBoundary === undefined ? true : isBoundary;
+
+        var boundary = !isBoundary ? '  ' : '{}';
+        var interpolated = this;
+
+        Object.keys(params).forEach(function(param){
+          var regex = [identifier, boundary[0].trim(), param, boundary[1].trim()].join('');
+          interpolated = interpolated.replace(new RegExp(regex, 'ig'), params[param]);
+        });
+
+        return interpolated;
+      }
     }
   });
 

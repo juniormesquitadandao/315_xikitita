@@ -30,6 +30,7 @@ I18n.localize(new Date());
 [].isEmpty;
 {}.toJson;
 '{}'.asJson;
+'#{first} #{last}'.interpolation({first: 'First', last: 'Last'});
 ```
 #####Customer
 ######Design
@@ -38,12 +39,12 @@ Custormer:
   name: attribute, required
   lastName: attribute, required
   document: attribute, required
-  street: attribute, minimum 8, maximum 16
-  district: attribute, minimum 8, maximum 16
-  phone: attribute, minimum 9
-  user: hasOne
-  fullName: object method
-  className: class method 
+  street: attribute, minimum 8 characters, maximum 16 characters
+  district: attribute, minimum 8 characters, maximum 16 characters
+  phone: attribute, minimum 9 digits
+  user: hasOne, persisted
+  fullName: object method, '#{name} #{lastName}'
+  className: class method, class name 
 ```
 ######Implementation
 ```js
