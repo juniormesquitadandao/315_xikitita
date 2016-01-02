@@ -9,6 +9,10 @@ describe('Xikitita', function() {
       .Inflection(function(){
         irregular('fish', 'fish');
         irregular('person', 'people');
+
+        irregular('stub1', 'stubs1');
+        irregular('stub2', 'stubs2');
+        irregular('stub3', 'stubs3');
       })
       .I18n('en', {
         date: {
@@ -347,7 +351,7 @@ describe('Xikitita', function() {
 
         id('id_stub2');
 
-        belongsTo('stub1', {foreingKey: 'myStub_id', referenceKey: 'id_stub'});
+        belongsTo('stub1', {foreingKey: 'myStub_id', referenceKey: 'id_stub1'});
         belongsTo('stub3', {referenceKey: 'id_stub3'});
 
       })
@@ -355,8 +359,8 @@ describe('Xikitita', function() {
 
         id('id_stub3');
 
-        hasMany('stub1s', {foreingKey: 'id_stub3'});
-        hasMany('stub2s', {foreingKey: 'id_stub3'});        
+        hasMany('stubs1');
+        hasMany('stubs2');        
       })
       .Class('Customer', function(){
 
@@ -662,10 +666,53 @@ describe('Xikitita', function() {
     expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
     expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
 
+    var stub1 = new Stub1({id_stub1: 1, stub2: {id_stub2: 2}, stub3_id: 3});
+    expect(stub1.toJson).to.be('{"id_stub1":1,"stub3_id":3}');
+    expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
+    expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
+
     var stub1 = new Stub1({id_stub1: 1, stub2: {id_stub2: 2}, stub3: {id_stub3: 3}});
     expect(stub1.toJson).to.be('{"id_stub1":1,"stub3_id":3}');
     expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
     expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
+  });
+
+  it('Stub2', function(){
+    var stub2 = new Stub2();
+    expect(stub2.toJson).to.be('{"id_stub2":null,"myStub_id":null,"stub3_id":null}');
+    expect(stub2.stub1).to.be(null);
+    expect(stub2.stub3).to.be(null);
+
+    stub2.id_stub2 = 2;
+    stub2.stub1 = {id_stub1: 1};
+    stub2.stub3 = {id_stub3: 3};
+    expect(stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":3}');
+    expect(stub2.stub1.toJson).to.be('{"id_stub1":1,"stub3_id":null}');
+    expect(stub2.stub3.toJson).to.be('{"id_stub3":3}');
+
+    var stub2 = new Stub2({id_stub2: 2, myStub_id: 1, stub3: {id_stub3: 3}});
+    expect(stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":3}');
+    expect(stub2.stub1.toJson).to.be('{"id_stub1":1,"stub3_id":null}');
+    expect(stub2.stub3.toJson).to.be('{"id_stub3":3}');
+  });
+
+  it('Stub3', function(){
+    var stub3 = new Stub3();
+    expect(stub3.toJson).to.be('{"id_stub3":null}');
+    expect(stub3.stubs1.toJson).to.be('[]');
+    expect(stub3.stubs2.toJson).to.be('[]');
+
+    stub3.id_stub3 = 3;
+    stub3.stubs1 = [{id_stub1: 1}];
+    stub3.stubs2 = [{id_stub2: 2}];
+    expect(stub3.toJson).to.be('{"id_stub3":3}');
+    expect(stub3.stubs1.toJson).to.be('[{"id_stub1":1,"stub3_id":3}]');
+    expect(stub3.stubs2.toJson).to.be('[{"id_stub2":2,"myStub_id":null,"stub3_id":3}]');
+
+    var stub3 = new Stub3({id_stub3: 3, stubs1: [{id_stub1: 1}], stubs2: [{id_stub2: 2}]});
+    expect(stub3.toJson).to.be('{"id_stub3":3}');
+    expect(stub3.stubs1.toJson).to.be('[{"id_stub1":1,"stub3_id":3}]');
+    expect(stub3.stubs2.toJson).to.be('[{"id_stub2":2,"myStub_id":null,"stub3_id":3}]');
   });
 
 });
