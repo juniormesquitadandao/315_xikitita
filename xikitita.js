@@ -641,7 +641,7 @@ Xikitita.afterInit.push(function(){
     },
     isAny: {
       get: function () {
-        return Object.keys(this).length > 0 || this.constructor.name === 'Boolean'; 
+        return (this.constructor.name === 'Number' && this > 0) || (this.constructor.name === 'Boolean' && this) || Object.keys(this).length > 0; 
       }
     },
     isEmpty: { 

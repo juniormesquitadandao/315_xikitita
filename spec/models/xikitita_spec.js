@@ -375,9 +375,23 @@ describe('Xikitita', function() {
       })
       .Class('User', function(){
 
-        belongsTo('customer')
+        attrAccessible('email');
 
+        belongsTo('customer');
+        belongsTo('persona');
+
+        validatesPresenceOf('email', 'persona_id');
+
+      })
+      .Class('Persona', function(){
+
+        attrAccessible('name');
+
+        hasMany('users');
+
+        validatesPresenceOf('name');
       });
+
   });
 
   it('Inflection', function(){
@@ -453,12 +467,14 @@ describe('Xikitita', function() {
   it('Stub', function(){
     var stub = new Stub();
 
+    expect(stub).to.be.a(Stub);
     expect(stub.isValid).to.be(false);
     expect(stub.errors.toJson).to.be('{"one":["is too short (minimum is 1 character)"],"two":["is the wrong length (should be 5 characters)"]}');
   });
 
   it('Customer', function(){
     var customer = new Customer();
+    expect(customer).to.be.a(Customer);
     expect(customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
     expect(customer.user).to.be(null);
 
@@ -497,13 +513,15 @@ describe('Xikitita', function() {
     expect(customer.isValid).to.be(true);
     expect(customer.errors.toJson).to.be('{}');
     expect(customer.toJson).to.be('{"id":null,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","district":"xxxxxxxx","phone":"000000000"}');
-    expect(customer.user.toJson).to.be('{"id":0,"customer_id":null}');
+    expect(customer.user.toJson).to.be('{"id":0,"email":null,"customer_id":null,"persona_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user).to.be.a(User);
 
     customer.id = 1;
     expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":"lastName","document":"0","street":"xxxxxxxx","district":"xxxxxxxx","phone":"000000000"}');
-    expect(customer.user.toJson).to.be('{"id":0,"customer_id":1}');
+    expect(customer.user.toJson).to.be( '{"id":0,"email":null,"customer_id":1,"persona_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user).to.be.a(User);
 
     expect(customer.fullName()).to.be('Name lastName');
     expect(customer.className).to.be(undefined);
@@ -513,13 +531,59 @@ describe('Xikitita', function() {
 
     customer = new Customer({id: 1, name: 'Name', user: {id: 0}});
     expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(customer.user.toJson).to.be('{"id":0,"customer_id":1}');
+    expect(customer.user.toJson).to.be( '{"id":0,"email":null,"customer_id":1,"persona_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user).to.be.a(User);
 
     customer = new Customer({user: {}});
     expect(customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(customer.user.toJson).to.be('{"id":null,"customer_id":null}');
+    expect(customer.user.toJson).to.be( '{"id":null,"email":null,"customer_id":null,"persona_id":null}');
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(customer.user).to.be.a(User);
   });
+
+  it('User', function(){
+    var user = new User();
+    expect(user).to.be.a(User);
+    expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"persona_id":null}');
+    expect(user.isValid).to.be(false);
+    expect(user.errors.toJson).to.be('{"email":["can\'t be blank"],"persona_id":["can\'t be blank"]}');
+
+    user.email = 'email';
+    expect(user.toJson).to.be('{"id":null,"email":"email","customer_id":null,"persona_id":null}');
+    expect(user.isValid).to.be(false);
+    expect(user.errors.toJson).to.be('{"persona_id":["can\'t be blank"]}');
+    expect(user.customer).to.be(null);
+    expect(user.persona).to.be(null); 
+
+    user.persona_id = 0;
+    expect(user.toJson).to.be('{"id":null,"email":"email","customer_id":null,"persona_id":0}');
+    expect(user.isValid).to.be(true);
+    expect(user.errors.toJson).to.be('{}');
+    expect(user.customer).to.be(null);
+    expect(user.persona).to.be(null); 
+
+    user.persona = {id: 1};
+    expect(user.toJson).to.be('{"id":null,"email":"email","customer_id":null,"persona_id":1}');
+    expect(user.isValid).to.be(true);
+    expect(user.errors.toJson).to.be('{}');
+    expect(user.customer).to.be(null);
+    expect(user.persona.toJson).to.be('{"id":1,"name":null}'); 
+    expect(user.persona).to.be.a(Persona); 
+
+    var user = new User({customer_id: null, persona_id: null});
+    expect(user.toJson).to.be('{"id":null,"email":null,"customer_id":null,"persona_id":null}');
+    expect(user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(user.persona.toJson).to.be('{"id":null,"name":null}');
+    expect(user.customer).to.be.a(Customer);
+    expect(user.persona).to.be.a(Persona);
+
+    var user = new User({id: 0, customer_id: 1, persona_id: 2});
+    expect(user.toJson).to.be('{"id":0,"email":null,"customer_id":1,"persona_id":2}');
+    expect(user.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
+    expect(user.persona.toJson).to.be('{"id":2,"name":null}');
+    expect(user.customer).to.be.a(Customer);
+    expect(user.persona).to.be.a(Persona);
+  })
 
 });
