@@ -41,14 +41,16 @@ Xikitita.validatesOf = function(){
 
   Object.keys(Xikitita.validators).forEach(function(validator){
 
-    validatesOf.push('var validates%{validator}Of = ' 
-        .replace(/%{validator}/, validator.capitalize)
+    validatesOf.push('var validates#{validator}Of = ' 
+        .interpolate({
+          validator: validator.capitalize
+        })
       + function(){
 
           var attrNames = Array.prototype.slice.call(arguments);
           var last = attrNames.pop();
 
-          var validatorName = '%{validatorName}';
+          var validatorName = '#{validatorName}';
           var options = {};
           options[validatorName] = true;
 
@@ -63,7 +65,9 @@ Xikitita.validatesOf = function(){
           });
 
         }.toString()
-        .replace(/%{validatorName}/, validator)
+        .interpolate({
+          validatorName: validator
+        })
       + ';'
     );
 

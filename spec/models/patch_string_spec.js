@@ -22,10 +22,10 @@ describe('String', function() {
     expect('fishs'.singularize).to.be('fish');
   });
 
-  it('#interpolation', function(){
-    expect('#{first} #{last}'.interpolation({first: 'First', last: 'Last'})).to.be('First Last');
+  it('#interpolate', function(){
+    expect('#{first} #{last}'.interpolate({first: 'First', last: 'Last'})).to.be('First Last');
 
-    expect('%first %last'.interpolation({first: 'First', last: 'Last'}, '%', false)).to.be('First Last');
+    expect('%first %last'.interpolate({first: 'First', last: 'Last'}, '%', false)).to.be('First Last');
   });
 
 });

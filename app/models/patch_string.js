@@ -34,7 +34,7 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    interpolation: { 
+    interpolate: { 
       value: function(params, identifier, isBoundary){
         identifier = identifier || '#';
         isBoundary = isBoundary === undefined ? true : isBoundary;
@@ -44,7 +44,7 @@ Xikitita.afterInit.push(function(){
 
         Object.keys(params).forEach(function(param){
           var regex = [identifier, boundary[0].trim(), param, boundary[1].trim()].join('');
-          interpolated = interpolated.replace(new RegExp(regex, 'ig'), params[param]);
+          interpolated = interpolated.replace(new RegExp(regex, 'g'), params[param]);
         });
 
         return interpolated;

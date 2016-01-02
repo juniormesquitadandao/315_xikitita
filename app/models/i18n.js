@@ -20,9 +20,7 @@ Xikitita.afterInit.push(function(){
       if(typeof translations  === 'string'){
         translation = translations;
         params = params || {};
-        Object.keys(params).forEach(function(param) {          
-          translation = translation.replace(new RegExp('%{' + param + '}', 'ig'), params[param]);
-        });
+        translation = translation.interpolate(params, '%');
       }else if(typeof translations === 'object' && translations.constructor.name === 'Array'){
         translation = translations;
       }
@@ -57,22 +55,26 @@ Xikitita.afterInit.push(function(){
             var to = {
               date: function(){
                 formatted = formatted
-                  .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
-                  .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
-                  .replace(/%m/g, new String(month + 100).toString().substr(1))
-                  .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
-                  .replace(/%B/g, I18n.t('date.monthNames')[month])
-                  .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
-                  .replace(/%Y/g, year);
+                  .interpolate({
+                    a: I18n.t('date.abbrDayNames')[dayWeak],
+                    A: I18n.t('date.dayNames')[dayWeak],
+                    m: new String(month + 100).toString().substr(1),
+                    b: I18n.t('date.abbrMonthNames')[month],
+                    B: I18n.t('date.monthNames')[month],
+                    d: new String(dayMonth + 100).toString().substr(1),
+                    Y: year
+                  }, '%', false);
               },
               time: function(){
                 formatted = formatted
-                  .replace(/%h/g, new String( (hours || 24) - 12 + 100 ).toString().substr(1) )
-                  .replace(/%H/g, new String(hours + 100).toString().substr(1) )
-                  .replace(/%M/g, new String(minutes + 100).toString().substr(1) )
-                  .replace(/%S/g, new String(seconds + 100).toString().substr(1) )
-                  .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
-                  .replace(/%z/g, zone);
+                  .interpolate({
+                    h: new String( (hours || 24) - 12 + 100 ).toString().substr(1),
+                    H: new String(hours + 100).toString().substr(1),
+                    M: new String(minutes + 100).toString().substr(1),
+                    S: new String(seconds + 100).toString().substr(1),
+                    p: I18n.t(['time', meridiem].join('.')),
+                    z: zone
+                  }, '%', false);
               },
               dateTime: function(){
                 this.date();

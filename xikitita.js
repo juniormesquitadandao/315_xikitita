@@ -44,11 +44,13 @@ Xikitita.Inflection = function(body){
   }
 
   eval("new function (){\n\
-      var irregular = %{irregular};\n\
-      (%{body})(this);\n\
+      var irregular = #{irregular};\n\
+      (#{body})(this);\n\
     };"
-    .replace(/%{irregular}/, irregular.toString())
-    .replace(/%{body}/, body.toString())
+    .interpolate({
+      irregular: irregular.toString(),
+      body: body.toString()
+    })
   );
 
   return __this__;
@@ -76,9 +78,7 @@ Xikitita.afterInit.push(function(){
       if(typeof translations  === 'string'){
         translation = translations;
         params = params || {};
-        Object.keys(params).forEach(function(param) {          
-          translation = translation.replace(new RegExp('%{' + param + '}', 'ig'), params[param]);
-        });
+        translation = translation.interpolate(params, '%');
       }else if(typeof translations === 'object' && translations.constructor.name === 'Array'){
         translation = translations;
       }
@@ -113,22 +113,26 @@ Xikitita.afterInit.push(function(){
             var to = {
               date: function(){
                 formatted = formatted
-                  .replace(/%a/g, I18n.t('date.abbrDayNames')[dayWeak])
-                  .replace(/%A/g, I18n.t('date.dayNames')[dayWeak])
-                  .replace(/%m/g, new String(month + 100).toString().substr(1))
-                  .replace(/%b/g, I18n.t('date.abbrMonthNames')[month])
-                  .replace(/%B/g, I18n.t('date.monthNames')[month])
-                  .replace(/%d/g, new String(dayMonth + 100).toString().substr(1))
-                  .replace(/%Y/g, year);
+                  .interpolate({
+                    a: I18n.t('date.abbrDayNames')[dayWeak],
+                    A: I18n.t('date.dayNames')[dayWeak],
+                    m: new String(month + 100).toString().substr(1),
+                    b: I18n.t('date.abbrMonthNames')[month],
+                    B: I18n.t('date.monthNames')[month],
+                    d: new String(dayMonth + 100).toString().substr(1),
+                    Y: year
+                  }, '%', false);
               },
               time: function(){
                 formatted = formatted
-                  .replace(/%h/g, new String( (hours || 24) - 12 + 100 ).toString().substr(1) )
-                  .replace(/%H/g, new String(hours + 100).toString().substr(1) )
-                  .replace(/%M/g, new String(minutes + 100).toString().substr(1) )
-                  .replace(/%S/g, new String(seconds + 100).toString().substr(1) )
-                  .replace(/%p/g, I18n.t(['time', meridiem].join('.')))
-                  .replace(/%z/g, zone);
+                  .interpolate({
+                    h: new String( (hours || 24) - 12 + 100 ).toString().substr(1),
+                    H: new String(hours + 100).toString().substr(1),
+                    M: new String(minutes + 100).toString().substr(1),
+                    S: new String(seconds + 100).toString().substr(1),
+                    p: I18n.t(['time', meridiem].join('.')),
+                    z: zone
+                  }, '%', false);
               },
               dateTime: function(){
                 this.date();
@@ -205,8 +209,10 @@ Xikitita.Error = function(className){
           __this__[attrName].forEach(function(message){
             var fullMessage = I18n
               .t('errors.format')
-              .replace(/%{attribute}/, attrNameTranslated)
-              .replace(/%{message}/, message);
+              .interpolate({
+                attribute: attrNameTranslated,
+                message: message
+              }, '%');
 
             fullMessages.push(fullMessage);
           });
@@ -221,74 +227,76 @@ Xikitita.Error = function(className){
 
 Xikitita.Class = function(name, body){
   
-  eval.call(Xikitita.window, "function %{name}(){\n\
+  eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
-      var __class__ =  %{name};\n\
+      var __class__ =  #{name};\n\
       var __attrAccessible__ = [];\n\
       \n\
       var object = this;\n\
-      var attrAccessible = %{attrAccessible};\n\
+      var attrAccessible = #{attrAccessible};\n\
       \n\
       var __id__ = 'id';\n\
-      var id = %{id};\n\
+      var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
       var __belongsToClasses__ = {};\n\
-      var belongsTo = %{belongsTo};\n\
+      var belongsTo = #{belongsTo};\n\
       \n\
       var __hasOneClasses__ = {};\n\
-      var hasOne = %{hasOne};\n\
+      var hasOne = #{hasOne};\n\
       \n\
       var __hasManyClasses__ = {};\n\
-      var hasMany = %{hasMany};\n\
+      var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new %{Error}(__class__.name.toLowerCase());\n\
+      var __errors__ = new #{Error}(__class__.name.toLowerCase());\n\
       var __validations__ = [];\n\
       Object.defineProperties(object, {\n\
-        'errors': {get: %{errors}, enumerable: false },\n\
-        'isValid': {get: %{isValid}, enumerable: false }\n\
+        'errors': {get: #{errors}, enumerable: false },\n\
+        'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
       \n\
-      var validate = %{validate};\n\
+      var validate = #{validate};\n\
       \n\
-      var validates = %{validates};\n\
+      var validates = #{validates};\n\
       \n\
-      var def = %{def};\n\
-      var defClass = %{defClass};\n\
+      var def = #{def};\n\
+      var defClass = #{defClass};\n\
       \n\
-      %{validatesOf}\n\
+      #{validatesOf}\n\
       \n\
-      (%{body})(object);\n\
+      (#{body})(object);\n\
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      (%{new})(object);\n\
+      (#{new})(object);\n\
       \n\
       Object.defineProperties(object, {\n\
-        'reset': {get: %{reset}, enumerable: false },\n\
-        'changes': {get: %{changes}, enumerable: false },\n\
-        'changed': {get: %{changed}, enumerable: false }\n\
+        'reset': {get: #{reset}, enumerable: false },\n\
+        'changes': {get: #{changes}, enumerable: false },\n\
+        'changed': {get: #{changed}, enumerable: false }\n\
       });\n\
     };"
-    .replace(/%{name}/g, name)
-    .replace(/%{attrAccessible}/, Xikitita.attrAccessible.toString())
-    .replace(/%{id}/, Xikitita.id.toString())
-    .replace(/%{belongsTo}/, Xikitita.belongsTo.toString())
-    .replace(/%{hasOne}/, Xikitita.hasOne.toString())
-    .replace(/%{hasMany}/, Xikitita.hasMany.toString())
-    .replace(/%{Error}/, Xikitita.Error.toString())
-    .replace(/%{errors}/, Xikitita.errors.toString())
-    .replace(/%{isValid}/, Xikitita.isValid.toString())
-    .replace(/%{validate}/, Xikitita.validate.toString())
-    .replace(/%{validates}/, Xikitita.validates.toString())
-    .replace(/%{def}/, Xikitita.def.toString())
-    .replace(/%{defClass}/, Xikitita.defClass.toString())
-    .replace(/%{validatesOf}/, Xikitita.validatesOf())
-    .replace(/%{body}/, body.toString())
-    .replace(/%{new}/, Xikitita.new.toString())
-    .replace(/%{reset}/, Xikitita.reset.toString())
-    .replace(/%{changes}/, Xikitita.changes.toString())
-    .replace(/%{changed}/, Xikitita.changed.toString())
+    .interpolate({
+      name: name,
+      attrAccessible: Xikitita.attrAccessible.toString(),
+      id: Xikitita.id.toString(),
+      belongsTo: Xikitita.belongsTo.toString(),
+      hasOne: Xikitita.hasOne.toString(),
+      hasMany: Xikitita.hasMany.toString(),
+      Error: Xikitita.Error.toString(),
+      errors: Xikitita.errors.toString(),
+      isValid: Xikitita.isValid.toString(),
+      validate: Xikitita.validate.toString(),
+      validates: Xikitita.validates.toString(),
+      def: Xikitita.def.toString(),
+      defClass: Xikitita.defClass.toString(),
+      validatesOf: Xikitita.validatesOf(),
+      body: body.toString(),
+      new: Xikitita.new.toString(),
+      reset: Xikitita.reset.toString(),
+      changes: Xikitita.changes.toString(),
+      changed: Xikitita.changed.toString()
+    })
   );
   var Class = eval(name);
 
@@ -559,14 +567,16 @@ Xikitita.validatesOf = function(){
 
   Object.keys(Xikitita.validators).forEach(function(validator){
 
-    validatesOf.push('var validates%{validator}Of = ' 
-        .replace(/%{validator}/, validator.capitalize)
+    validatesOf.push('var validates#{validator}Of = ' 
+        .interpolate({
+          validator: validator.capitalize
+        })
       + function(){
 
           var attrNames = Array.prototype.slice.call(arguments);
           var last = attrNames.pop();
 
-          var validatorName = '%{validatorName}';
+          var validatorName = '#{validatorName}';
           var options = {};
           options[validatorName] = true;
 
@@ -581,7 +591,9 @@ Xikitita.validatesOf = function(){
           });
 
         }.toString()
-        .replace(/%{validatorName}/, validator)
+        .interpolate({
+          validatorName: validator
+        })
       + ';'
     );
 
@@ -689,7 +701,7 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    interpolation: { 
+    interpolate: { 
       value: function(params, identifier, isBoundary){
         identifier = identifier || '#';
         isBoundary = isBoundary === undefined ? true : isBoundary;
@@ -699,7 +711,7 @@ Xikitita.afterInit.push(function(){
 
         Object.keys(params).forEach(function(param){
           var regex = [identifier, boundary[0].trim(), param, boundary[1].trim()].join('');
-          interpolated = interpolated.replace(new RegExp(regex, 'ig'), params[param]);
+          interpolated = interpolated.replace(new RegExp(regex, 'g'), params[param]);
         });
 
         return interpolated;

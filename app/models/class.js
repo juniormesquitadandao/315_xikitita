@@ -1,73 +1,75 @@
 Xikitita.Class = function(name, body){
   
-  eval.call(Xikitita.window, "function %{name}(){\n\
+  eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
-      var __class__ =  %{name};\n\
+      var __class__ =  #{name};\n\
       var __attrAccessible__ = [];\n\
       \n\
       var object = this;\n\
-      var attrAccessible = %{attrAccessible};\n\
+      var attrAccessible = #{attrAccessible};\n\
       \n\
       var __id__ = 'id';\n\
-      var id = %{id};\n\
+      var id = #{id};\n\
       var __afterNew__ = [];\n\
       \n\
       var __belongsToClasses__ = {};\n\
-      var belongsTo = %{belongsTo};\n\
+      var belongsTo = #{belongsTo};\n\
       \n\
       var __hasOneClasses__ = {};\n\
-      var hasOne = %{hasOne};\n\
+      var hasOne = #{hasOne};\n\
       \n\
       var __hasManyClasses__ = {};\n\
-      var hasMany = %{hasMany};\n\
+      var hasMany = #{hasMany};\n\
       \n\
-      var __errors__ = new %{Error}(__class__.name.toLowerCase());\n\
+      var __errors__ = new #{Error}(__class__.name.toLowerCase());\n\
       var __validations__ = [];\n\
       Object.defineProperties(object, {\n\
-        'errors': {get: %{errors}, enumerable: false },\n\
-        'isValid': {get: %{isValid}, enumerable: false }\n\
+        'errors': {get: #{errors}, enumerable: false },\n\
+        'isValid': {get: #{isValid}, enumerable: false }\n\
       });\n\
       \n\
-      var validate = %{validate};\n\
+      var validate = #{validate};\n\
       \n\
-      var validates = %{validates};\n\
+      var validates = #{validates};\n\
       \n\
-      var def = %{def};\n\
-      var defClass = %{defClass};\n\
+      var def = #{def};\n\
+      var defClass = #{defClass};\n\
       \n\
-      %{validatesOf}\n\
+      #{validatesOf}\n\
       \n\
-      (%{body})(object);\n\
+      (#{body})(object);\n\
       attrAccessible();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
-      (%{new})(object);\n\
+      (#{new})(object);\n\
       \n\
       Object.defineProperties(object, {\n\
-        'reset': {get: %{reset}, enumerable: false },\n\
-        'changes': {get: %{changes}, enumerable: false },\n\
-        'changed': {get: %{changed}, enumerable: false }\n\
+        'reset': {get: #{reset}, enumerable: false },\n\
+        'changes': {get: #{changes}, enumerable: false },\n\
+        'changed': {get: #{changed}, enumerable: false }\n\
       });\n\
     };"
-    .replace(/%{name}/g, name)
-    .replace(/%{attrAccessible}/, Xikitita.attrAccessible.toString())
-    .replace(/%{id}/, Xikitita.id.toString())
-    .replace(/%{belongsTo}/, Xikitita.belongsTo.toString())
-    .replace(/%{hasOne}/, Xikitita.hasOne.toString())
-    .replace(/%{hasMany}/, Xikitita.hasMany.toString())
-    .replace(/%{Error}/, Xikitita.Error.toString())
-    .replace(/%{errors}/, Xikitita.errors.toString())
-    .replace(/%{isValid}/, Xikitita.isValid.toString())
-    .replace(/%{validate}/, Xikitita.validate.toString())
-    .replace(/%{validates}/, Xikitita.validates.toString())
-    .replace(/%{def}/, Xikitita.def.toString())
-    .replace(/%{defClass}/, Xikitita.defClass.toString())
-    .replace(/%{validatesOf}/, Xikitita.validatesOf())
-    .replace(/%{body}/, body.toString())
-    .replace(/%{new}/, Xikitita.new.toString())
-    .replace(/%{reset}/, Xikitita.reset.toString())
-    .replace(/%{changes}/, Xikitita.changes.toString())
-    .replace(/%{changed}/, Xikitita.changed.toString())
+    .interpolate({
+      name: name,
+      attrAccessible: Xikitita.attrAccessible.toString(),
+      id: Xikitita.id.toString(),
+      belongsTo: Xikitita.belongsTo.toString(),
+      hasOne: Xikitita.hasOne.toString(),
+      hasMany: Xikitita.hasMany.toString(),
+      Error: Xikitita.Error.toString(),
+      errors: Xikitita.errors.toString(),
+      isValid: Xikitita.isValid.toString(),
+      validate: Xikitita.validate.toString(),
+      validates: Xikitita.validates.toString(),
+      def: Xikitita.def.toString(),
+      defClass: Xikitita.defClass.toString(),
+      validatesOf: Xikitita.validatesOf(),
+      body: body.toString(),
+      new: Xikitita.new.toString(),
+      reset: Xikitita.reset.toString(),
+      changes: Xikitita.changes.toString(),
+      changed: Xikitita.changed.toString()
+    })
   );
   var Class = eval(name);
 
