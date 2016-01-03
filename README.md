@@ -1,4 +1,5 @@
 
+##What's it?
 Implementing some Active Record features in Javascript client side. Based on the ebook Eloquent Javascript 2nd edition and Rails Active Record
 ```js
 Xikitita
@@ -32,6 +33,7 @@ I18n.localize(new Date());
 '{}'.asJson;
 '#{first} #{last}'.interpolation({first: 'First', last: 'Last'});
 ```
+##Use cases
 #####Customer
 ######Design
 ```yml
