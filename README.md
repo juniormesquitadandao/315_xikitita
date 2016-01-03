@@ -151,3 +151,5 @@ Xikitita
 var persona = new Persona();
 ```
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
+##It works for you too?
+Please wait tutorial...
