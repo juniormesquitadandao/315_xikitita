@@ -392,7 +392,7 @@ describe('Xikitita', function() {
         });
 
         def('fullName', function(){
-          return [object.name, object.lastName].join(' ');
+          return '#{name} #{lastName}'.interpolate(object);
         });
 
         defClass('className', function(){
