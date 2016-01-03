@@ -31,7 +31,7 @@ I18n.localize(new Date());
 [].isEmpty;
 {}.toJson;
 '{}'.asJson;
-'#{first} #{last}'.interpolation({first: 'First', last: 'Last'});
+'#{first} #{last}'.interpolate({first: 'First', last: 'Last'});
 ```
 ##Use cases
 #####Customer
