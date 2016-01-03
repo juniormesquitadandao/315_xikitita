@@ -38,6 +38,7 @@ I18n.localize(new Date());
 ######Design
 ```yml
 Custormer:
+  id: attribute
   name: attribute, required
   lastName: attribute, required
   document: attribute, required
@@ -99,6 +100,7 @@ var customer = new Customer();
 ######Design
 ```yml
 User:
+  id: attribute
   email: attribute, required
   custormer_id: attribute
   persona_id: attribute, required
@@ -124,3 +126,28 @@ Xikitita
 var user = new User();
 ```
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L596-L667 "Mocha Test Case")
+#####Persona
+######Design
+```yml
+Persona:
+  id: attribute
+  name: attribute, required
+  users: hasMany association
+```
+######Implementation
+```js
+Xikitita
+  .Class('Persona', function(){
+
+    attrAccessible('name');
+
+    hasMany('users');
+
+    validatesPresenceOf('name');
+  });
+```
+######How to
+```js
+var persona = new Persona();
+```
+[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
