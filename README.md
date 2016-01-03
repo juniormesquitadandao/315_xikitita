@@ -42,7 +42,7 @@ Custormer:
   street: attribute, minimum 8 characters, maximum 16 characters
   district: attribute, minimum 8 characters, maximum 16 characters
   phone: attribute, minimum 9 digits
-  user: hasOne, persisted
+  user: hasOne association, persisted
   fullName: object method, '#{name} #{lastName}'
   className: class method, class name 
 ```
@@ -92,4 +92,33 @@ Xikitita
 ```js
 var customer = new Customer();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L502-L593 "Test Case")
+[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L503-L594 "Mocha Test Case")
+#####User
+######Design
+```yml
+User:
+  email: attribute, required
+  custormer_id: attribute
+  persona_id: attribute, required
+  customer: belongsTo association
+  persona: belongsTo association
+```
+######Implementation
+```js
+Xikitita
+  .Class('User', function(){
+
+    attrAccessible('email');
+
+    belongsTo('customer');
+    belongsTo('persona');
+
+    validatesPresenceOf('email', 'persona_id');
+
+  });
+```
+######How to
+```js
+var user = new User();
+```
+[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L596-L667 "Mocha Test Case")
