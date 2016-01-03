@@ -197,14 +197,16 @@ Xikitita.changes = function(){
       var initialValue = __initAttributes__[attrName] === undefined ? null : __initAttributes__[attrName];
       var actualValue = object[attrName];
 
-      if(initialValue && typeof initialValue === 'object' && actualValue && typeof actualValue == 'object'){
+      if(initialValue && typeof initialValue === 'object' && actualValue && typeof actualValue === 'object'){
         initialValue = initialValue.asJson;
 
-        Object.keys(actualValue).forEach(function(attrName){
-          if(!initialValue.hasOwnProperty(attrName)){
-            initialValue[attrName] = null;
-          }
-        });
+        if(!__hasManyClasses__.hasOwnProperty(attrName)){
+          Object.keys(actualValue).forEach(function(attrName){
+            if(!initialValue.hasOwnProperty(attrName)){
+              initialValue[attrName] = null;
+            }
+          });          
+        }
 
         if(initialValue.toJson !== actualValue.toJson){
           changes[attrName] = [initialValue, actualValue];

@@ -704,6 +704,29 @@ describe('Xikitita', function() {
     expect(persona.errors.toJson).to.be('{}');
     expect(persona.users.toJson).to.be('[{"id":1,"email":"email","customer_id":null,"persona_id":0},{"id":2,"email":"email2","customer_id":null,"persona_id":0}]'); 
     expect(persona.users[0]).to.be.a(User);
+
+    persona = new Persona({id: 1, name: "Name"});
+    expect(persona.toJson).to.be('{"id":1,"name":"Name"}');
+    expect(persona.users.toJson).to.be('[]');
+    expect(persona.changes.toJson).to.be('{}');
+    expect(persona.changes_name.toJson).to.be('[]');
+    expect(persona.changes_users.toJson).to.be('[]');
+
+    persona.name = null;
+    persona.users = [{id: 0, email: 'email'},{id: 2, email: 'email2'}];
+    expect(persona.toJson).to.be('{"id":1,"name":null}');
+    expect(persona.users.toJson).to.be('[{"id":0,"email":"email","customer_id":null,"persona_id":1},{"id":2,"email":"email2","customer_id":null,"persona_id":1}]');
+    expect(persona.users[0].persona.toJson).to.be('{"id":1,"name":null}');
+    expect(persona.changes.toJson).to.be('{"name":["Name",null],"users":[[],[{"id":0,"email":"email","customer_id":null,"persona_id":1},{"id":2,"email":"email2","customer_id":null,"persona_id":1}]]}');
+    expect(persona.changes_name.toJson).to.be('["Name",null]');
+    expect(persona.changes_users.toJson).to.be('[[],[{"id":0,"email":"email","customer_id":null,"persona_id":1},{"id":2,"email":"email2","customer_id":null,"persona_id":1}]]');
+
+    persona.reset;
+    expect(persona.toJson).to.be('{"id":1,"name":"Name"}');
+    expect(persona.users.toJson).to.be('[]');
+    expect(persona.changes.toJson).to.be('{}');
+    expect(persona.changes_name.toJson).to.be('[]');
+    expect(persona.changes_users.toJson).to.be('[]');
   });
 
   it('Stub1', function(){

@@ -101,4 +101,10 @@ Xikitita.hasMany = function(classNamePluralized, options){
   });
 
   attrAccessible(classNamePluralized);
+  
+  __afterNew__.push(function(){
+    if(!__initAttributes__.hasOwnProperty(classNamePluralized)){
+      __initAttributes__[classNamePluralized] = [];
+    }
+  });
 };
