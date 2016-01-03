@@ -344,21 +344,25 @@ Xikitita.attrAccessible = function(){
 Xikitita.new = function(){
   function defineChangesToAttrName(attrName){
     var changes_attrName = ['changes', attrName].join('_');
-    Object.defineProperty(object, changes_attrName, {
-      get: function(){
-        return this.changes[attrName] || [];
-      }
-    });
+    if(!object.hasOwnProperty(changes_attrName)){
+      Object.defineProperty(object, changes_attrName, {
+        get: function(){
+          return this.changes[attrName] || [];
+        }
+      });
+    }
   }
 
   function defineChangedToAttrName(attrName){
     var changes_attrName = ['changes', attrName].join('_');
     var changed_attrName = ['changed', attrName].join('_');
-    Object.defineProperty(object, changed_attrName, {
-      get: function(){
-        return this[changes_attrName].isAny;
-      }
-    });
+    if(!object.hasOwnProperty(changed_attrName)){
+      Object.defineProperty(object, changed_attrName, {
+        get: function(){
+          return this[changes_attrName].isAny;
+        }
+      });
+    }
   }
 
   if(typeof __initAttributes__ === 'string'){
@@ -381,10 +385,22 @@ Xikitita.new = function(){
 
   __afterNew__.forEach(function(callback){
     callback();
-  })
+  });
 };
 
 Xikitita.reset = function(){ 
+  Object.keys(__belongsToClasses__).forEach(function(belongsTo){
+    object[belongsTo] = null;
+  });
+
+  Object.keys(__hasOneClasses__).forEach(function(hasOne){
+    object[hasOne] = null;
+  });
+
+  Object.keys(__hasManyClasses__).forEach(function(hasMany){
+    object[hasMany] = [];
+  });
+
   Object.keys(__initAttributes__).forEach(function(attrName){
     object[attrName] = __initAttributes__[attrName];
   });
@@ -395,12 +411,9 @@ Xikitita.reset = function(){
     }
   });
 
-  Object.keys(__belongsToClasses__).forEach(function(belongsTo){
-    if(!__initAttributes__.hasOwnProperty(belongsTo)){
-      object[belongsTo] = null;
-    }
+  __afterNew__.forEach(function(callback){
+    callback();
   });
-
 };
 
 Xikitita.changes = function(){
@@ -479,13 +492,8 @@ Xikitita.belongsTo = function(classNameSingularized, options){
   __belongsToClasses__[classNameSingularized] = null;
 
   attrAccessible(foreingKey);
-  attrAccessible(classNameSingularized);
   
   __afterNew__.push(function(){
-    if(__initAttributes__.hasOwnProperty(classNameSingularized)){
-      __initAttributes__[foreingKey] = __initAttributes__[classNameSingularized][referenceKey] === undefined ? null : __initAttributes__[classNameSingularized][referenceKey];
-    }
-
     if(__initAttributes__.hasOwnProperty(foreingKey)){
       var value = {};
       value[referenceKey] = object[foreingKey];

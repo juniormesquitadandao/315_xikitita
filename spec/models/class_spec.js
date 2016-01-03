@@ -175,7 +175,7 @@ describe('Class', function() {
 
       });
 
-    var stub = new Stub({stub2: {}});
+    var stub = new Stub({stub2_id: null});
 
     stub.one = 'One';
     stub.two = 'Two';

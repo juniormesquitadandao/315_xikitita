@@ -568,28 +568,25 @@ describe('Xikitita', function() {
     expect(customer.user.customer.toJson).to.be('{"id":null,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
     expect(customer.user).to.be.a(User);
 
-    customer = new Customer({id: 1, name: "Name", user: {id: 0, email: 'email'}});
+    customer = new Customer({id: 1, name: "Name"});
     expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(customer.user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
-    expect(customer.user.persona).to.be(null);
+    expect(customer.user).to.be(null);
     expect(customer.changes.toJson).to.be('{}');
     expect(customer.changes_name.toJson).to.be('[]');
     expect(customer.changes_user.toJson).to.be('[]');
 
     customer.name = null;
-    customer.user.email = null;
-    customer.user.persona = {id: 2};
+    customer.user = {id: 0, email: 'email', persona_id: 2};
     expect(customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(customer.user.toJson).to.be('{"id":0,"email":null,"customer_id":1,"persona_id":2}');
+    expect(customer.user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":2}');
     expect(customer.user.persona.toJson).to.be('{"id":2,"name":null}');
-    expect(customer.changes.toJson).to.be('{"name":["Name",null],"user":[{"id":0,"email":"email","customer_id":1,"persona_id":null},{"id":0,"email":null,"customer_id":1,"persona_id":2}]}');
+    expect(customer.changes.toJson).to.be('{"name":["Name",null],"user":[null,{"id":0,"email":"email","customer_id":1,"persona_id":2}]}');
     expect(customer.changes_name.toJson).to.be('["Name",null]');
-    expect(customer.changes_user.toJson).to.be('[{"id":0,"email":"email","customer_id":1,"persona_id":null},{"id":0,"email":null,"customer_id":1,"persona_id":2}]');
+    expect(customer.changes_user.toJson).to.be('[null,{"id":0,"email":"email","customer_id":1,"persona_id":2}]');
 
     customer.reset;
     expect(customer.toJson).to.be('{"id":1,"name":"Name","lastName":null,"document":null,"street":null,"district":null,"phone":null}');
-    expect(customer.user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
-    expect(customer.user.persona).to.be(null);
+    expect(customer.user).to.be(null);
     expect(customer.changes.toJson).to.be('{}');
     expect(customer.changes_name.toJson).to.be('[]');
     expect(customer.changes_user.toJson).to.be('[]');
@@ -638,7 +635,7 @@ describe('Xikitita', function() {
     expect(user.customer).to.be.a(Customer);
     expect(user.persona).to.be.a(Persona);
 
-    user = new User({id: 0, email: "email", customer: {id: 1} });
+    user = new User({id: 0, email: "email", customer_id: 1});
     expect(user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
     expect(user.customer.toJson).to.be('{"id":1,"name":null,"lastName":null,"document":null,"street":null,"district":null,"phone":null}');
     expect(user.persona).to.be(null);
@@ -646,8 +643,6 @@ describe('Xikitita', function() {
     expect(user.changes_email.toJson).to.be('[]');
     expect(user.changes_customer_id.toJson).to.be('[]');
     expect(user.changes_persona_id.toJson).to.be('[]');
-    expect(user.changes_customer.toJson).to.be('[]');
-    expect(user.changes_persona.toJson).to.be('[]');
 
     user.email = null;
     user.customer = null;
@@ -655,12 +650,10 @@ describe('Xikitita', function() {
     expect(user.toJson).to.be('{"id":0,"email":null,"customer_id":null,"persona_id":2}');
     expect(user.customer).to.be(null);
     expect(user.persona.toJson).to.be('{"id":2,"name":null}');
-    expect(user.changes.toJson).to.be('{"email":["email",null],"customer_id":[1,null],"customer":[{"id":1},null],"persona_id":[null,2],"persona":[null,{"id":2,"name":null}]}');
+    expect(user.changes.toJson).to.be('{"email":["email",null],"customer_id":[1,null],"persona_id":[null,2]}');
     expect(user.changes_email.toJson).to.be('["email",null]');
     expect(user.changes_customer_id.toJson).to.be('[1,null]');
     expect(user.changes_persona_id.toJson).to.be('[null,2]');
-    expect(user.changes_customer.toJson).to.be('[{"id":1},null]');
-    expect(user.changes_persona.toJson).to.be('[null,{"id":2,"name":null}]');
 
     user.reset;
     expect(user.toJson).to.be('{"id":0,"email":"email","customer_id":1,"persona_id":null}');
@@ -670,8 +663,6 @@ describe('Xikitita', function() {
     expect(user.changes_email.toJson).to.be('[]');
     expect(user.changes_customer_id.toJson).to.be('[]');
     expect(user.changes_persona_id.toJson).to.be('[]');
-    expect(user.changes_customer.toJson).to.be('[]');
-    expect(user.changes_persona.toJson).to.be('[]');
   });
 
   it('Persona', function(){
@@ -732,7 +723,7 @@ describe('Xikitita', function() {
     expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
     expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
 
-    var stub1 = new Stub1({id_stub1: 1, stub2: {id_stub2: 2}, stub3: {id_stub3: 3}});
+    var stub1 = new Stub1({id_stub1: 1, stub2: {id_stub2: 2}, stub3_id: 3});
     expect(stub1.toJson).to.be('{"id_stub1":1,"stub3_id":3}');
     expect(stub1.stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":null}');
     expect(stub1.stub3.toJson).to.be('{"id_stub3":3}');
@@ -751,7 +742,7 @@ describe('Xikitita', function() {
     expect(stub2.stub1.toJson).to.be('{"id_stub1":1,"stub3_id":null}');
     expect(stub2.stub3.toJson).to.be('{"id_stub3":3}');
 
-    var stub2 = new Stub2({id_stub2: 2, myStub_id: 1, stub3: {id_stub3: 3}});
+    var stub2 = new Stub2({id_stub2: 2, myStub_id: 1, stub3_id: 3});
     expect(stub2.toJson).to.be('{"id_stub2":2,"myStub_id":1,"stub3_id":3}');
     expect(stub2.stub1.toJson).to.be('{"id_stub1":1,"stub3_id":null}');
     expect(stub2.stub3.toJson).to.be('{"id_stub3":3}');
