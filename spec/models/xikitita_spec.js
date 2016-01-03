@@ -4,6 +4,7 @@ var Xikitita = require('../../temp/xikitita.js');
 describe('Xikitita', function() {
   
   before(function() {
+    
     Xikitita
       .init
       .Inflection(function(){
