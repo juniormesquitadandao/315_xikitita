@@ -91,4 +91,5 @@ Xikitita
 ######How to
 ```js
 var customer = new Customer();
+[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L502-L593 "Test Case")
 ```
