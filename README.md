@@ -54,7 +54,7 @@ Custormer:
 Xikitita
   .Class('Customer', function(){
 
-    attrAccessible('name', 'lastName', 'document', 'street', 'district', 'phone');
+    attrAccessor('name', 'lastName', 'document', 'street', 'district', 'phone');
 
     hasOne('user');
 
@@ -112,7 +112,7 @@ User:
 Xikitita
   .Class('User', function(){
 
-    attrAccessible('email');
+    attrAccessor('email');
 
     belongsTo('customer');
     belongsTo('persona');
@@ -139,7 +139,7 @@ Persona:
 Xikitita
   .Class('Persona', function(){
 
-    attrAccessible('name');
+    attrAccessor('name');
 
     hasMany('users');
 

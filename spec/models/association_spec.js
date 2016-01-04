@@ -7,15 +7,15 @@ describe('Association', function() {
     Xikitita
       .init
       .Class('Customer', function(){
-        attrAccessible('name', 'phone');
+        attrAccessor('name', 'phone');
       })
       .Class('User', function(){
-        attrAccessible('email');
+        attrAccessor('email');
         belongsTo('customer');
         belongsTo('permission');
       })
       .Class('Permission', function(){
-        attrAccessible('name');
+        attrAccessor('name');
         hasMany('customers');
       })
       .Class('Stub', function(){
@@ -51,7 +51,7 @@ describe('Association', function() {
   it('hasOne', function () {
     Xikitita
       .Class('Customer', function(){
-        attrAccessible('name', 'phone');
+        attrAccessor('name', 'phone');
         hasOne('user');
       })
     

@@ -334,7 +334,7 @@ describe('Xikitita', function() {
       })
       .Class('Stub', function(){
 
-        attrAccessible('one', 'two');
+        attrAccessor('one', 'two');
 
         validatesLengthOf('one', {in: [1, 10]});
         validatesLengthOf('two', {is: 5});
@@ -365,7 +365,7 @@ describe('Xikitita', function() {
       })
       .Class('Customer', function(){
 
-        attrAccessible('name', 'lastName', 'document', 'street', 'district', 'phone');
+        attrAccessor('name', 'lastName', 'document', 'street', 'district', 'phone');
 
         hasOne('user');
 
@@ -403,7 +403,7 @@ describe('Xikitita', function() {
       })
       .Class('User', function(){
 
-        attrAccessible('email');
+        attrAccessor('email');
 
         belongsTo('customer');
         belongsTo('persona');
@@ -413,7 +413,7 @@ describe('Xikitita', function() {
       })
       .Class('Persona', function(){
 
-        attrAccessible('name');
+        attrAccessor('name');
 
         hasMany('users');
 

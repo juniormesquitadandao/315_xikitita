@@ -230,10 +230,10 @@ Xikitita.Class = function(name, body){
   eval.call(Xikitita.window, "function #{name}(){\n\
       var Xikitita = Xikitita;\n\
       var __class__ =  #{name};\n\
-      var __attrAccessible__ = [];\n\
+      var __attrAccessor__ = [];\n\
       \n\
       var object = this;\n\
-      var attrAccessible = #{attrAccessible};\n\
+      var attrAccessor = #{attrAccessor};\n\
       \n\
       var __id__ = 'id';\n\
       var id = #{id};\n\
@@ -265,7 +265,7 @@ Xikitita.Class = function(name, body){
       #{validatesOf}\n\
       \n\
       (#{body})(object);\n\
-      attrAccessible();\n\
+      attrAccessor();\n\
       \n\
       var __initAttributes__ =  Array.prototype.slice.call(arguments).shift() || {};\n\
       (#{new})(object);\n\
@@ -278,7 +278,7 @@ Xikitita.Class = function(name, body){
     };"
     .interpolate({
       name: name,
-      attrAccessible: Xikitita.attrAccessible.toString(),
+      attrAccessor: Xikitita.attrAccessor.toString(),
       id: Xikitita.id.toString(),
       belongsTo: Xikitita.belongsTo.toString(),
       hasOne: Xikitita.hasOne.toString(),
@@ -329,15 +329,15 @@ Xikitita.id = function(id){
   });
 };
 
-Xikitita.attrAccessible = function(){
+Xikitita.attrAccessor = function(){
   var attrNames = Array.prototype.slice.call(arguments);
-  if(__attrAccessible__.length === 0){
+  if(__attrAccessor__.length === 0){
     attrNames.unshift(__id__);
   }
 
   attrNames.forEach(function(attrName){
     object[attrName] = null;
-    __attrAccessible__.push(attrName);
+    __attrAccessor__.push(attrName);
   });
 };
 
@@ -369,7 +369,7 @@ Xikitita.new = function(){
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
   
-  __attrAccessible__.forEach(function(attrName){
+  __attrAccessor__.forEach(function(attrName){
     __afterNew__.push(function(){
       defineChangesToAttrName(attrName);
       defineChangedToAttrName(attrName);
@@ -377,7 +377,7 @@ Xikitita.new = function(){
   });
 
   Object.keys(__initAttributes__).forEach(function(attrName){
-    if(__attrAccessible__.indexOf(attrName) < 0){
+    if(__attrAccessor__.indexOf(attrName) < 0){
       throw new TypeError(__class__.name.toLowerCase() + '.' + attrName + ' is not a attribute');
     }
     object[attrName] = __initAttributes__[attrName];
@@ -419,7 +419,7 @@ Xikitita.reset = function(){
 Xikitita.changes = function(){
   var changes = {};
 
-  __attrAccessible__.forEach(function(attrName){
+  __attrAccessor__.forEach(function(attrName){
   
       var initialValue = __initAttributes__[attrName] === undefined ? null : __initAttributes__[attrName];
       var actualValue = object[attrName];
@@ -493,7 +493,7 @@ Xikitita.belongsTo = function(classNameSingularized, options){
 
   __belongsToClasses__[classNameSingularized] = null;
 
-  attrAccessible(foreingKey);
+  attrAccessor(foreingKey);
   
   __afterNew__.push(function(){
     if(__initAttributes__.hasOwnProperty(foreingKey)){
@@ -531,7 +531,7 @@ Xikitita.hasOne = function(classNameSingularized, options){
 
   __hasOneClasses__[classNameSingularized] = null;
 
-  attrAccessible(classNameSingularized);
+  attrAccessor(classNameSingularized);
 };
 
 Xikitita.hasMany = function(classNamePluralized, options){
@@ -563,7 +563,7 @@ Xikitita.hasMany = function(classNamePluralized, options){
     }
   });
 
-  attrAccessible(classNamePluralized);
+  attrAccessor(classNamePluralized);
   
   __afterNew__.push(function(){
     if(!__initAttributes__.hasOwnProperty(classNamePluralized)){

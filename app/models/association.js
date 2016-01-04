@@ -30,7 +30,7 @@ Xikitita.belongsTo = function(classNameSingularized, options){
 
   __belongsToClasses__[classNameSingularized] = null;
 
-  attrAccessible(foreingKey);
+  attrAccessor(foreingKey);
   
   __afterNew__.push(function(){
     if(__initAttributes__.hasOwnProperty(foreingKey)){
@@ -68,7 +68,7 @@ Xikitita.hasOne = function(classNameSingularized, options){
 
   __hasOneClasses__[classNameSingularized] = null;
 
-  attrAccessible(classNameSingularized);
+  attrAccessor(classNameSingularized);
 };
 
 Xikitita.hasMany = function(classNamePluralized, options){
@@ -100,7 +100,7 @@ Xikitita.hasMany = function(classNamePluralized, options){
     }
   });
 
-  attrAccessible(classNamePluralized);
+  attrAccessor(classNamePluralized);
   
   __afterNew__.push(function(){
     if(!__initAttributes__.hasOwnProperty(classNamePluralized)){

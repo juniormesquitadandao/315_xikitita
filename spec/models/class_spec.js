@@ -27,15 +27,15 @@ describe('Class', function() {
         }
       })
       .Class('Customer', function(){
-        attrAccessible('name', 'phone');
+        attrAccessor('name', 'phone');
       })
       .Class('User', function(){
-        attrAccessible('email');
+        attrAccessor('email');
         belongsTo('customer');
         belongsTo('permission');
       })
       .Class('Permission', function(){
-        attrAccessible('name');
+        attrAccessor('name');
         hasMany('customers');
       })
       .Class('Stub', function(){
@@ -82,7 +82,7 @@ describe('Class', function() {
 
     Xikitita
       .Class('Stub', function(){
-        attrAccessible('one', 'two');
+        attrAccessor('one', 'two');
       })
 
     expect(new Stub().toJson).to.be('{"id":null,"one":null,"two":null}');
@@ -133,7 +133,7 @@ describe('Class', function() {
     expect(new Stub2({stub_id: 1}).stub).to.be.a(Stub);
   });
 
-  it('attrAccessible', function () {
+  it('attrAccessor', function () {
     expect(new Customer().toJson).to.be('{"id":null,"name":null,"phone":null}');
   });
 
@@ -166,7 +166,7 @@ describe('Class', function() {
       .Class('Stub', function(){
         id('id_stub');
 
-        attrAccessible('one', 'two');
+        attrAccessor('one', 'two');
 
         belongsTo('stub2');
 
@@ -191,7 +191,7 @@ describe('Class', function() {
       .Class('Stub', function(){
         id('id_stub');
 
-        attrAccessible('one', 'two')
+        attrAccessor('one', 'two')
       })
 
     var stub = new Stub();

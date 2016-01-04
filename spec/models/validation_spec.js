@@ -15,7 +15,7 @@ describe('Validation', function() {
         }
       })
       .Class('Customer', function(){
-        attrAccessible('name', 'phone');
+        attrAccessor('name', 'phone');
 
         validatesPresenceOf('name');
         validates('phone', {presence: true});
