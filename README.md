@@ -153,3 +153,18 @@ var persona = new Persona();
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
 ##It works for you too?
 Please wait tutorial...
+##Tutorial
+#####Setting up internal communication of lib
+You must set the number of flection of the names of their classes to the lib be able to relate members and collections.
+```js
+Xikitita
+  .Inflection(function(){
+    irregular('fish', 'fish');
+    irregular('person', 'people');
+  });
+```
+You can verifying calling the following methods on String objects:
+```js
+  'person'.pluralize;
+  'people'.singularize;
+```
