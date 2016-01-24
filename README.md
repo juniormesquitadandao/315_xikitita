@@ -203,9 +203,9 @@ Xikitita
         }
       });
 ```
-######Nationalizing date
-You can verifying calling the following methods on String objects:
+######Nationalizing
+You must choose one of the languages ​​supported by your application.
 ```js
-'person'.pluralize;
-'people'.singularize;
+I18n.locale = 'en';
 ```
+######Nationalizing date
