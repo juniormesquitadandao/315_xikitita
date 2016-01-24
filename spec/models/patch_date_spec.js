@@ -268,4 +268,44 @@ describe('Patch Date', function() {
     expect(myDateBirth.localize({dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
   });
 
+  it('#l', function () {
+    var myDateBirth = new Date('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
+
+    I18n.locale = 'en';
+
+    expect(myDateBirth.l()).to.be('1988-08-18');
+    expect(myDateBirth.l({format: 'long'})).to.be('August 18, 1988');
+    expect(myDateBirth.l({format: 'short'})).to.be('Aug 18');
+    expect(myDateBirth.l({format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(myDateBirth.l({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'time', format: 'long'})).to.be('18:00');
+    expect(myDateBirth.l({dateType: 'time', format: 'meridiem'})).to.be('06:00:00 pm GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'time', format: 'meridiemLong'})).to.be('06:00 pm');
+    expect(myDateBirth.l({dateType: 'time', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(myDateBirth.l({dateType: 'dateTime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'long'})).to.be('August 18, 1988 18:00');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'short'})).to.be('18 Aug 18:00');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    I18n.locale = 'pt-BR';
+
+    expect(myDateBirth.l()).to.be('18/08/1988');
+    expect(myDateBirth.l({format: 'long'})).to.be('18 de Agosto de 1988');
+    expect(myDateBirth.l({format: 'short'})).to.be('18 de Agosto');
+    expect(myDateBirth.l({format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(myDateBirth.l({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'time', format: 'long'})).to.be('18:00');
+    expect(myDateBirth.l({dateType: 'time', format: 'meridiem'})).to.be('06:00:00 pm GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'time', format: 'meridiemLong'})).to.be('06:00 pm');
+    expect(myDateBirth.l({dateType: 'time', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+
+    expect(myDateBirth.l({dateType: 'dateTime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'long'})).to.be('18 de Agosto de 1988, 18:00');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'short'})).to.be('18 de Agosto, 18:00');
+    expect(myDateBirth.l({dateType: 'dateTime', format: 'custom'})).to.be('Thu Aug 18 1988 18:00:00 GMT-0300 (BRT)');
+  });
+
 });
