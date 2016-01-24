@@ -166,3 +166,46 @@ You can verifying calling the following methods on String objects:
 'person'.pluralize;
 'people'.singularize;
 ```
+#####Nationalizing the output to client
+You must set the output data for each language supported by your application.
+```js
+Xikitita
+      .I18n('en', {
+        date: {
+        },
+        time: {
+        },
+        dateTime: {
+        },
+        integer: {
+        },
+        decimal: {
+        },
+        logic: {
+        },
+        errors: {
+        }
+      })
+      .I18n('pt-BR', {
+        date: {
+        },
+        time: {
+        },
+        dateTime: {
+        },
+        integer: {
+        },
+        decimal: {
+        },
+        logic: {
+        },
+        errors: {
+        }
+      });
+```
+######Nationalizing date
+You can verifying calling the following methods on String objects:
+```js
+'person'.pluralize;
+'people'.singularize;
+```
