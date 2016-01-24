@@ -165,6 +165,6 @@ Xikitita
 ```
 You can verifying calling the following methods on String objects:
 ```js
-  'person'.pluralize;
-  'people'.singularize;
+'person'.pluralize;
+'people'.singularize;
 ```
