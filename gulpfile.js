@@ -17,7 +17,7 @@ gulp.task('default', function() {
     'app/models/patch_object.js', 
     'app/models/patch_string.js',
     'app/models/patch_date.js',
-    'app/models/patch_integer.js'
+    'app/models/patch_number.js'
   ]
 
   gulp.src(src)
