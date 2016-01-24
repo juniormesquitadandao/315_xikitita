@@ -15,7 +15,8 @@ gulp.task('default', function() {
     'app/models/validation.js', 
     'app/models/validator.js', 
     'app/models/patch_object.js', 
-    'app/models/patch_string.js'
+    'app/models/patch_string.js',
+    'app/models/patch_date.js'
   ]
 
   gulp.src(src)
