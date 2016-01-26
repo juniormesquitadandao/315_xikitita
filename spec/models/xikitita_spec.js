@@ -94,7 +94,7 @@ describe('Xikitita', function() {
             long: '%B %d, %Y %H:%M',
             short: '%d %b %H:%M',
             custom: function(value){
-              return 'use external lib to format date/time';
+              return 'use external lib to format datetime';
             }
           },
           pm: 'pm'
@@ -483,7 +483,7 @@ describe('Xikitita', function() {
     expect(I18n.l(date, {dateType: 'datetime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
     expect(I18n.l(date, {dateType: 'datetime', format: 'long'})).to.be('November 15, 2015 00:00');
     expect(I18n.l(date, {dateType: 'datetime', format: 'short'})).to.be('15 Nov 00:00');
-    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('use external lib to format date/time');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('use external lib to format datetime');
 
     expect(I18n.l(0)).to.be('use external lib to format integer');
     expect(I18n.l(0.0)).to.be('use external lib to format integer');
