@@ -167,58 +167,42 @@ You can verifying calling the following methods on String objects:
 'people'.singularize;
 ```
 #####Nationalizing the output to client
-You must set the output data for each language supported by your application.
+You must set the output data for each language supported by your application. 
 ```js
 Xikitita
   .I18n('en', {
-    date: {
-    },
-    time: {
-    },
-    dateTime: {
-    },
-    integer: {
-    },
-    decimal: {
-    },
-    logic: {
-    },
-    errors: {
-    }
   })
   .I18n('pt-BR', {
-    date: {
-    },
-    time: {
-    },
-    dateTime: {
-    },
-    integer: {
-    },
-    decimal: {
-    },
-    logic: {
-    },
-    errors: {
-    }
   });
 ```
+
+> **I18n methods:**
+> 
+> - **locale=** set locale
+> - **locale** return actual locale
+> - **translate('path.sub_path',{})** return string by path 
+> - **t(object ,{})** alias to translate method
+> - **localize(object ,{})** convert object to string
+> - **l(object ,{})** alias to localize method
+
 ######Nationalizing
 You must choose one of the languages ​​supported by your application.
 ```js
 I18n.locale = 'en';
 ```
+
 ######Nationalizing date
-You must set expressions to convert date to text using the following options.
+You must set expressions to convert data to text using an external library could or the following options.
 > **Date Options:**
 > 
-> - **'%a'** - convert to abbreviation day name
-> - **'%A'** - convert to day name
-> - **'%b'** - convert to abbreviation month name
-> - **'%B'** - convert to month name
-> - **'%d'** - convert to day number
-> - **'%m'** - convert to month number
-> - **'%Y'** - convert to year number
+> - **%a** convert to abbreviation day name
+> - **%A** convert to day name
+> - **%b** convert to abbreviation month name
+> - **%B** convert to month name
+> - **%d** convert to day number
+> - **%m** convert to month number
+> - **%Y** convert to year number
+
 
 ```js
 Xikitita
@@ -229,11 +213,23 @@ Xikitita
         long: '%B %d, %Y',
         short: '%b %d',
         custom: function(value){
-          return value.toString();
+          return 'use external lib to format date';
         }
       },
     },
   });
+```
+Now you can use the convert data objects to text according to the set language.
+```js
+var date = new Date();
+
+I18n.localize(date);
+I18n.localize(date, {format: 'short'});
+I18n.localize(date, {format: 'custom'});
+I18n.l(date);
+
+date.localize();
+date.l();
 ```
 ######Nationalizing time
 You must set expressions to convert time to text using the following options.
