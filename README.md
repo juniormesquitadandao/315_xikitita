@@ -309,7 +309,7 @@ Xikitita
     }
   });
 ```
-Now you can use the convert time objects to string according to the set language.
+Now you can use the convert datetime objects to string according to the set language.
 ```js
 var datetime = new Date();
 
