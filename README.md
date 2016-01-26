@@ -321,5 +321,5 @@ I18n.l(datetime, {dateType: 'datetime'});
 datetime.localize({dateType: 'datetime'});
 datetime.l({dateType: 'datetime', format: 'long'});
 ```
-[see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n_spec.js "I18n n")
-[see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "I18n n")
+[see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n_spec.js "code")
+[see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
