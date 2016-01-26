@@ -210,13 +210,28 @@ I18n.locale = 'en';
 ```
 ######Nationalizing date
 You must set expressions to convert date to text using the following options.
- -'%a' - convert to abbr day name
+ -'%a' - convert to abbreviation day name
  -'%A' - convert to day name
- -'%b' - convert to abbr month name
+ -'%b' - convert to abbreviation month name
  -'%B' - convert to month name
  -'%d' - convert to day number
  -'%m' - convert to month number
  -'%Y' - convert to year number
+```js
+Xikitita
+  .I18n('en', {
+    date: {
+      formats: {
+        default: '%Y-%m-%d',
+        long: '%B %d, %Y',
+        short: '%b %d',
+        custom: function(value){
+          return value.toString();
+        }
+      },
+    },
+  });
+```
 ######Nationalizing time
 You must set expressions to convert time to text using the following options.
  -'%h' - convert to hour (12h)
@@ -228,57 +243,3 @@ You must set expressions to convert time to text using the following options.
  -'%z' - convert to zone
 ######Nationalizing datetime
 You must set expressions for converting date to text using either the date or time conversion options.
-```js
-'%a': I18n.t('date.abbrDayNames')[dayWeak],
-A: I18n.t('date.dayNames')[dayWeak],
-m: new String(month + 100).toString().substr(1),
-b: I18n.t('date.abbrMonthNames')[month],
-B: I18n.t('date.monthNames')[month],
-d: new String(dayMonth + 100).toString().substr(1),
-Y: year
-}, '%', false);
-},
-time: function(){
-formatted = formatted
-.interpolate({
-h: new String( (hours || 24) - 12 + 100 ).toString().substr(1),
-H: new String(hours + 100).toString().substr(1),
-M: new String(minutes + 100).toString().substr(1),
-S: new String(seconds + 100).toString().substr(1),
-p: I18n.t(['time', meridiem].join('.')),
-z: zone
-
-Xikitita
-  .I18n('en', {
-    date: {
-    },
-    time: {
-    },
-    dateTime: {
-    },
-    integer: {
-    },
-    decimal: {
-    },
-    logic: {
-    },
-    errors: {
-    }
-  })
-  .I18n('pt-BR', {
-    date: {
-    },
-    time: {
-    },
-    dateTime: {
-    },
-    integer: {
-    },
-    decimal: {
-    },
-    logic: {
-    },
-    errors: {
-    }
-  });
-```
