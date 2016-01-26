@@ -210,13 +210,15 @@ I18n.locale = 'en';
 ```
 ######Nationalizing date
 You must set expressions to convert date to text using the following options.
- -'%a' - convert to abbreviation day name
- -'%A' - convert to day name
- -'%b' - convert to abbreviation month name
- -'%B' - convert to month name
- -'%d' - convert to day number
- -'%m' - convert to month number
- -'%Y' - convert to year number
+> **Date Options:**
+> -**'%a'** - convert to abbreviation day name
+> -**'%A'** - convert to day name
+> -**'%b'** - convert to abbreviation month name
+> -**'%B'** - convert to month name
+> -**'%d'** - convert to day number
+> -**'%m'** - convert to month number
+> -**'%Y'** - convert to year number
+
 ```js
 Xikitita
   .I18n('en', {
