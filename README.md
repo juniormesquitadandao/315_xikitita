@@ -302,7 +302,7 @@ Xikitita
         long: '%B %d, %Y %H:%M',
         short: '%d %b %H:%M',
         custom: function(value){
-          return 'use external lib to format date/time';
+          return 'use external lib to format datetime';
         }
       },
       pm: 'pm'
