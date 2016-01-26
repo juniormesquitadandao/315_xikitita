@@ -134,7 +134,7 @@ Xikitita.afterInit.push(function(){
                     z: zone
                   }, '%', false);
               },
-              dateTime: function(){
+              datetime: function(){
                 this.date();
                 this.time();
               }

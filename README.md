@@ -175,7 +175,6 @@ Xikitita
   .I18n('pt-BR', {
   });
 ```
-
 > **I18n methods:**
 > 
 > - **locale=** set locale
@@ -192,7 +191,7 @@ I18n.locale = 'en';
 ```
 
 ######Nationalizing date
-You must set expressions to convert data to text using an external library could or the following options.
+You must set expressions to convert data to string using an external library could or the following options.
 > **Date Options:**
 > 
 > - **%a** convert to abbreviation day name
@@ -202,7 +201,6 @@ You must set expressions to convert data to text using an external library could
 > - **%d** convert to day number
 > - **%m** convert to month number
 > - **%Y** convert to year number
-
 
 ```js
 Xikitita
@@ -215,11 +213,11 @@ Xikitita
         custom: function(value){
           return 'use external lib to format date';
         }
-      },
-    },
+      }
+    }
   });
 ```
-Now you can use the convert data objects to text according to the set language.
+Now you can use the convert date objects to string according to the set language.
 ```js
 var date = new Date();
 
@@ -229,16 +227,87 @@ I18n.localize(date, {format: 'custom'});
 I18n.l(date);
 
 date.localize();
-date.l();
+date.l({format: 'long'});
 ```
 ######Nationalizing time
-You must set expressions to convert time to text using the following options.
- -'%h' - convert to hour (12h)
- -'%H' - convert to hour (24h)
- -'%M' - convert to minute
- -'%S' - convert to second
- -'%p' - convert to day number
- -'%z' - convert to meridiem (am/pm)
- -'%z' - convert to zone
+You must set expressions to convert time to string using an external library could or the following options.
+> **Date Options:**
+> 
+> - **%h** convert to hour (12h)
+> - **%H** convert to hour (24h)
+> - **%M** convert to minute
+> - **%S** convert to second
+> - **%p** convert to meridiem (am/pm)
+> - **%z** convert to zone
+
+```js
+Xikitita
+  .I18n('en', {
+    time: {
+      am: 'am',
+      formats: {
+        default: '%H:%M:%S %z',
+        long: '%H:%M',
+        meridiem: '%h:%M:%S %p %z',
+        meridiemLong: '%h:%M %p',
+        custom: function(value){
+          return 'use external lib to format time';
+        }
+      },
+      pm: 'pm'
+    }
+  });
+```
+Now you can use the convert time objects to string according to the set language.
+```js
+var time = new Date();
+
+I18n.localize(time, {dateType: 'time'});
+I18n.localize(time, {dateType: 'time', format: 'meridiem'});
+I18n.localize(time, {dateType: 'time', format: 'custom'});
+I18n.l(time, {dateType: 'time'});
+
+time.localize({dateType: 'time'});
+time.l({dateType: 'time', format: 'long'});
+```
+
 ######Nationalizing datetime
-You must set expressions for converting date to text using either the date or time conversion options.
+You must set expressions to convert datetime to string using an external library could or the following options.
+> **Date Options:**
+> 
+> - **%h** convert to hour (12h)
+> - **%H** convert to hour (24h)
+> - **%M** convert to minute
+> - **%S** convert to second
+> - **%p** convert to meridiem (am/pm)
+> - **%z** convert to zone
+
+```js
+Xikitita
+  .I18n('en', {
+    datetime: {
+      am: 'am',
+      formats: {
+        default: '%a, %d %b %Y %H:%M:%S %z',
+        long: '%B %d, %Y %H:%M',
+        short: '%d %b %H:%M',
+        custom: function(value){
+          return 'use external lib to format date/time';
+        }
+      },
+      pm: 'pm'
+    }
+  });
+```
+Now you can use the convert time objects to string according to the set language.
+```js
+var datetime = new Date();
+
+I18n.localize(datetime, {dateType: 'datetime'});
+I18n.localize(datetime, {dateType: 'datetime', format: 'meridiem'});
+I18n.localize(datetime, {dateType: 'datetime', format: 'custom'});
+I18n.l(datetime, {dateType: 'datetime'});
+
+datetime.localize({dateType: 'datetime'});
+datetime.l({dateType: 'datetime', format: 'long'});
+```

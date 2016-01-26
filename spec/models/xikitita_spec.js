@@ -87,7 +87,7 @@ describe('Xikitita', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d %b %Y %H:%M:%S %z',
@@ -213,7 +213,7 @@ describe('Xikitita', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d de %B de %Y, %H:%M:%S %z',
@@ -454,10 +454,10 @@ describe('Xikitita', function() {
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
     expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('usar lib externa para formatar hora');
 
-    expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Dom, 15 de Novembro de 2015, 00:00:00 GMT-0300 (BRT)');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('15 de Novembro de 2015, 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 de Novembro, 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('usar lib externa para formatar data/hora');
+    expect(I18n.l(date, {dateType: 'datetime'})).to.be('Dom, 15 de Novembro de 2015, 00:00:00 GMT-0300 (BRT)');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'long'})).to.be('15 de Novembro de 2015, 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'short'})).to.be('15 de Novembro, 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('usar lib externa para formatar data/hora');
 
     expect(I18n.l(0)).to.be('usar lib externa para formatar inteiro');
     expect(I18n.l(0.0)).to.be('usar lib externa para formatar inteiro');
@@ -480,10 +480,10 @@ describe('Xikitita', function() {
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
     expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('use external lib to format time');
 
-    expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('November 15, 2015 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 Nov 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('use external lib to format date/time');
+    expect(I18n.l(date, {dateType: 'datetime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'long'})).to.be('November 15, 2015 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'short'})).to.be('15 Nov 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('use external lib to format date/time');
 
     expect(I18n.l(0)).to.be('use external lib to format integer');
     expect(I18n.l(0.0)).to.be('use external lib to format integer');

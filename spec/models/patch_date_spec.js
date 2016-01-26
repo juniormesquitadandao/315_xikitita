@@ -78,7 +78,7 @@ describe('Patch Date', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d %b %Y %H:%M:%S %z',
@@ -163,7 +163,7 @@ describe('Patch Date', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d de %B de %Y, %H:%M:%S %z',
@@ -185,13 +185,13 @@ describe('Patch Date', function() {
 
     expect(myDateBirth.localize()).to.be('1988-08-18');
     expect(myDateBirth.localize({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
-    expect(myDateBirth.localize({dateType: 'dateTime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.localize({dateType: 'datetime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
 
     I18n.locale = 'pt-BR';
 
     expect(myDateBirth.localize()).to.be('18/08/1988');
     expect(myDateBirth.localize({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
-    expect(myDateBirth.localize({dateType: 'dateTime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.localize({dateType: 'datetime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
   });
 
   it('#l', function () {
@@ -201,13 +201,13 @@ describe('Patch Date', function() {
 
     expect(myDateBirth.l()).to.be('1988-08-18');
     expect(myDateBirth.l({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
-    expect(myDateBirth.l({dateType: 'dateTime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'datetime'})).to.be('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
 
     I18n.locale = 'pt-BR';
 
     expect(myDateBirth.l()).to.be('18/08/1988');
     expect(myDateBirth.l({dateType: 'time'})).to.be('18:00:00 GMT-0300 (BRT)');
-    expect(myDateBirth.l({dateType: 'dateTime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
+    expect(myDateBirth.l({dateType: 'datetime'})).to.be('Qui, 18 de Agosto de 1988, 18:00:00 GMT-0300 (BRT)');
   });
 
 });
