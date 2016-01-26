@@ -192,6 +192,7 @@ I18n.locale = 'en';
 
 ######Nationalizing date
 You must set expressions to convert data to string using an external library could or the following options.
+
 > **Date Options:**
 > 
 > - **%a** convert to abbreviation day name
@@ -231,6 +232,7 @@ date.l({format: 'long'});
 ```
 ######Nationalizing time
 You must set expressions to convert time to string using an external library could or the following options.
+
 > **Date Options:**
 > 
 > - **%h** convert to hour (12h)
@@ -273,8 +275,16 @@ time.l({dateType: 'time', format: 'long'});
 
 ######Nationalizing datetime
 You must set expressions to convert datetime to string using an external library could or the following options.
+
 > **Date Options:**
 > 
+> - **%a** convert to abbreviation day name
+> - **%A** convert to day name
+> - **%b** convert to abbreviation month name
+> - **%B** convert to month name
+> - **%d** convert to day number
+> - **%m** convert to month number
+> - **%Y** convert to year number
 > - **%h** convert to hour (12h)
 > - **%H** convert to hour (24h)
 > - **%M** convert to minute
