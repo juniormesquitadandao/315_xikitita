@@ -151,7 +151,9 @@ Xikitita
 var persona = new Persona();
 ```
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
+
 ##It works for you too?
+
 #####Setting up internal communication of lib
 You must set the number of flection of the names of their classes to the lib be able to relate members and collections.
 ```js
@@ -166,6 +168,7 @@ You can verifying calling the following methods on String objects:
 'person'.pluralize;
 'people'.singularize;
 ```
+
 #####Nationalizing the output to client
 You must set the output data for each language supported by your application. 
 ```js
@@ -191,7 +194,7 @@ I18n.locale = 'en';
 ```
 
 ######Nationalizing date
-You must set expressions to convert data to string using an external library could or the following options.
+You must set expressions to convert data to string using an external library  or the following options.
 
 > **Date Options:**
 > 
@@ -230,8 +233,9 @@ I18n.l(date);
 date.localize();
 date.l({format: 'long'});
 ```
+
 ######Nationalizing time
-You must set expressions to convert time to string using an external library could or the following options.
+You must set expressions to convert time to string using an external library  or the following options.
 
 > **Date Options:**
 > 
@@ -274,7 +278,7 @@ time.l({dateType: 'time', format: 'long'});
 ```
 
 ######Nationalizing datetime
-You must set expressions to convert datetime to string using an external library could or the following options.
+You must set expressions to convert datetime to string using an external library or the following options.
 
 > **Date Options:**
 > 
@@ -320,6 +324,84 @@ I18n.l(datetime, {dateType: 'datetime'});
 
 datetime.localize({dateType: 'datetime'});
 datetime.l({dateType: 'datetime', format: 'long'});
+```
+
+######Nationalizing integer
+You must set expressions to convert integer to string using an external library.
+```js
+Xikitita
+  .I18n('en', {
+    integer: {
+      formats: {
+        default: function(value){
+          return 'use external lib to format integer';
+        }
+        other: function(value){
+          return 'use external lib to other format integer';
+        }
+      }
+    }
+  });
+```
+Now you can use the convert integer objects to string according to the set language.
+```js
+var integer = 9;
+
+I18n.localize(integer);
+I18n.l(integer, {format: 'other'});
+
+integer.localize({format: 'other'});
+integer.l();
+```
+
+######Nationalizing decimal
+You must set expressions to convert decimal to string using an external library.
+```js
+Xikitita
+  .I18n('en', {
+    decimal: {
+      formats: {
+        default: function(value){
+          return 'use external lib to format decimal';
+        }
+        other: function(value){
+          return 'use external lib to other format decimal';
+        }
+      }
+    }
+  });
+```
+Now you can use the convert decimal objects to string according to the set language.
+```js
+var decimal = 9.99;
+
+I18n.localize(decimal, {forceDecimal: true});
+I18n.l(decimal, {forceDecimal: true, format: 'other'});
+
+decimal.localize({forceDecimal: true, format: 'other'});
+decimal.l({forceDecimal: true});
+```
+
+######Nationalizing message
+You must set expressions to convert message to string using an external library.
+```js
+Xikitita
+  .I18n('en', {
+    messages: {
+      one: 'Message One',
+      two: 'Message Two'
+      other: 'Message Other to %{name}'
+    }
+  });
+```
+Now you can use the convert message objects to string according to the set language.
+
+```js
+I18n.translate('messages.one');
+I18n.t('messages.two');
+
+I18n.translate('messages.other', {name: 'Name'});
+I18n.t('messages.other', {name: 'Name'});
 ```
 
 > - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
