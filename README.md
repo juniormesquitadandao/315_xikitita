@@ -153,15 +153,18 @@ var persona = new Persona();
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
+```js
+Xikitita
+  .init
+```
 
 #####Setting up internal communication of lib
 You must set the number of flection of the names of their classes to the lib be able to relate members and collections.
 ```js
-Xikitita
   .Inflection(function(){
     irregular('fish', 'fish');
     irregular('person', 'people');
-  });
+  })
 ```
 You can verifying calling the following methods on String objects:
 ```js
@@ -172,11 +175,10 @@ You can verifying calling the following methods on String objects:
 #####Nationalizing the output to client
 You must set the output data for each language supported by your application. 
 ```js
-Xikitita
   .I18n('en', {
   })
   .I18n('pt-BR', {
-  });
+  })
 ```
 > **I18n methods:**
 > 
@@ -207,8 +209,6 @@ You must set expressions to convert data to string using an external library  or
 > - **%Y** convert to year number
 
 ```js
-Xikitita
-  .I18n('en', {
     date: {
       formats: {
         default: '%Y-%m-%d',
@@ -219,7 +219,6 @@ Xikitita
         }
       }
     }
-  });
 ```
 Now you can use the convert date objects to string according to the set language.
 ```js
@@ -247,8 +246,6 @@ You must set expressions to convert time to string using an external library  or
 > - **%z** convert to zone
 
 ```js
-Xikitita
-  .I18n('en', {
     time: {
       am: 'am',
       formats: {
@@ -262,7 +259,6 @@ Xikitita
       },
       pm: 'pm'
     }
-  });
 ```
 Now you can use the convert time objects to string according to the set language.
 ```js
@@ -297,8 +293,6 @@ You must set expressions to convert datetime to string using an external library
 > - **%z** convert to zone
 
 ```js
-Xikitita
-  .I18n('en', {
     datetime: {
       am: 'am',
       formats: {
@@ -311,7 +305,6 @@ Xikitita
       },
       pm: 'pm'
     }
-  });
 ```
 Now you can use the convert datetime objects to string according to the set language.
 ```js
@@ -329,8 +322,6 @@ datetime.l({dateType: 'datetime', format: 'long'});
 ######Nationalizing integer
 You must set expressions to convert integer to string using an external library.
 ```js
-Xikitita
-  .I18n('en', {
     integer: {
       formats: {
         default: function(value){
@@ -341,7 +332,6 @@ Xikitita
         }
       }
     }
-  });
 ```
 Now you can use the convert integer objects to string according to the set language.
 ```js
@@ -357,8 +347,6 @@ integer.l();
 ######Nationalizing decimal
 You must set expressions to convert decimal to string using an external library.
 ```js
-Xikitita
-  .I18n('en', {
     decimal: {
       formats: {
         default: function(value){
@@ -369,7 +357,6 @@ Xikitita
         }
       }
     }
-  });
 ```
 Now you can use the convert decimal objects to string according to the set language.
 ```js
@@ -382,20 +369,45 @@ decimal.localize({forceDecimal: true, format: 'other'});
 decimal.l({forceDecimal: true});
 ```
 
+######Nationalizing logic
+You must set expressions to convert logic to string using an external library.
+```js
+    logic: {
+      formats: {
+        default: {
+          true: 'No',
+          false: 'Yes'
+        },
+        other: {
+          true: 'NOT',
+          false: 'OK'
+        }
+      }
+    }
+```
+Now you can use the convert logic objects to string according to the set language.
+```js
+var logic = true;
+
+I18n.localize(logic);
+I18n.l(logic, {format: 'other'});
+
+logic.localize({format: 'other'});
+logic.l();
+```
+
 ######Nationalizing message
 You must set expressions to convert message to string using an external library.
 ```js
-Xikitita
   .I18n('en', {
     messages: {
       one: 'Message One',
       two: 'Message Two'
       other: 'Message Other to %{name}'
     }
-  });
+  })
 ```
 Now you can use the convert message objects to string according to the set language.
-
 ```js
 I18n.translate('messages.one');
 I18n.t('messages.two');
