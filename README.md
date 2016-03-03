@@ -417,8 +417,8 @@ I18n.t('messages.other', {name: 'Name'});
 > - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
 > - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
 
-######Build class
-You must build your class using this function.
+######Building classes
+You must build your classes using this function.
 ```js
   .Class('Stub', function(){
 
@@ -435,9 +435,18 @@ You must build your class using this function.
       return __class__.name;
     });
   })
+  .Class('Stub2', function(){
+    
+    id('ident');
+  
+  })
 ```
 Now you can build and use your objects.
 ```js
+var stub2 = new Stub();
+stub2.ident;
+stub2.ident = 10;
+
 var stub = new Stub();
 stub.id;
 stub.id = 10;
@@ -473,3 +482,73 @@ stub.asJson;
 
 > - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/class.js "code")
 > - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/class_spec.js "test")
+
+######Associating classes
+You must association your class using this function.
+```js
+  .Class('Customer', function(){
+
+    attrAccessor('name', 'lastName');
+
+    hasOne('user');
+
+    validate('user', function(){
+      return {
+        success: object.user && typeof object.user.id === 'number',
+        fail: {
+          messageName: 'newRecord'
+        }
+      };
+    });
+
+  })
+  .Class('User', function(){
+
+    attrAccessor('email');
+
+    belongsTo('customer');
+    belongsTo('persona');
+
+    validatesPresenceOf('email', 'persona_id');
+
+  })
+  .Class('Persona', function(){
+
+    attrAccessor('name');
+
+    hasMany('users');
+
+  });
+```
+Now you can build and use your objects.
+```js
+
+var customer = new Customer();
+customer.user;
+customer.user = new User();
+var customer = new Customer({name: '', lastName: ''});
+customer.user = {id: 0};
+customer.id = 1;
+var customer = new Customer({id: 1, name: 'Name', user: {id: 0}});
+var customer = new Customer({user: {}});
+
+var user = new User();
+user.customer; 
+user.customer = new Customer()
+user.customer_id; 
+user.customer_id = 10;
+user.persona; 
+user.persona = new Persona()
+user.persona_id; 
+user.persona_id = 20;
+
+var persona = new Persona();
+persona.users;
+persona.users.push(new User());
+persona.users = [{id: 1}];
+persona.users[0];
+
+```
+
+> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/association.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/association_spec.js "test")
