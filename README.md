@@ -552,5 +552,3 @@ persona.users[0];
 
 > - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/association.js "code")
 > - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/association_spec.js "test")
-
-<frame src="http://www.w3schools.com/tags/tag_frame.asp"></frame>
