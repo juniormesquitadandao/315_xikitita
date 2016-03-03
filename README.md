@@ -397,15 +397,13 @@ logic.l();
 ```
 
 ######Nationalizing message
-You must set expressions to convert message to string using an external library.
+You must set expressions to convert message to string.
 ```js
-  .I18n('en', {
     messages: {
       one: 'Message One',
       two: 'Message Two'
       other: 'Message Other to %{name}'
     }
-  })
 ```
 Now you can use the convert message objects to string according to the set language.
 ```js
@@ -418,3 +416,60 @@ I18n.t('messages.other', {name: 'Name'});
 
 > - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
 > - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
+
+######Build class
+You must build your class using this function.
+```js
+  .Class('Stub', function(){
+
+    attrAccessor('one', 'two');
+
+    validatesLengthOf('one', {in: [1, 10]});
+    validatesLengthOf('two', {is: 5});
+
+    def('full', function(){
+      return '#{one #{two}'.interpolate(object);
+    });
+
+    defClass('className', function(){
+      return __class__.name;
+    });
+  })
+```
+Now you can build and use your objects.
+```js
+var stub = new Stub();
+stub.id;
+stub.id = 10;
+stub.one;
+stub.one = 11;
+stub.two;
+stub.one = 3;
+
+stub.isValid;
+stub.errors;
+stub.errors.messages;
+stub.errors.full_messages;
+
+var stub = new Stub({two: 3});
+stub.changes;
+stub.changes_id;
+stub.changes_one;
+stub.changes_two;
+
+stub.changed;
+stub.changed_id;
+stub.changed_one;
+stub.changed_two;
+
+stub.reset;
+
+stub.full();
+Stub.className();
+
+stub.toJson;
+stub.asJson;
+```
+
+> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/class.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/class_spec.js "test")
