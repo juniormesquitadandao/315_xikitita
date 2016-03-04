@@ -20,7 +20,7 @@ describe('Validator', function() {
   });
 
   it('::validators', function(){
-    expect(Object.keys(Xikitita.validators).toJson).to.be('["presence","custom"]');
+    expect(Object.keys(Xikitita.validators).toJson).to.be('["presence","length","custom"]');
   });
 
   it('::validators.presence', function(){

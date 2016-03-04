@@ -87,14 +87,14 @@ describe('Xikitita', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d %b %Y %H:%M:%S %z',
             long: '%B %d, %Y %H:%M',
             short: '%d %b %H:%M',
             custom: function(value){
-              return 'use external lib to format date/time';
+              return 'use external lib to format datetime';
             }
           },
           pm: 'pm'
@@ -213,7 +213,7 @@ describe('Xikitita', function() {
           },
           pm: 'pm'
         },
-        dateTime: {
+        datetime: {
           am: 'am',
           formats: {
             default: '%a, %d de %B de %Y, %H:%M:%S %z',
@@ -266,71 +266,6 @@ describe('Xikitita', function() {
             newRecord: 'não pode ser novo registro'
           }
         }
-      })
-      .Validator('Length', function(value, attrName, object, options){
-        var validators = {
-          maximum: function(maxValue){
-            return {
-              success: value ? value.length <= maxValue : false,
-              fail: {
-                messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
-                params: {
-                  count: maxValue 
-                }
-              }
-            };
-          },
-          minimum: function(minValue){
-            return {
-              success: value ? value.length >= minValue: false,
-              fail: {
-                messageName: minValue === 1 ? 'too_short.one' : 'too_short.other',
-                params: {
-                  count: minValue
-                }
-              }
-            };
-          },
-          in: function(inValues){
-            var result = this.minimum(inValues[0]);
-            if (result.success){
-              return this.maximum(inValues[1]);
-            }
-            return result;
-          },
-          is: function(isValue){
-            return {
-              success: value ? value.length === isValue : false,
-              fail: {
-                messageName: isValue === 1 ? 'wrong_length.one' : 'wrong_length.other',
-                params: {
-                 count: isValue
-                }
-              }
-            };
-          }
-        };
-
-        var lastResult = {success: true};
-        Object.keys(validators).forEach(function(validator){
-
-          var validatorValue = options[validator] || null;
-          if(validatorValue){
-
-            var actualResult = validators[validator](validatorValue);
-            if(options.allowNull && value === null){
-              actualResult.success = true;
-            }
-
-            if(!actualResult.success){
-
-              lastResult = actualResult;
-            }
-          }
-
-        });
-
-        return lastResult;
       })
       .Class('Stub', function(){
 
@@ -454,10 +389,10 @@ describe('Xikitita', function() {
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
     expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('usar lib externa para formatar hora');
 
-    expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Dom, 15 de Novembro de 2015, 00:00:00 GMT-0300 (BRT)');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('15 de Novembro de 2015, 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 de Novembro, 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('usar lib externa para formatar data/hora');
+    expect(I18n.l(date, {dateType: 'datetime'})).to.be('Dom, 15 de Novembro de 2015, 00:00:00 GMT-0300 (BRT)');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'long'})).to.be('15 de Novembro de 2015, 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'short'})).to.be('15 de Novembro, 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('usar lib externa para formatar data/hora');
 
     expect(I18n.l(0)).to.be('usar lib externa para formatar inteiro');
     expect(I18n.l(0.0)).to.be('usar lib externa para formatar inteiro');
@@ -480,10 +415,10 @@ describe('Xikitita', function() {
     expect(I18n.l(date, {dateType: 'time', format: 'meridiemLong'})).to.be('12:00 am');
     expect(I18n.l(date, {dateType: 'time', format: 'custom'})).to.be('use external lib to format time');
 
-    expect(I18n.l(date, {dateType: 'dateTime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'long'})).to.be('November 15, 2015 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'short'})).to.be('15 Nov 00:00');
-    expect(I18n.l(date, {dateType: 'dateTime', format: 'custom'})).to.be('use external lib to format date/time');
+    expect(I18n.l(date, {dateType: 'datetime'})).to.be('Sun, 15 Nov 2015 00:00:00 GMT-0300 (BRT)');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'long'})).to.be('November 15, 2015 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'short'})).to.be('15 Nov 00:00');
+    expect(I18n.l(date, {dateType: 'datetime', format: 'custom'})).to.be('use external lib to format datetime');
 
     expect(I18n.l(0)).to.be('use external lib to format integer');
     expect(I18n.l(0.0)).to.be('use external lib to format integer');

@@ -151,5 +151,404 @@ Xikitita
 var persona = new Persona();
 ```
 [more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
+
 ##It works for you too?
-Please wait tutorial...
+```js
+Xikitita
+  .init
+```
+
+#####Setting up internal communication of lib
+You must set the number of flection of the names of their classes to the lib be able to relate members and collections.
+```js
+  .Inflection(function(){
+    irregular('fish', 'fish');
+    irregular('person', 'people');
+  })
+```
+You can verifying calling the following methods on String objects:
+```js
+'person'.pluralize;
+'people'.singularize;
+```
+
+#####Nationalizing the output to client
+You must set the output data for each language supported by your application. 
+```js
+  .I18n('en', {
+  })
+  .I18n('pt-BR', {
+  })
+```
+> **I18n methods:**
+> 
+> - **locale=** set locale
+> - **locale** return actual locale
+> - **translate('path.sub_path',{})** return string by path 
+> - **t(object ,{})** alias to translate method
+> - **localize(object ,{})** convert object to string
+> - **l(object ,{})** alias to localize method
+
+######Nationalizing
+You must choose one of the languages ​​supported by your application.
+```js
+I18n.locale = 'en';
+```
+
+######Nationalizing date
+You must set expressions to convert data to string using an external library  or the following options.
+
+> **Date Options:**
+> 
+> - **%a** convert to abbreviation day name
+> - **%A** convert to day name
+> - **%b** convert to abbreviation month name
+> - **%B** convert to month name
+> - **%d** convert to day number
+> - **%m** convert to month number
+> - **%Y** convert to year number
+
+```js
+    date: {
+      formats: {
+        default: '%Y-%m-%d',
+        long: '%B %d, %Y',
+        short: '%b %d',
+        custom: function(value){
+          return 'use external lib to format date';
+        }
+      }
+    }
+```
+Now you can use the convert date objects to string according to the set language.
+```js
+var date = new Date();
+
+I18n.localize(date);
+I18n.localize(date, {format: 'short'});
+I18n.localize(date, {format: 'custom'});
+I18n.l(date);
+
+date.localize();
+date.l({format: 'long'});
+```
+
+######Nationalizing time
+You must set expressions to convert time to string using an external library  or the following options.
+
+> **Date Options:**
+> 
+> - **%h** convert to hour (12h)
+> - **%H** convert to hour (24h)
+> - **%M** convert to minute
+> - **%S** convert to second
+> - **%p** convert to meridiem (am/pm)
+> - **%z** convert to zone
+
+```js
+    time: {
+      am: 'am',
+      formats: {
+        default: '%H:%M:%S %z',
+        long: '%H:%M',
+        meridiem: '%h:%M:%S %p %z',
+        meridiemLong: '%h:%M %p',
+        custom: function(value){
+          return 'use external lib to format time';
+        }
+      },
+      pm: 'pm'
+    }
+```
+Now you can use the convert time objects to string according to the set language.
+```js
+var time = new Date();
+
+I18n.localize(time, {dateType: 'time'});
+I18n.localize(time, {dateType: 'time', format: 'meridiem'});
+I18n.localize(time, {dateType: 'time', format: 'custom'});
+I18n.l(time, {dateType: 'time'});
+
+time.localize({dateType: 'time'});
+time.l({dateType: 'time', format: 'long'});
+```
+
+######Nationalizing datetime
+You must set expressions to convert datetime to string using an external library or the following options.
+
+> **Date Options:**
+> 
+> - **%a** convert to abbreviation day name
+> - **%A** convert to day name
+> - **%b** convert to abbreviation month name
+> - **%B** convert to month name
+> - **%d** convert to day number
+> - **%m** convert to month number
+> - **%Y** convert to year number
+> - **%h** convert to hour (12h)
+> - **%H** convert to hour (24h)
+> - **%M** convert to minute
+> - **%S** convert to second
+> - **%p** convert to meridiem (am/pm)
+> - **%z** convert to zone
+
+```js
+    datetime: {
+      am: 'am',
+      formats: {
+        default: '%a, %d %b %Y %H:%M:%S %z',
+        long: '%B %d, %Y %H:%M',
+        short: '%d %b %H:%M',
+        custom: function(value){
+          return 'use external lib to format datetime';
+        }
+      },
+      pm: 'pm'
+    }
+```
+Now you can use the convert datetime objects to string according to the set language.
+```js
+var datetime = new Date();
+
+I18n.localize(datetime, {dateType: 'datetime'});
+I18n.localize(datetime, {dateType: 'datetime', format: 'meridiem'});
+I18n.localize(datetime, {dateType: 'datetime', format: 'custom'});
+I18n.l(datetime, {dateType: 'datetime'});
+
+datetime.localize({dateType: 'datetime'});
+datetime.l({dateType: 'datetime', format: 'long'});
+```
+
+######Nationalizing integer
+You must set expressions to convert integer to string using an external library.
+```js
+    integer: {
+      formats: {
+        default: function(value){
+          return 'use external lib to format integer';
+        }
+        other: function(value){
+          return 'use external lib to other format integer';
+        }
+      }
+    }
+```
+Now you can use the convert integer objects to string according to the set language.
+```js
+var integer = 9;
+
+I18n.localize(integer);
+I18n.l(integer, {format: 'other'});
+
+integer.localize({format: 'other'});
+integer.l();
+```
+
+######Nationalizing decimal
+You must set expressions to convert decimal to string using an external library.
+```js
+    decimal: {
+      formats: {
+        default: function(value){
+          return 'use external lib to format decimal';
+        }
+        other: function(value){
+          return 'use external lib to other format decimal';
+        }
+      }
+    }
+```
+Now you can use the convert decimal objects to string according to the set language.
+```js
+var decimal = 9.99;
+
+I18n.localize(decimal, {forceDecimal: true});
+I18n.l(decimal, {forceDecimal: true, format: 'other'});
+
+decimal.localize({forceDecimal: true, format: 'other'});
+decimal.l({forceDecimal: true});
+```
+
+######Nationalizing logic
+You must set expressions to convert logic to string using an external library.
+```js
+    logic: {
+      formats: {
+        default: {
+          true: 'No',
+          false: 'Yes'
+        },
+        other: {
+          true: 'NOT',
+          false: 'OK'
+        }
+      }
+    }
+```
+Now you can use the convert logic objects to string according to the set language.
+```js
+var logic = true;
+
+I18n.localize(logic);
+I18n.l(logic, {format: 'other'});
+
+logic.localize({format: 'other'});
+logic.l();
+```
+
+######Nationalizing message
+You must set expressions to convert message to string.
+```js
+    messages: {
+      one: 'Message One',
+      two: 'Message Two'
+      other: 'Message Other to %{name}'
+    }
+```
+Now you can use the convert message objects to string according to the set language.
+```js
+I18n.translate('messages.one');
+I18n.t('messages.two');
+
+I18n.translate('messages.other', {name: 'Name'});
+I18n.t('messages.other', {name: 'Name'});
+```
+
+> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
+
+######Building classes
+You must build your classes using this function.
+```js
+  .Class('Stub', function(){
+
+    attrAccessor('one', 'two');
+
+    validatesLengthOf('one', {in: [1, 10]});
+    validatesLengthOf('two', {is: 5});
+
+    def('full', function(){
+      return '#{one #{two}'.interpolate(object);
+    });
+
+    defClass('className', function(){
+      return __class__.name;
+    });
+  })
+  .Class('Stub2', function(){
+    
+    id('ident');
+  
+  })
+```
+Now you can build and use your objects.
+```js
+var stub2 = new Stub();
+stub2.ident;
+stub2.ident = 10;
+
+var stub = new Stub();
+stub.id;
+stub.id = 10;
+stub.one;
+stub.one = 11;
+stub.two;
+stub.one = 3;
+
+stub.isValid;
+stub.errors;
+stub.errors.messages;
+stub.errors.full_messages;
+
+var stub = new Stub({two: 3});
+stub.changes;
+stub.changes_id;
+stub.changes_one;
+stub.changes_two;
+
+stub.changed;
+stub.changed_id;
+stub.changed_one;
+stub.changed_two;
+
+stub.reset;
+
+stub.full();
+Stub.className();
+
+stub.toJson;
+stub.asJson;
+```
+
+> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/class.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/class_spec.js "test")
+
+######Associating classes
+You must association your class using this function.
+```js
+  .Class('Customer', function(){
+
+    attrAccessor('name', 'lastName');
+
+    hasOne('user');
+
+    validate('user', function(){
+      return {
+        success: object.user && typeof object.user.id === 'number',
+        fail: {
+          messageName: 'newRecord'
+        }
+      };
+    });
+
+  })
+  .Class('User', function(){
+
+    attrAccessor('email');
+
+    belongsTo('customer');
+    belongsTo('persona');
+
+    validatesPresenceOf('email', 'persona_id');
+
+  })
+  .Class('Persona', function(){
+
+    attrAccessor('name');
+
+    hasMany('users');
+
+  });
+```
+Now you can build and use your objects.
+```js
+
+var customer = new Customer();
+customer.user;
+customer.user = new User();
+var customer = new Customer({name: '', lastName: ''});
+customer.user = {id: 0};
+customer.id = 1;
+var customer = new Customer({id: 1, name: 'Name', user: {id: 0}});
+var customer = new Customer({user: {}});
+
+var user = new User();
+user.customer; 
+user.customer = new Customer()
+user.customer_id; 
+user.customer_id = 10;
+user.persona; 
+user.persona = new Persona()
+user.persona_id; 
+user.persona_id = 20;
+
+var persona = new Persona();
+persona.users;
+persona.users.push(new User());
+persona.users = [{id: 1}];
+persona.users[0];
+
+```
+
+> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/association.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/association_spec.js "test")
