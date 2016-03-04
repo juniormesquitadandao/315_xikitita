@@ -93,14 +93,14 @@ Xikitita
   integer: {
     formats: {
       default: function(value){
-        return value;
+        return numeral(value).format('0,0');
       }
     }
   },
   decimal: {
     formats: {
       default: function(value){
-        return value;
+        return numeral(value).format('0,0.00');
       }
     }
   },

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Demo JS - Xikitita</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://rawgit.com/adamwdraper/Numeral-js/master/languages.js"></script>
     <script src="https://rawgit.com/juniormesquitadandao/xikitita/master/xikitita-min.js"></script>
     <script src="application.js"></script>
     <script src="model.js"></script>
@@ -26,12 +28,12 @@
         </p>
         <p>
           <label for="integer">Integer</label>
-          <input id="integer" type="number" onkeyup="eventBind(this);"></input>
+          <input id="integer" type="text" onkeyup="eventBind(this);"></input>
           <span id="integer-error"></span>
         </p>
         <p>
           <label for="decimal">Decimal</label>
-          <input id="decimal" type="number" step="any" onkeyup="eventBind(this);"></input>
+          <input id="decimal" type="text" onkeyup="eventBind(this);"></input>
           <span id="decimal-error"></span>
         </p>
         <p>
