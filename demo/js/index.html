@@ -4,7 +4,97 @@
     <meta charset="UTF-8">
     <title>Demo JS - Xikitita</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://raw.githubusercontent.com/juniormesquitadandao/xikitita/master/xikitita-min.js"></script>
+    <script src="application.js"></script>
+    <script src="model.js"></script>
+    <script src="controller.js"></script>
+    <script src="events.js"></script>
   </head>
-  <body>
+  <body onload="eventLoad();">
+    
+    <fieldset>
+      <legend>Form</legend>
+
+      <form>
+        <p>
+          <input id="id" type="hidden"></input>
+        </p>
+        <p>
+          <label for="text">Text</label>
+          <input id="text" type="text" onkeyup="eventBind(this);"></input>
+          <span id="text-error"></span>
+        </p>
+        <p>
+          <label for="integer">Integer</label>
+          <input id="integer" type="number" onkeyup="eventBind(this);"></input>
+          <span id="integer-error"></span>
+        </p>
+        <p>
+          <label for="decimal">Decimal</label>
+          <input id="decimal" type="number" step="any" onkeyup="eventBind(this);"></input>
+          <span id="decimal-error"></span>
+        </p>
+        <p>
+          <label for="date">Date</label>
+          <input id="date" type="date" onkeyup="eventBind(this);"></input>
+          <span id="date-error"></span>
+        </p>
+        <p>
+          <label for="time">Time</label>
+          <input id="time" type="time" onkeyup="eventBind(this);"></input>
+          <span id="time-error"></span>
+        </p>
+        <p>
+          <label for="datetime">Datetime</label>
+          <input id="datetime" type="datetime" onkeyup="eventBind(this);"></input>
+          <span id="datetime-error"></span>
+        </p>
+        <p>
+          <label for="logic">Logic</label>
+          <input id="logic" type="checkbox" onkeyup="eventBind(this);"></input>
+          <span id="logic-error"></span>
+        </p>
+        <p>
+          <button id="new" type="button" onclick="Controller.new(); eventNew();">new</button>
+          <button id="reset" type="button" onclick="eventReset();">reset</button>
+          <button id="submit" type="button" onclick="Controller.create(); eventList();">submit</button>
+        </p>
+      </form>      
+    
+    </fieldset>
+
+    <fieldset>
+      <legend>List</legend>
+
+      <table>
+
+        <thead>
+          <th>
+            <td>Text</td>
+            <td>Integer</td>
+            <td>Decimal</td>
+            <td>Date</td>
+            <td>Time</td>
+            <td>Datetime</td>
+            <td>Logic</td>
+            <td></td>
+          </th>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </fieldset>
+
   </body>
 </html>
