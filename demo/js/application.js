@@ -84,6 +84,7 @@ Xikitita
       default: '%a, %d %b %Y %H:%M:%S %z',
       long: '%B %d, %Y %H:%M',
       short: '%d %b %H:%M',
+      medium: '%Y-%m-%d %H:%M',
       custom: function(value){
         return 'use external lib to format datetime';
       }

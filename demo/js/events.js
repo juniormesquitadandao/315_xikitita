@@ -21,21 +21,39 @@ function eventBind(element){
     integer: function(){
       var value = numeral().unformat(element.value);
       model.integer = value;
-      eventSet();
+      eventSet('integer');
     },
     decimal: function(){
       var value = numeral().unformat(element.value);
       model.decimal = value;
-      eventSet();
+
+      if(/\.\d{2}/.test(element.value)){
+        eventSet('decimal');
+      }
     },
     date: function(){
-      model.date = element.value;
+      var value = moment(element.value, 'YYYY-MM-DD').toDate();
+      model.date = value;
+      
+      if(element.value.replace(/-/g, '').length == 8){
+        eventSet('date');
+      }
     },
     time: function(){
-      model.time = element.value;
+      var value = moment(element.value, 'HH:mm').toDate();
+      model.time = value;
+      
+      if(element.value.replace(':', '').length == 4){
+        eventSet('time');
+      }
     },
     datetime: function(){
-      model.datetime = element.value;
+      var value = moment(element.value, 'YYYY-MM-DD HH:mm').toDate();
+      model.datetime = value;
+
+      if(element.value.replace(':', '').replace(/-/g, '').replace(/\s/g, '').length == 12){
+        eventSet('datetime');
+      }
     },
     logic: function(){
       model.logic = element.value;
@@ -55,7 +73,7 @@ function eventReset(){
   eventSet();
 }
 
-function eventSet(){
+function eventSet(attribute){
 
   var events = {
     text: function(){
@@ -71,17 +89,21 @@ function eventSet(){
       document.getElementById('date').value = model.date.l();
     },
     time: function(){
-      document.getElementById('time').value = model.time.l();
+      document.getElementById('time').value = model.time.l({dateType: 'time', format: 'long'});
     },
     datetime: function(){
-      document.getElementById('datetime').value = model.datetime.l();
+      document.getElementById('datetime').value = model.datetime.l({dateType: 'datetime', format: 'medium'});
     },
     logic: function(){
       document.getElementById('logic').checked = model.logic;
     }
   }
 
-  Object.keys(events).forEach(function(event){
-    events[event]();
-  });  
+  if(attribute){
+    events[attribute]();
+  }else{
+    Object.keys(events).forEach(function(event){
+      events[event]();
+    });    
+  }
 }
