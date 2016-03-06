@@ -19,16 +19,16 @@ function eventBind(element){
       model.text = element.value;
     },
     integer: function(){
-      var value = numeral().unformat(element.value);
+      var value = element.value ? numeral().unformat(element.value) : null;
       model.integer = value;
-      eventSet('integer');
+      eventSetValue('integer');
     },
     decimal: function(){
-      var value = numeral().unformat(element.value);
+      var value = element.value ? numeral().unformat(element.value) : null;
       model.decimal = value;
 
       if(/\.\d{2}/.test(element.value)){
-        eventSet('decimal');
+        eventSetValue('decimal');
       }
     },
     date: function(){
@@ -36,7 +36,7 @@ function eventBind(element){
       model.date = value;
       
       if(element.value.replace(/-/g, '').length == 8){
-        eventSet('date');
+        eventSetValue('date');
       }
     },
     time: function(){
@@ -44,7 +44,7 @@ function eventBind(element){
       model.time = value;
       
       if(element.value.replace(':', '').length == 4){
-        eventSet('time');
+        eventSetValue('time');
       }
     },
     datetime: function(){
@@ -52,29 +52,31 @@ function eventBind(element){
       model.datetime = value;
 
       if(element.value.replace(':', '').replace(/-/g, '').replace(/\s/g, '').length == 12){
-        eventSet('datetime');
+        eventSetValue('datetime');
       }
     },
     logic: function(){
       model.logic = element.checked;
-      eventSet('logic');
+      eventSetValue('logic');
     }
   }
 
   events[element.id]();
+  model.isValid;
+  eventSetError(element.id);
 
 }
 
 function eventNew(){
-  eventSet();
+  eventSetValue();
 }
 
 function eventReset(){
   model.reset;
-  eventSet();
+  eventSetValue();
 }
 
-function eventSet(attribute){
+function eventSetValue(attribute){
 
   var events = {
     text: function(){
@@ -111,6 +113,19 @@ function eventSet(attribute){
   }else{
     Object.keys(events).forEach(function(event){
       events[event]();
+    });    
+  }
+}
+
+function eventSetError(attribute){
+
+  if(attribute){
+    document.getElementById('#{attribute}-error'.interpolate
+      ({attribute: attribute})).innerHTML = model.errors[attribute] ? model.errors[attribute][0] : '';
+  }else{
+    Object.keys(model).forEach(function(attribute){
+      document.getElementById('#{attribute}-error'.interpolate
+      ({attribute: attribute})).innerHTML = model.errors[attribute] ? model.errors[attribute][0] : '';
     });    
   }
 }
