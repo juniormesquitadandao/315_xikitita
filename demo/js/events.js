@@ -56,7 +56,8 @@ function eventBind(element){
       }
     },
     logic: function(){
-      model.logic = element.value;
+      model.logic = element.checked;
+      eventSet('logic');
     }
   }
 
@@ -95,6 +96,7 @@ function eventSet(attribute){
       document.getElementById('datetime').value = model.datetime.l({dateType: 'datetime', format: 'medium'});
     },
     logic: function(){
+      document.getElementById('labelLogic').innerHTML = 'Logic(#{value})'.interpolate({value: model.logic.l()})
       document.getElementById('logic').checked = model.logic;
     }
   }
