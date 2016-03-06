@@ -21,6 +21,7 @@
       <form>
         <p>
           <input id="id" type="hidden"></input>
+          <span id="id-error" type="hidden"></span>
         </p>
         <p>
           <label for="text">Text</label>
@@ -60,7 +61,7 @@
         <p>
           <button id="new" type="button" onclick="Controller.new(); eventNew();">new</button>
           <button id="reset" type="button" onclick="eventReset();">reset</button>
-          <button id="submit" type="button" onclick="Controller.create(); eventList();">submit</button>
+          <button id="submit" type="button" onclick="Controller.create(); eventSetError(); eventList();">submit</button>
         </p>
       </form>      
     

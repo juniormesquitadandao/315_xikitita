@@ -33,7 +33,7 @@ function eventBind(element){
     },
     date: function(){
       var value = moment(element.value, 'YYYY-MM-DD').toDate();
-      model.date = value;
+      model.date = isNaN(value) ? null : value;
       
       if(element.value.replace(/-/g, '').length == 8){
         eventSetValue('date');
@@ -49,7 +49,7 @@ function eventBind(element){
     },
     datetime: function(){
       var value = moment(element.value, 'YYYY-MM-DD HH:mm').toDate();
-      model.datetime = value;
+      model.datetime = isNaN(value) ? null : value;
 
       if(element.value.replace(':', '').replace(/-/g, '').replace(/\s/g, '').length == 12){
         eventSetValue('datetime');

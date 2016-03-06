@@ -14,7 +14,7 @@ var Controller = function(){
 
     },
     create: function(){
-
+      model.isValid;
     },
     update: function(){
 
