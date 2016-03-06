@@ -81,22 +81,27 @@ function eventSet(attribute){
       document.getElementById('text').value = model.text;
     },
     integer: function(){
-      document.getElementById('integer').value = model.integer.l();
+      document.getElementById('integer').value = model.integer ? model.integer.l() : model.integer;
     },
     decimal: function(){
-      document.getElementById('decimal').value = model.decimal.l();
+      document.getElementById('decimal').value = model.decimal ? model.decimal.l() : model.decimal;
     },
     date: function(){
-      document.getElementById('date').value = model.date.l();
+      document.getElementById('date').value = model.date ? model.date.l() : model.date;
     },
     time: function(){
-      document.getElementById('time').value = model.time.l({dateType: 'time', format: 'long'});
+      document.getElementById('time').value = model.time ? model.time.l({dateType: 'time', format: 'long'}) : model.time;
     },
     datetime: function(){
-      document.getElementById('datetime').value = model.datetime.l({dateType: 'datetime', format: 'medium'});
+      document.getElementById('datetime').value = model.datetime ? model.datetime.l({dateType: 'datetime', format: 'medium'}) : model.datetime;
     },
     logic: function(){
-      document.getElementById('labelLogic').innerHTML = 'Logic(#{value})'.interpolate({value: model.logic.l()})
+      var label = 'Logic'
+      if(model.logic != null){
+        label = 'Logic(#{value})'.interpolate({value: model.logic.l()});
+      }
+
+      document.getElementById('labelLogic').innerHTML = label;
       document.getElementById('logic').checked = model.logic;
     }
   }
