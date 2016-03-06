@@ -14,7 +14,10 @@ var Controller = function(){
 
     },
     create: function(){
-      model.isValid;
+      if(model.isValid){
+        models.push(model);
+        this.new();
+      }
     },
     update: function(){
 

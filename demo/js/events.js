@@ -1,4 +1,6 @@
 function eventLoad(){
+  models = [];
+
   model = new Model({
     text: 'text',
     integer: 9999,
@@ -41,7 +43,7 @@ function eventBind(element){
     },
     time: function(){
       var value = moment(element.value, 'HH:mm').toDate();
-      model.time = value;
+      model.time = element.value ? value : null;
       
       if(element.value.replace(':', '').length == 4){
         eventSetValue('time');
@@ -69,6 +71,7 @@ function eventBind(element){
 
 function eventNew(){
   eventSetValue();
+  eventSetError();
 }
 
 function eventReset(){
