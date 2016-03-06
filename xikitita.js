@@ -766,7 +766,7 @@ Xikitita.afterInit.push(function(){
     },
     isAny: {
       get: function () {
-        return (this.constructor.name === 'Number' && this > 0) || (this.constructor.name === 'Boolean' && this) || Object.keys(this).length > 0; 
+        return (this.constructor.name === 'Number' && this > 0) || (this.constructor.name === 'Boolean' && this) || this.constructor.name === 'Date' || Object.keys(this).length > 0;
       }
     },
     isEmpty: { 

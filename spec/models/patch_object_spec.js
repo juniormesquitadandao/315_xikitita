@@ -36,6 +36,7 @@ describe('Patch Object', function() {
     number = 1;
     expect(number.isAny).to.be(true);
     expect(true.isAny).to.be(true);
+    expect(new Date().isAny).to.be(true);
   });
 
   it('#isEmpty', function () {
