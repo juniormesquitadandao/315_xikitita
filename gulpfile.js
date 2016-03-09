@@ -32,8 +32,8 @@ gulp.task('default', function() {
     .pipe(insert.prepend(" * http://juniormesquitadandao.github.io/315_xikitita\n"))
     .pipe(insert.prepend("/*! 315 Xikitita - v1.0 - 2016-04-01\n"))
 
-    .pipe(insert.append('module.exports = Xikitita;'))
-    .pipe(insert.append("\n})(window);"))
+    .pipe(insert.append('\nwindow.xikitita = Xikitita;\n'))
+    .pipe(insert.append("})(window);"))
 
     .pipe(minify())
     .pipe(gulp.dest(''));
@@ -44,8 +44,8 @@ gulp.task('default', function() {
     .pipe(insert.prepend("'use strict';\n\n"))
     .pipe(insert.prepend(";(function(){\n"))
 
-    .pipe(insert.append('module.exports = Xikitita;'))
-    .pipe(insert.append("\n})();\n"))
+    .pipe(insert.append('\nmodule.exports = Xikitita;\n'))
+    .pipe(insert.append("})();\n"))
 
     .pipe(gulp.dest('temp'));
 
