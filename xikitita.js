@@ -890,5 +890,5 @@ Xikitita.afterInit.push(function(){
 
 });
 
-window.xikitita = Xikitita;
+window.Xikitita = Xikitita;
 })(window);
