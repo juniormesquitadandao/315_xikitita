@@ -889,6 +889,5 @@ Xikitita.afterInit.push(function(){
   });
 
 });
-
 module.exports = Xikitita;
 })(window);
