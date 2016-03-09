@@ -32,8 +32,8 @@ gulp.task('default', function() {
     .pipe(insert.prepend(" * http://juniormesquitadandao.github.io/315_xikitita\n"))
     .pipe(insert.prepend("/*! 315 Xikitita - v1.0 - 2016-04-01\n"))
 
-    .pipe(insert.append('\nwindow.xikitita = Xikitita;\n'))
-    .pipe(insert.append("})(window);"))
+    .pipe(insert.append('\nwindow.Xikitita = Xikitita;\n'))
+    .pipe(insert.append("})(window);\n"))
 
     .pipe(minify())
     .pipe(gulp.dest(''));
