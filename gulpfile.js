@@ -23,15 +23,29 @@ gulp.task('default', function() {
 
   gulp.src(src)
     .pipe(concat('xikitita.js'))
-    .pipe(insert.prepend('\'use strict\';\n\n'))
+
+    .pipe(insert.prepend("'use strict';\n\n"))
+    .pipe(insert.prepend(";(function(window){\n"))
+    .pipe(insert.prepend(" */\n"))
+    .pipe(insert.prepend(" * Copyright (c) 2016 Marcelo Junior\n"))
+    .pipe(insert.prepend(" *\n"))
+    .pipe(insert.prepend(" * http://juniormesquitadandao.github.io/315_xikitita\n"))
+    .pipe(insert.prepend("/*! 315 Xikitita - v1.0 - 2016-04-01\n"))
+
+    .pipe(insert.append("\n})(window);"))
+
     .pipe(minify())
-    .pipe(gulp.dest(''))
-  
+    .pipe(gulp.dest(''));
 
   gulp.src(src)
     .pipe(concat('xikitita.js'))
-    .pipe(insert.prepend('\'use strict\';\n\n'))
-    .pipe(insert.append('\n\nmodule.exports = Xikitita;'))
+
+    .pipe(insert.prepend("'use strict';\n\n"))
+    .pipe(insert.prepend(";(function(){\n"))
+
+    .pipe(insert.append('module.exports = Xikitita;'))
+    .pipe(insert.append("\n})();\n"))
+
     .pipe(gulp.dest('temp'));
 
 });

@@ -1,3 +1,9 @@
+/*! 315 Xikitita - v1.0 - 2016-04-01
+ * http://juniormesquitadandao.github.io/315_xikitita
+ *
+ * Copyright (c) 2016 Marcelo Junior
+ */
+;(function(window){
 'use strict';
 
 var Xikitita = {
@@ -883,3 +889,5 @@ Xikitita.afterInit.push(function(){
   });
 
 });
+
+})(window);
