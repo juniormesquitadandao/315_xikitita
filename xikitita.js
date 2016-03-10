@@ -279,7 +279,8 @@ Xikitita.Class = function(name, body){
       Object.defineProperties(object, {\n\
         'reset': {get: #{reset}, enumerable: false },\n\
         'changes': {get: #{changes}, enumerable: false },\n\
-        'changed': {get: #{changed}, enumerable: false }\n\
+        'changed': {get: #{changed}, enumerable: false },\n\
+        'toHuman': {get: #{toHuman}, enumerable: false }\n\
       });\n\
     };"
     .interpolate({
@@ -301,7 +302,8 @@ Xikitita.Class = function(name, body){
       new: Xikitita.new.toString(),
       reset: Xikitita.reset.toString(),
       changes: Xikitita.changes.toString(),
-      changed: Xikitita.changed.toString()
+      changed: Xikitita.changed.toString(),
+      toHuman: Xikitita.toHuman.toString()
     })
   );
   var Class = eval(name);
@@ -466,6 +468,29 @@ Xikitita.def = function(name, body){
 
 Xikitita.defClass = function(name, body){
   __class__[name] = __class__[name] || body;
+};
+
+Xikitita.toHuman = function(){
+  var attributes = {};
+  var className = __class__.name.toLowerCase();
+
+  __attrAccessor__.forEach(function(attrName){
+  
+    Object.defineProperty(attributes, attrName, {
+
+      get: function(){
+        
+        var path = ['classes', className, 'attributes', attrName].join('.');
+
+        return I18n.t(path);
+
+      }
+
+    });
+
+  });
+
+  return attributes;
 };
 Xikitita.belongsTo = function(classNameSingularized, options){
   var options = options || {};

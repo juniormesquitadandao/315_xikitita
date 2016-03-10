@@ -9,20 +9,29 @@ describe('Class', function() {
       .I18n('en', {
         classes: {
           customer: {
-            member: 'one customer',
-            collection: 'many customers'
+            member: 'One Customer',
+            collection: 'Many Customers',
+            attributes: {
+              name: 'Name'
+            }
           },
           user: {
-            member: 'one user',
-            collection: 'many users'
+            member: 'One User',
+            collection: 'Many Users',
+            attributes: {
+              email: 'Email'
+            }
           },
           permission: {
-            member: 'one permission',
-            collection: 'many permissions'
+            member: 'One Permission',
+            collection: 'Many Permissions',
+            attributes: {
+              customers: 'Customers'
+            }
           },
           stub: {
-            member: 'one stub',
-            collection: 'many stub'
+            member: 'One Stub',
+            collection: 'Many Stub'
           }
         }
       })
@@ -138,15 +147,21 @@ describe('Class', function() {
   });
 
   it('::toHuman', function () {
-    expect(Customer.toHuman.member).to.be('one customer');
-    expect(User.toHuman.member).to.be('one user');
-    expect(Permission.toHuman.member).to.be('one permission');
-    expect(Stub.toHuman.member).to.be('one stub');
+    expect(Customer.toHuman.member).to.be('One Customer');
+    expect(User.toHuman.member).to.be('One User');
+    expect(Permission.toHuman.member).to.be('One Permission');
+    expect(Stub.toHuman.member).to.be('One Stub');
 
-    expect(Customer.toHuman.collection).to.be('many customers');
-    expect(User.toHuman.collection).to.be('many users');
-    expect(Permission.toHuman.collection).to.be('many permissions');
-    expect(Stub.toHuman.collection).to.be('many stub');
+    expect(Customer.toHuman.collection).to.be('Many Customers');
+    expect(User.toHuman.collection).to.be('Many Users');
+    expect(Permission.toHuman.collection).to.be('Many Permissions');
+    expect(Stub.toHuman.collection).to.be('Many Stub');
+  });
+
+  it('#toHuman', function () {
+    expect(new Customer().toHuman.name).to.be('Name');
+    expect(new User().toHuman.email).to.be('Email');
+    expect(new Permission().toHuman.customers).to.be('Customers');
   });
 
   it('#reset', function () {
