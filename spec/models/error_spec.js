@@ -13,10 +13,12 @@ describe('Error', function() {
             blank: "can't be blank"
           }
         },
-        attributes: {
+        'classes': {
           stub: {
-            attrName1: 'one',
-            attrName2: 'two'
+            attributes: {
+              attrName1: 'one',
+              attrName2: 'two'
+            }
           }
         }
       })

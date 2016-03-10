@@ -35,7 +35,7 @@ Xikitita.Error = function(className){
         var fullMessages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          var path = ['attributes', __className__, attrName].join('.');
+          var path = ['classes', __className__, 'attributes', attrName].join('.');
           var attrNameTranslated = I18n.t(path);
 
           __this__[attrName].forEach(function(message){

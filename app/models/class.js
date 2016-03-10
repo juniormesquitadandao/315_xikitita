@@ -73,16 +73,21 @@ Xikitita.Class = function(name, body){
   );
   var Class = eval(name);
 
-  Object.defineProperty(Class, 'toTranslated', {
+  Object.defineProperty(Class, 'toHumanMember', {
     get: function(){
       var className = Class.name.toLowerCase();
-      var pathMember = ['classes', className, 'member'].join('.');
-      var pathCollection = ['classes', className, 'collection'].join('.');
+      var path = ['classes', className, 'member'].join('.');
 
-      return {
-        member: I18n.t(pathMember),
-        collection: I18n.t(pathCollection)
-      }
+      return I18n.t(path);
+    }
+  });
+
+  Object.defineProperty(Class, 'toHumanCollection', {
+    get: function(){
+      var className = Class.name.toLowerCase();
+      var path = ['classes', className, 'collection'].join('.');
+
+      return I18n.t(path);
     }
   });
 

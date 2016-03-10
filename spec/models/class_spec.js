@@ -137,18 +137,18 @@ describe('Class', function() {
     expect(new Customer().toJson).to.be('{"id":null,"name":null,"phone":null}');
   });
 
-  it('::toTranslated.member', function () {
-    expect(Customer.toTranslated.member).to.be('one customer');
-    expect(User.toTranslated.member).to.be('one user');
-    expect(Permission.toTranslated.member).to.be('one permission');
-    expect(Stub.toTranslated.member).to.be('one stub');
+  it('::toHumanMember', function () {
+    expect(Customer.toHumanMember).to.be('one customer');
+    expect(User.toHumanMember).to.be('one user');
+    expect(Permission.toHumanMember).to.be('one permission');
+    expect(Stub.toHumanMember).to.be('one stub');
   });
 
-  it('::toTranslated.collection', function () {
-    expect(Customer.toTranslated.collection).to.be('many customers');
-    expect(User.toTranslated.collection).to.be('many users');
-    expect(Permission.toTranslated.collection).to.be('many permissions');
-    expect(Stub.toTranslated.collection).to.be('many stub');
+  it('::toHumanCollection', function () {
+    expect(Customer.toHumanCollection).to.be('many customers');
+    expect(User.toHumanCollection).to.be('many users');
+    expect(Permission.toHumanCollection).to.be('many permissions');
+    expect(Stub.toHumanCollection).to.be('many stub');
   });
 
   it('#reset', function () {
