@@ -150,7 +150,7 @@ Xikitita
     }
   },
   others: {
-    title: 'Demo - 315 Xikitita',
+    title: 'Demo JS - 315 JS Xikitita',
     language: 'Language',
     en: 'English',
     'pt-BR': 'Portuguese (Brazil)',
@@ -304,7 +304,7 @@ Xikitita
     }
   },
   others: {
-    title: 'Demonstrativo - 315 Xikitita',
+    title: 'Demonstrativo JS - 315 Xikitita',
     language: 'Idioma',
     en: 'Inglês',
     'pt-BR': 'Português (Brasil)',
