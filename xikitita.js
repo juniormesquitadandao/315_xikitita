@@ -306,21 +306,16 @@ Xikitita.Class = function(name, body){
   );
   var Class = eval(name);
 
-  Object.defineProperty(Class, 'toHumanMember', {
+  Object.defineProperty(Class, 'toHuman', {
     get: function(){
       var className = Class.name.toLowerCase();
-      var path = ['classes', className, 'member'].join('.');
+      var pathMember = ['classes', className, 'member'].join('.');
+      var pathCollection = ['classes', className, 'collection'].join('.');
 
-      return I18n.t(path);
-    }
-  });
-
-  Object.defineProperty(Class, 'toHumanCollection', {
-    get: function(){
-      var className = Class.name.toLowerCase();
-      var path = ['classes', className, 'collection'].join('.');
-
-      return I18n.t(path);
+      return {
+        member: I18n.t(pathMember),
+        collection: I18n.t(pathCollection)
+      }
     }
   });
 
