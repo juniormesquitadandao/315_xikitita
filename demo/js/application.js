@@ -94,6 +94,7 @@ Xikitita
   integer: {
     formats: {
       default: function(value){
+        numeral.language('en');
         return numeral(value).format('0,0');
       }
     }
@@ -101,6 +102,7 @@ Xikitita
   decimal: {
     formats: {
       default: function(value){
+        numeral.language('en');
         return numeral(value).format('0,0.00');
       }
     }
@@ -131,6 +133,31 @@ Xikitita
       },
       newRecord: 'can\'t be new record'
     }
+  },
+  classes: {
+    model: {
+      member: 'Model',
+      collection: 'Models',
+      attributes: {
+        text: 'Text',
+        integer: 'Integer',
+        decimal: 'Decimal',
+        date: 'Date',
+        time: 'Time',
+        datetime: 'Instant',
+        logic: 'Logic'
+      }
+    }
+  },
+  others: {
+    title: 'Demo - 315 Xikitita',
+    language: 'Language',
+    en: 'English',
+    'pt-BR': 'Portuguese (Brazil)',
+    form: 'Form',
+    new: 'New',
+    reset: 'Reset',
+    submit: 'Submit'
   }
 })
 .I18n('pt-BR', {
@@ -211,6 +238,7 @@ Xikitita
       default: '%a, %d de %B de %Y, %H:%M:%S %z',
       long: '%d de %B de %Y, %H:%M',
       short: '%d de %B, %H:%M',
+      medium: '%d/%m/%Y %H:%M',
       custom: function(value){
         return 'usar lib externa para formatar data/hora';
       }
@@ -220,14 +248,16 @@ Xikitita
   integer: {
     formats: {
       default: function(value){
-        return 'usar lib externa para formatar inteiro';
+        numeral.language('pt-br');
+        return numeral(value).format('0,0');
       }
     }
   },
   decimal: {
     formats: {
       default: function(value){
-        return 'usar lib externa para formatar decimal';
+        numeral.language('pt-br');
+        return numeral(value).format('0,0.00');
       }
     }
   },
@@ -257,5 +287,30 @@ Xikitita
       },
       newRecord: 'não pode ser novo registro'
     }
+  },
+  classes: {
+    model: {
+      member: 'Modelo',
+      collection: 'Modelos',
+      attributes: {
+        text: 'Texto',
+        integer: 'Inteiro',
+        decimal: 'Real',
+        date: 'Data',
+        time: 'Hora',
+        datetime: 'Instante',
+        logic: 'Lógico'
+      }
+    }
+  },
+  others: {
+    title: 'Demonstrativo - 315 Xikitita',
+    language: 'Idioma',
+    en: 'Inglês',
+    'pt-BR': 'Português (Brasil)',
+    form: 'Formulário',
+    new: 'Novo',
+    reset: 'Limpar',
+    submit: 'Enviar'
   }
 });

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Demo JS - Xikitita</title>
+    <title id="title">Demo - 315 Xikitita</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://rawgit.com/moment/moment/develop/min/moment-with-locales.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
@@ -14,9 +14,21 @@
     <script src="events.js"></script>
   </head>
   <body onload="eventLoad();">
+    <fieldset>
+      <legend id="language">Language</legend>
+
+      <p>
+        <input id="en" type="radio" name="language" onclick="eventLocale('en')" checked></input>
+        <label id="en-label" for="en">English</label>
+
+        <input id="pt-br" type="radio" name="language" onclick="eventLocale('pt-BR')"></input>
+        <label id="pt-br-label" for="pt-br">Portuguese (Brazil)</label>
+      </p>
+
+    </fieldset>
     
     <fieldset>
-      <legend>Form</legend>
+      <legend id="form">Form</legend>
 
       <form>
         <p>
@@ -24,44 +36,44 @@
           <span id="id-error" type="hidden"></span>
         </p>
         <p>
-          <label for="text">Text</label>
+          <label id="text-label" for="text">Text</label>
           <input id="text" type="text" onkeyup="eventBind(this);"></input>
           <span id="text-error"></span>
         </p>
         <p>
-          <label for="integer">Integer</label>
+          <label id="integer-label" for="integer">Integer</label>
           <input id="integer" type="text" onkeyup="eventBind(this);"></input>
           <span id="integer-error"></span>
         </p>
         <p>
-          <label for="decimal">Decimal</label>
+          <label id="decimal-label" for="decimal">Decimal</label>
           <input id="decimal" type="text" onkeyup="eventBind(this);"></input>
           <span id="decimal-error"></span>
         </p>
         <p>
-          <label for="date">Date</label>
+          <label id="date-label" for="date">Date</label>
           <input id="date" type="text" onkeyup="eventBind(this);"></input>
           <span id="date-error"></span>
         </p>
         <p>
-          <label for="time">Time</label>
+          <label id="time-label" for="time">Time</label>
           <input id="time" type="text" onkeyup="eventBind(this);"></input>
           <span id="time-error"></span>
         </p>
         <p>
-          <label for="datetime">Datetime</label>
+          <label id="datetime-label" for="datetime">Datetime</label>
           <input id="datetime" type="text" onkeyup="eventBind(this);"></input>
           <span id="datetime-error"></span>
         </p>
         <p>
-          <label for="logic" id="labelLogic">Logic</label>
+          <label id="logic-label" for="logic">Logic</label>
           <input id="logic" type="checkbox" onchange="eventBind(this);"></input>
           <span id="logic-error"></span>
         </p>
         <p>
-          <button id="new" type="button" onclick="Controller.new(); eventNew();">new</button>
-          <button id="reset" type="button" onclick="eventReset();">reset</button>
-          <button id="submit" type="button" onclick="Controller.create(); eventSetValue(); eventSetError(); eventList();">submit</button>
+          <button id="new" type="button" onclick="Controller.new(); eventNew();">New</button>
+          <button id="reset" type="button" onclick="eventReset();">Reset</button>
+          <button id="submit" type="button" onclick="Controller.create(); eventSetValue(); eventSetError(); eventList();">Submit</button>
         </p>
       </form>      
     

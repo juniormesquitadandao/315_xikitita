@@ -29,15 +29,15 @@ function eventBind(element){
       var value = element.value ? numeral().unformat(element.value) : null;
       model.decimal = value;
 
-      if(/\.\d{2}/.test(element.value)){
+      if(/\.\d{2}|\,\d{2}/.test(element.value)){
         eventSetValue('decimal');
       }
     },
     date: function(){
-      var value = moment(element.value, 'YYYY-MM-DD').toDate();
+      var value = moment(element.value, (I18n.locale == 'en' ? 'YYYY-MM-DD' : 'DD/MM/YYYY') ).toDate();
       model.date = isNaN(value) ? null : value;
       
-      if(element.value.replace(/-/g, '').length == 8){
+      if(element.value.replace(/-|\//g, '').length == 8){
         eventSetValue('date');
       }
     },
@@ -50,10 +50,10 @@ function eventBind(element){
       }
     },
     datetime: function(){
-      var value = moment(element.value, 'YYYY-MM-DD HH:mm').toDate();
+      var value = moment(element.value, (I18n.locale == 'en' ? 'YYYY-MM-DD HH:mm' : 'DD-MM-YYYY HH:mm') ).toDate();
       model.datetime = isNaN(value) ? null : value;
 
-      if(element.value.replace(':', '').replace(/-/g, '').replace(/\s/g, '').length == 12){
+      if(element.value.replace(':', '').replace(/-|\//g, '').replace(/\s/g, '').length == 12){
         eventSetValue('datetime');
       }
     },
@@ -101,12 +101,12 @@ function eventSetValue(attribute){
       document.getElementById('datetime').value = model.datetime ? model.datetime.l({dateType: 'datetime', format: 'medium'}) : model.datetime;
     },
     logic: function(){
-      var label = 'Logic'
+      var label = model.toHuman.logic;
       if(model.logic != null){
-        label = 'Logic(#{value})'.interpolate({value: model.logic.l()});
+        label += ' (#{value})'.interpolate({value: model.logic.l()});
       }
 
-      document.getElementById('labelLogic').innerHTML = label;
+      document.getElementById('logic-label').innerHTML = label;
       document.getElementById('logic').checked = model.logic;
     }
   }
@@ -131,4 +131,65 @@ function eventSetError(attribute){
       ({attribute: attribute})).innerHTML = model.errors[attribute] ? model.errors[attribute][0] : '';
     });    
   }
+}
+
+function eventSetLabel(attribute){
+
+  var events = {
+    text: function(){
+      document.getElementById('text-label').innerHTML = model.toHuman.text;
+    },
+    integer: function(){
+      document.getElementById('integer-label').innerHTML = model.toHuman.integer;
+    },
+    decimal: function(){
+      document.getElementById('decimal-label').innerHTML = model.toHuman.decimal;
+    },
+    date: function(){
+      document.getElementById('date-label').innerHTML = model.toHuman.date;
+    },
+    time: function(){
+      document.getElementById('time-label').innerHTML = model.toHuman.time;
+    },
+    datetime: function(){
+      document.getElementById('datetime-label').innerHTML = model.toHuman.datetime;
+    },
+    logic: function(){
+      var label = model.toHuman.logic;
+
+      if(model.logic != null){
+        label += ' (#{value})'.interpolate({value: model.logic.l()});
+      }
+
+      document.getElementById('logic-label').innerHTML = label;
+    }
+  }
+
+  if(attribute){
+    events[attribute]();
+  }else{
+    Object.keys(events).forEach(function(event){
+      events[event]();
+    });    
+  }
+}
+
+function eventLocale(key){
+  I18n.locale = key;
+
+  document.getElementById('title').innerHTML = I18n.t('others.title');
+
+  document.getElementById('language').innerHTML = I18n.t('others.language');
+  document.getElementById('en-label').innerHTML = I18n.t('others.en');
+  document.getElementById('pt-br-label').innerHTML = I18n.t('others.pt-BR');
+
+  document.getElementById('form').innerHTML = I18n.t('others.form');
+  eventSetLabel();
+  eventSetValue();
+  model.isValid;
+  eventSetError();
+
+  document.getElementById('new').innerHTML = I18n.t('others.new');
+  document.getElementById('reset').innerHTML = I18n.t('others.reset');
+  document.getElementById('submit').innerHTML = I18n.t('others.submit');
 }
