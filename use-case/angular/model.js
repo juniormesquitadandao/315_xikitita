@@ -1,6 +1,7 @@
 Xktta
 .Class('Model', function(){
 
+  attrAccessor('id');
   attrAccessor('text', 'integer', 'decimal');
   attrAccessor('date', 'time', 'datetime');
   attrAccessor('logic');
