@@ -113,7 +113,7 @@ describe('I18n', function() {
           }
         },
         parentPath: {
-          childPath: 'message %{name}'   
+          childPath: 'message %{name}'
         }
       })
       .I18n('pt-BR', {
@@ -223,7 +223,7 @@ describe('I18n', function() {
           }
         },
         parentPath: {
-          childPath: 'mensagem %{name}'   
+          childPath: 'mensagem %{name}'
         }
       });
   });
@@ -238,15 +238,21 @@ describe('I18n', function() {
   it('#translate', function () {
     I18n.locale = 'en';
 
-    expect(I18n.translate('parentPath')).to.be('parentPath');
+    expect(I18n.translate('parentPath')).to.be('en.parentPath');
     expect(I18n.translate('parentPath.childPath')).to.be('message %{name}');
     expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('message Name');
 
     I18n.locale = 'pt-BR';
 
-    expect(I18n.translate('parentPath')).to.be('parentPath');
+    expect(I18n.translate('parentPath')).to.be('pt-BR.parentPath');
     expect(I18n.translate('parentPath.childPath')).to.be('mensagem %{name}');
     expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('mensagem Name');
+
+    I18n.locale = 'de';
+
+    expect(I18n.translate('parentPath')).to.be('de.parentPath');
+    expect(I18n.translate('parentPath.childPath')).to.be('de.parentPath.childPath');
+    expect(I18n.translate('parentPath.childPath', {name: 'Name'})).to.be('de.parentPath.childPath');
   });
 
   it('#localize', function () {

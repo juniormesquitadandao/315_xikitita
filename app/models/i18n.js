@@ -5,24 +5,26 @@ Xikitita.I18n = function(locale, translations){
 
 Xikitita.afterInit.push(function(){
   var __this__ = Xikitita;
-  
+
   eval.call(__this__.window, "var I18n;");
 
   I18n = {
     locale: 'en',
     translate: function(path, params){
       var translation = path;
-      var translations = __this__.translations[I18n.locale];
+      var translations = __this__.translations[I18n.locale] || {};
       path.split('.').forEach(function(key){
-        translations = translations[key];
+        translations = translations[key] || {};
       });
- 
+
       if(typeof translations  === 'string'){
         translation = translations;
         params = params || {};
         translation = translation.interpolate(params, '%');
       }else if(typeof translations === 'object' && translations.constructor.name === 'Array'){
         translation = translations;
+      } else {
+        translation = '#{locale}.#{path}'.interpolate({locale: I18n.locale, path: path});
       }
 
       return translation;
@@ -84,11 +86,11 @@ Xikitita.afterInit.push(function(){
             to[dateType]();
           }
         }
-        
+
         formatBy[typeof formatted]();
       }
       else if(typeof value === 'number'){
-        
+
         var functionFormat = __this__.translations[I18n.locale].integer.formats[format];
         if(/\./.test(value) || options.forceDecimal){
           functionFormat = __this__.translations[I18n.locale].decimal.formats[format];
