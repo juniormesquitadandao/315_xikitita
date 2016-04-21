@@ -14,15 +14,15 @@
     <script src="controller.js"></script>
     <script src="events.js"></script>
   </head>
-  <body ng-controller="ModelsController as c" ng-init="c.new()">
+  <body ng-controller="ModelsController as c" ng-init="c.changeLanguage('en')">
     <fieldset>
       <legend>{{ I18n.t('others.language') }}</legend>
 
       <p>
-        <input type="radio" name="language" ng-model="I18n.locale" ng-click="I18n.locale = 'en'" value="en"></input>
+        <input type="radio" name="language" ng-click="c.changeLanguage('en')" value="en" checked></input>
         <label for="en">{{ I18n.t('others.en') }}</label>
 
-        <input type="radio" name="language" ng-model="I18n.locale" ng-click="I18n.locale = 'pt-BR'" value="pt-BR"></input>
+        <input type="radio" name="language" ng-click="c.changeLanguage('pt-BR')" value="pt-BR"></input>
         <label for="pt-br">{{ I18n.t('others.pt-BR') }}</label>
       </p>
 
@@ -68,9 +68,9 @@
           <span>{{ c.model.errors.logic[0] }}</span>
         </p>
         <p>
-          <button type="button" onclick="Controller.new(); eventLoadForm();">{{ I18n.t('others.new') }}</button>
-          <button type="button" onclick="eventReset();">{{ I18n.t('others.reset') }}</button>
-          <button type="button" onclick="Controller.create(); eventSetValue(); eventSetError(); eventList();">{{ I18n.t('others.submit') }}</button>
+          <button type="button" ng-click="c.new()">{{ I18n.t('others.new') }}</button>
+          <button type="button" ng-click="c.model.reset">{{ I18n.t('others.reset') }}</button>
+          <button type="button" ng-click="c.save()">{{ I18n.t('others.submit') }}</button>
         </p>
       </form>
 
@@ -95,17 +95,19 @@
         </thead>
 
         <tbody id="table-body">
-          <ng-repeat="model in c.models">
-            <tr>
-              <td>{{ model.text.l() }}</td>
-              <td>{{ model.integer.l() }}</td>
-              <td>{{ model.decimal.l() }}</td>
-              <td>{{ model.date.l() }}</td>
-              <td>{{ model.time.l() }}</td>
-              <td>{{ model.datetime.l() }}</td>
-              <td>{{ model.logic.l() }}</td>
-            </tr>
-          </ng-repeat>
+          <tr ng-repeat="model in c.models">
+            <td>{{ model.text }}</td>
+            <td>{{ model.integer.l() }}</td>
+            <td>{{ model.decimal.l() }}</td>
+            <td>{{ model.date.l() }}</td>
+            <td>{{ model.time.l({dateType: 'time', format: 'long'}) }}</td>
+            <td>{{ model.datetime.l({dateType: 'datetime', format: 'medium'}) }}</td>
+            <td>{{ model.logic.l() }}</td>
+            <td>
+              <button type="button" ng-click="c.edit(model.id)">{{ I18n.t('others.edit') }}</button>
+              <button type="button" ng-click="c.destroy(model.id)">{{ I18n.t('others.destroy') }}</button>
+            </td>
+          </tr>
         </tbody>
 
       </table>
