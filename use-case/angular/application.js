@@ -147,7 +147,7 @@ Xikitita
     }
   },
   others: {
-    title: '315 Xikitita (with only javascript)',
+    title: '315 Xikitita (with angular)',
     language: 'Language',
     en: 'English',
     'pt-BR': 'Portuguese (Brazil)',
@@ -304,7 +304,7 @@ Xikitita
     }
   },
   others: {
-    title: '315 Xikitita (with angular)',
+    title: '315 Xikitita (com angular)',
     language: 'Idioma',
     en: 'Inglês',
     'pt-BR': 'Português (Brasil)',
@@ -317,3 +317,8 @@ Xikitita
     list: 'Listagem'
   }
 });
+
+var App = angular.module('App', []);
+App.run(function($rootScope) {
+  $rootScope.I18n = I18n;
+})

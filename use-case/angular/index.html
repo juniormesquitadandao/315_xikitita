@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="App">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ I18n.t('others.title') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://rawgit.com/moment/moment/develop/min/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+    <script src="https://rawgit.com/adamwdraper/Numeral-js/master/languages.js"></script>
+    <script src="https://rawgit.com/juniormesquitadandao/xikitita/master/xikitita-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="application.js"></script>
+    <script src="model.js"></script>
+    <script src="controller.js"></script>
+    <script src="events.js"></script>
+  </head>
+  <body ng-controller="ModelsController as c" ng-init="c.new()">
+    <fieldset>
+      <legend>{{ I18n.t('others.language') }}</legend>
+
+      <p>
+        <input type="radio" name="language" ng-model="I18n.locale" ng-click="I18n.locale = 'en'" value="en"></input>
+        <label for="en">{{ I18n.t('others.en') }}</label>
+
+        <input type="radio" name="language" ng-model="I18n.locale" ng-click="I18n.locale = 'pt-BR'" value="pt-BR"></input>
+        <label for="pt-br">{{ I18n.t('others.pt-BR') }}</label>
+      </p>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>{{ I18n.t('others.form') }}</legend>
+
+      <form>
+        <p>
+          <label for="text">{{ c.model.toHuman.text }}</label>
+          <input type="text" ng-model="c.model.text"></input>
+          <span>{{ c.model.errors.text[0] }}</span>
+        </p>
+        <p>
+          <label for="integer">{{ c.model.toHuman.integer }}</label>
+          <input id="integer" type="text" ng-model="c.model.integer"></input>
+          <span>{{ c.model.errors.integer[0] }}</span>
+        </p>
+        <p>
+          <label for="decimal">{{ c.model.toHuman.decimal }}</label>
+          <input id="decimal" type="text" ng-model="c.model.decimal"></input>
+          <span>{{ c.model.errors.decimal[0] }}</span>
+        </p>
+        <p>
+          <label for="date">{{ c.model.toHuman.date }}</label>
+          <input id="date" type="text" ng-model="c.model.date"></input>
+          <span>{{ c.model.errors.date[0] }}</span>
+        </p>
+        <p>
+          <label for="time">{{ c.model.toHuman.time }}</label>
+          <input id="time" type="text" ng-model="c.model.time"></input>
+          <span>{{ c.model.errors.time[0] }}</span>
+        </p>
+        <p>
+          <label for="datetime">{{ c.model.toHuman.datetime }}</label>
+          <input id="datetime" type="text" ng-model="c.model.datetime"></input>
+          <span>{{ c.model.errors.datetime[0] }}</span>
+        </p>
+        <p>
+          <label for="logic">{{ c.model.toHuman.logic }}</label>
+          <input id="logic" type="checkbox" ng-model="c.model.logic"></input>
+          <span>{{ c.model.errors.logic[0] }}</span>
+        </p>
+        <p>
+          <button type="button" onclick="Controller.new(); eventLoadForm();">{{ I18n.t('others.new') }}</button>
+          <button type="button" onclick="eventReset();">{{ I18n.t('others.reset') }}</button>
+          <button type="button" onclick="Controller.create(); eventSetValue(); eventSetError(); eventList();">{{ I18n.t('others.submit') }}</button>
+        </p>
+      </form>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>{{ I18n.t('others.list') }}</legend>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>{{ I18n.t('classes.model.attributes.text') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.integer') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.decimal') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.date') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.time') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.datetime') }}</th>
+            <th>{{ I18n.t('classes.model.attributes.logic') }}</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="table-body">
+          <ng-repeat="model in c.models">
+            <tr>
+              <td>{{ model.text.l() }}</td>
+              <td>{{ model.integer.l() }}</td>
+              <td>{{ model.decimal.l() }}</td>
+              <td>{{ model.date.l() }}</td>
+              <td>{{ model.time.l() }}</td>
+              <td>{{ model.datetime.l() }}</td>
+              <td>{{ model.logic.l() }}</td>
+            </tr>
+          </ng-repeat>
+        </tbody>
+
+      </table>
+
+    </fieldset>
+
+  </body>
+</html>

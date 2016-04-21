@@ -220,6 +220,8 @@ function eventLocale(key){
   document.getElementById('reset').innerHTML = I18n.t('others.reset');
   document.getElementById('submit').innerHTML = I18n.t('others.submit');
 
+  document.getElementById('list').innerHTML = I18n.t('others.list');
+
   eventSetTH();
   eventList();
 }
