@@ -2,7 +2,7 @@ var expect = require('expect.js');
 var Xikitita = require('../../temp/xikitita.js');
 
 describe('Validation', function() {
-  
+
   before(function() {
     Xikitita
       .init
@@ -11,6 +11,14 @@ describe('Validation', function() {
           messages: {
             blank: 'can\'t be blank',
             diff: 'can\'t be diff (%{first} !== %{last})'
+          }
+        },
+        classes:{
+          customer:{
+            attributes:{
+              name: 'Name',
+              phone: 'Phone'
+            }
           }
         }
       })
@@ -25,15 +33,15 @@ describe('Validation', function() {
             fail: {
               messageName: 'diff',
               params: {
-                first: object.name,
-                last: object.phone
+                first: object.toHuman.name,
+                last: object.toHuman.phone
               }
             }
           };
         });
-      });      
+      });
   });
- 
+
   it('#valid', function(){
     var customer = new Customer();
 
@@ -41,13 +49,15 @@ describe('Validation', function() {
     expect(customer.isValid).to.be(false);
     expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"phone":["can\'t be blank"]}');
 
+    expect(customer.errors.toJson).to.be('{"name":["can\'t be blank"],"phone":["can\'t be blank"]}');
+
     customer.name = 'Name';
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank"],"base":["can\'t be diff (Name !== null)"]}');
+    expect(customer.errors.toJson).to.be('{"phone":["can\'t be blank"],"base":["can\'t be diff (Name !== Phone)"]}');
 
     customer.phone = '0000000';
     expect(customer.isValid).to.be(false);
-    expect(customer.errors.toJson).to.be('{"base":["can\'t be diff (Name !== 0000000)"]}');
+    expect(customer.errors.toJson).to.be('{"base":["can\'t be diff (Name !== Phone)"]}');
   });
 
 });
