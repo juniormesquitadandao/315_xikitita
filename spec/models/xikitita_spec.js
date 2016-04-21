@@ -1,11 +1,11 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
-describe('Xikitita', function() {
+describe('Xktta', function() {
 
   before(function() {
 
-    Xikitita
+    Xktta
       .init
       .Inflection(function(){
         irregular('fish', 'fish');

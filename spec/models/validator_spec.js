@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Validator', function() {
-  
+
   before(function() {
-    Xikitita
+    Xktta
       .init
       .Validator('Custom', function(value, attrName, object, options){
         return {
@@ -12,7 +12,7 @@ describe('Validator', function() {
           fail: {
             messageName: 'custom',
             params: {
-              custom: 'custom' 
+              custom: 'custom'
             }
           }
         };
@@ -20,26 +20,26 @@ describe('Validator', function() {
   });
 
   it('::validators', function(){
-    expect(Object.keys(Xikitita.validators).toJson).to.be('["presence","length","custom"]');
+    expect(Object.keys(Xktta.validators).toJson).to.be('["presence","length","custom"]');
   });
 
   it('::validators.presence', function(){
-    expect(Xikitita.validators.presence(null).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence({}).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence([]).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence('').toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence(null).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence({}).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence([]).toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence('').toJson).to.be('{"success":false,"fail":{"messageName":"blank"}}');
 
-    expect(Xikitita.validators.presence(0).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence({0: ''}).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence([0]).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence('0').toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence(true).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
-    expect(Xikitita.validators.presence(false).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence(0).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence({0: ''}).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence([0]).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence('0').toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence(true).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
+    expect(Xktta.validators.presence(false).toJson).to.be('{"success":true,"fail":{"messageName":"blank"}}');
   });
 
   it('::validators.custom', function(){
-    expect(Xikitita.validators.custom(false).toJson).to.be('{"success":false,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
-    expect(Xikitita.validators.custom(true).toJson).to.be('{"success":true,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
+    expect(Xktta.validators.custom(false).toJson).to.be('{"success":false,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
+    expect(Xktta.validators.custom(true).toJson).to.be('{"success":true,"fail":{"messageName":"custom","params":{"custom":"custom"}}}');
   });
 
 });

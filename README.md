@@ -1,7 +1,7 @@
 ##What's it?
 Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails
 ```js
-Xikitita
+Xktta
   .init
   .Inflection(function(){
     irregular('singularWord', 'pluralWord');
@@ -50,7 +50,7 @@ Custormer:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('Customer', function(){
     attrAccessor('id', 'name', 'lastName', 'document', 'street', 'district', 'phone', 'user');
 
@@ -90,7 +90,7 @@ Xikitita
 ```js
 var customer = new Customer();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L503-L594 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L503-L594 "Mocha Test Case")
 #####User
 ######Design
 ```yml
@@ -104,7 +104,7 @@ User:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('User', function(){
     attrAccessor('id', 'email', 'customer', 'persona');
 
@@ -115,7 +115,7 @@ Xikitita
 ```js
 var user = new User();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L596-L667 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L596-L667 "Mocha Test Case")
 #####Persona
 ######Design
 ```yml
@@ -126,7 +126,7 @@ Persona:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('Persona', function(){
     attrAccessor('id', 'name', 'users');
     validatesPresenceOf('name');
@@ -136,11 +136,11 @@ Xikitita
 ```js
 var persona = new Persona();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
 ```js
-Xikitita
+Xktta
   .init
 ```
 
@@ -400,8 +400,8 @@ I18n.translate('messages.other', {name: 'Name'});
 I18n.t('messages.other', {name: 'Name'});
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/i18n.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/i18n_spec.js "test")
 
 ######Building classes
 You must build your classes using this function.
@@ -463,5 +463,5 @@ stub.toJson;
 stub.asJson;
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/class.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/class_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/class.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/class_spec.js "test")

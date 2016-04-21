@@ -1,12 +1,12 @@
-/*! 315 Xikitita - v1.0 - 2016-04-01
- * http://juniormesquitadandao.github.io/315_xikitita
+/*! 315 Xktta - v1.0
+ * http://juniormesquitadandao.github.io/xktta
  *
- * Copyright (c) 2016 Marcelo Junior
+ * Copyright (c) 2015 Marcelo Junior
  */
 ;(function(window){
 'use strict';
 
-var Xikitita = {
+var Xktta = {
   window: this,
   afterInit: [],
   defineProperties: function(prototype, properties){
@@ -18,15 +18,15 @@ var Xikitita = {
 
   },
   defineProperty: function(prototype, property, body){
-   
+
     if(!prototype.hasOwnProperty(property)){
       Object.defineProperty(prototype, property, body);
-    } 
+    }
 
   }
 };
 
-Object.defineProperty(Xikitita, 'init', {
+Object.defineProperty(Xktta, 'init', {
   get: function(){
 
     this.classes = {};
@@ -41,11 +41,11 @@ Object.defineProperty(Xikitita, 'init', {
     return this;
   }
 });
-Xikitita.Inflection = function(body){
+Xktta.Inflection = function(body){
   var __this__ = this;
 
   var irregular = function(singular, plural){
-    __this__.inflection.singular[singular] = plural; 
+    __this__.inflection.singular[singular] = plural;
     __this__.inflection.plural[plural] = singular;
   }
 
@@ -62,13 +62,13 @@ Xikitita.Inflection = function(body){
   return __this__;
 }
 
-Xikitita.I18n = function(locale, translations){
+Xktta.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
 
-Xikitita.afterInit.push(function(){
-  var __this__ = Xikitita;
+Xktta.afterInit.push(function(){
+  var __this__ = Xktta;
 
   eval.call(__this__.window, "var I18n;");
 
@@ -174,7 +174,7 @@ Xikitita.afterInit.push(function(){
   I18n.l = I18n.localize
 
 });
-Xikitita.Error = function(className){
+Xktta.Error = function(className){
   var __this__ = this;
   var __className__ = className;
 
@@ -196,7 +196,7 @@ Xikitita.Error = function(className){
         var messages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          
+
           __this__[attrName].forEach(function(message){
             messages.push(message);
           });
@@ -233,10 +233,10 @@ Xikitita.Error = function(className){
   });
 }
 
-Xikitita.Class = function(name, body){
+Xktta.Class = function(name, body){
 
-  eval.call(Xikitita.window, "function #{name}(){\n\
-      var Xikitita = Xikitita;\n\
+  eval.call(Xktta.window, "function #{name}(){\n\
+      var Xktta = Xktta;\n\
       var __class__ =  #{name};\n\
       var __attrAccessor__ = [];\n\
       \n\
@@ -276,21 +276,21 @@ Xikitita.Class = function(name, body){
     };"
     .interpolate({
       name: name,
-      attrAccessor: Xikitita.attrAccessor.toString(),
-      Error: Xikitita.Error.toString(),
-      errors: Xikitita.errors.toString(),
-      isValid: Xikitita.isValid.toString(),
-      validate: Xikitita.validate.toString(),
-      validates: Xikitita.validates.toString(),
-      def: Xikitita.def.toString(),
-      defClass: Xikitita.defClass.toString(),
-      validatesOf: Xikitita.validatesOf(),
+      attrAccessor: Xktta.attrAccessor.toString(),
+      Error: Xktta.Error.toString(),
+      errors: Xktta.errors.toString(),
+      isValid: Xktta.isValid.toString(),
+      validate: Xktta.validate.toString(),
+      validates: Xktta.validates.toString(),
+      def: Xktta.def.toString(),
+      defClass: Xktta.defClass.toString(),
+      validatesOf: Xktta.validatesOf(),
       body: body.toString(),
-      new: Xikitita.new.toString(),
-      reset: Xikitita.reset.toString(),
-      changes: Xikitita.changes.toString(),
-      changed: Xikitita.changed.toString(),
-      toHuman: Xikitita.toHuman.toString()
+      new: Xktta.new.toString(),
+      reset: Xktta.reset.toString(),
+      changes: Xktta.changes.toString(),
+      changed: Xktta.changed.toString(),
+      toHuman: Xktta.toHuman.toString()
     })
   );
   var Class = eval(name);
@@ -309,14 +309,14 @@ Xikitita.Class = function(name, body){
   });
 
   Object.defineProperties(Class.prototype, {
-    Xikitita: { get: function () { return Xikitita; } }
+    Xktta: { get: function () { return Xktta; } }
   });
 
   this.classes[name] = Class;
   return this;
 }
 
-Xikitita.attrAccessor = function(){
+Xktta.attrAccessor = function(){
   var attrNames = Array.prototype.slice.call(arguments);
 
   attrNames.forEach(function(attrName){
@@ -325,7 +325,7 @@ Xikitita.attrAccessor = function(){
   });
 };
 
-Xikitita.new = function(){
+Xktta.new = function(){
   function defineChangesToAttrName(attrName){
     var changes_attrName = ['changes', attrName].join('_');
     if(!object.hasOwnProperty(changes_attrName)){
@@ -378,7 +378,7 @@ Xikitita.new = function(){
   });
 };
 
-Xikitita.reset = function(){
+Xktta.reset = function(){
   Object.keys(object).forEach(function(attrName){
     object[attrName] = __initAttributes__[attrName];
   });
@@ -388,7 +388,7 @@ Xikitita.reset = function(){
   });
 };
 
-Xikitita.changes = function(){
+Xktta.changes = function(){
   var changes = {};
 
   __attrAccessor__.forEach(function(attrName){
@@ -409,22 +409,22 @@ Xikitita.changes = function(){
   return changes;
 };
 
-Xikitita.changed = function(){
+Xktta.changed = function(){
   return this.changes.isAny;
 };
 
-Xikitita.def = function(name, body){
+Xktta.def = function(name, body){
   Object.defineProperty(object, name, {
     value: body,
     enumerable: false
   });
 };
 
-Xikitita.defClass = function(name, body){
+Xktta.defClass = function(name, body){
   __class__[name] = __class__[name] || body;
 };
 
-Xikitita.toHuman = function(){
+Xktta.toHuman = function(){
   var attributes = {};
   var className = __class__.name.toLowerCase();
 
@@ -446,7 +446,7 @@ Xikitita.toHuman = function(){
 
   return attributes;
 };
-Xikitita.validate = function(attrName, body){
+Xktta.validate = function(attrName, body){
 
   __validations__.push(function(){
     var result = body.call();
@@ -462,7 +462,7 @@ Xikitita.validate = function(attrName, body){
 
 };
 
-Xikitita.validates = function(attrName, optionsValidators){
+Xktta.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};
     if (typeof optionsValidators[validatorName] === 'object') {
@@ -471,7 +471,7 @@ Xikitita.validates = function(attrName, optionsValidators){
 
     __validations__.push(function(){
       var value = object[attrName];
-      var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
+      var result = object.Xktta.validators[validatorName](value, attrName, object, options);
 
       if (!result.success) {
         var messageName = result.fail.messageName;
@@ -484,12 +484,12 @@ Xikitita.validates = function(attrName, optionsValidators){
   });
 };
 
-Xikitita.validatesOf = function(){
+Xktta.validatesOf = function(){
   var validatesOf = [];
 
-  Object.keys(Xikitita.validators).forEach(function(validator){
+  Object.keys(Xktta.validators).forEach(function(validator){
 
-    validatesOf.push('var validates#{validator}Of = ' 
+    validatesOf.push('var validates#{validator}Of = '
         .interpolate({
           validator: validator.capitalize
         })
@@ -505,7 +505,7 @@ Xikitita.validatesOf = function(){
           if(typeof last === 'object'){
             options[validatorName] = last;
           }else{
-            attrNames.push(last);          
+            attrNames.push(last);
           }
 
           attrNames.forEach(function(attrName){
@@ -524,11 +524,11 @@ Xikitita.validatesOf = function(){
   return validatesOf.join('\n');
 };
 
-Xikitita.errors = function(){
+Xktta.errors = function(){
   return __errors__;
 };
 
-Xikitita.isValid = function(){
+Xktta.isValid = function(){
   __errors__.clear;
 
   __validations__.forEach(function(validation){
@@ -538,16 +538,16 @@ Xikitita.isValid = function(){
   return __errors__.isEmpty;
 };
 
-Xikitita.Validator = function(name, body){
+Xktta.Validator = function(name, body){
   this.validators[name.toLowerCase()] = body;
   return this;
 }
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita
+  Xktta
     .Validator('Presence', function(value, attrName, object, options){
-      
+
       return {
         success: value ? value.isAny : ['number', 'boolean'].indexOf(typeof value) > -1,
         fail: {
@@ -563,7 +563,7 @@ Xikitita.afterInit.push(function(){
             fail: {
               messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
               params: {
-                count: maxValue 
+                count: maxValue
               }
             }
           };
@@ -622,30 +622,30 @@ Xikitita.afterInit.push(function(){
     });
 
 });
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Object.prototype, {
+  Xktta.defineProperties(Object.prototype, {
     toJson: {
       get: function () {
         var __toJson__ = this;
         if(typeof this !== 'string'){
           __toJson__ = JSON.stringify(__toJson__);
         }
-        return __toJson__; 
+        return __toJson__;
       }
     },
     asJson: {
-      get: function () { 
-        return JSON.parse(this.toJson); 
-      } 
+      get: function () {
+        return JSON.parse(this.toJson);
+      }
     },
     isAny: {
       get: function () {
         return (this.constructor.name === 'Number' && this > 0) || (this.constructor.name === 'Boolean' && this) || this.constructor.name === 'Date' || Object.keys(this).length > 0;
       }
     },
-    isEmpty: { 
-      get: function () { 
+    isEmpty: {
+      get: function () {
         return !this.isAny;
       }
     }
@@ -653,19 +653,19 @@ Xikitita.afterInit.push(function(){
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(String.prototype, {
-    capitalize: { 
+  Xktta.defineProperties(String.prototype, {
+    capitalize: {
       get: function(){
         return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
       }
     },
-    pluralize: { 
+    pluralize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.singular[irregular] || null;
+        var replace = Xktta.inflection.singular[irregular] || null;
 
         if(!replace){
           regex = /$/;
@@ -675,11 +675,11 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    singularize: { 
+    singularize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.plural[irregular] || null;
+        var replace = Xktta.inflection.plural[irregular] || null;
 
         if(!replace){
           regex = /s$/;
@@ -689,7 +689,7 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    interpolate: { 
+    interpolate: {
       value: function(params, identifier, isBoundary){
         identifier = identifier || '#';
         isBoundary = isBoundary === undefined ? true : isBoundary;
@@ -708,56 +708,56 @@ Xikitita.afterInit.push(function(){
   });
 
 });
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Date.prototype, {
+  Xktta.defineProperties(Date.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Number.prototype, {
+  Xktta.defineProperties(Number.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Boolean.prototype, {
+  Xktta.defineProperties(Boolean.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-window.Xikitita = Xikitita;
+window.Xktta = Xktta;
 })(window);

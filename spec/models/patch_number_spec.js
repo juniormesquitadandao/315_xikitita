@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Patch Number', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         integer: {

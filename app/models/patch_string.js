@@ -1,16 +1,16 @@
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(String.prototype, {
-    capitalize: { 
+  Xktta.defineProperties(String.prototype, {
+    capitalize: {
       get: function(){
         return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
       }
     },
-    pluralize: { 
+    pluralize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.singular[irregular] || null;
+        var replace = Xktta.inflection.singular[irregular] || null;
 
         if(!replace){
           regex = /$/;
@@ -20,11 +20,11 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    singularize: { 
+    singularize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.plural[irregular] || null;
+        var replace = Xktta.inflection.plural[irregular] || null;
 
         if(!replace){
           regex = /s$/;
@@ -34,7 +34,7 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    interpolate: { 
+    interpolate: {
       value: function(params, identifier, isBoundary){
         identifier = identifier || '#';
         isBoundary = isBoundary === undefined ? true : isBoundary;

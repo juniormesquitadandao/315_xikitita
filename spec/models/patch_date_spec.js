@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Patch Date', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         date: {
@@ -177,7 +177,7 @@ describe('Patch Date', function() {
         }
       });
   });
-  
+
   it('#localize', function () {
     var myDateBirth = new Date('Thu, 18 Aug 1988 18:00:00 GMT-0300 (BRT)');
 

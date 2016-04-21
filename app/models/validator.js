@@ -1,13 +1,13 @@
-Xikitita.Validator = function(name, body){
+Xktta.Validator = function(name, body){
   this.validators[name.toLowerCase()] = body;
   return this;
 }
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita
+  Xktta
     .Validator('Presence', function(value, attrName, object, options){
-      
+
       return {
         success: value ? value.isAny : ['number', 'boolean'].indexOf(typeof value) > -1,
         fail: {
@@ -23,7 +23,7 @@ Xikitita.afterInit.push(function(){
             fail: {
               messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
               params: {
-                count: maxValue 
+                count: maxValue
               }
             }
           };

@@ -1,7 +1,7 @@
-Xikitita.Class = function(name, body){
+Xktta.Class = function(name, body){
 
-  eval.call(Xikitita.window, "function #{name}(){\n\
-      var Xikitita = Xikitita;\n\
+  eval.call(Xktta.window, "function #{name}(){\n\
+      var Xktta = Xktta;\n\
       var __class__ =  #{name};\n\
       var __attrAccessor__ = [];\n\
       \n\
@@ -41,21 +41,21 @@ Xikitita.Class = function(name, body){
     };"
     .interpolate({
       name: name,
-      attrAccessor: Xikitita.attrAccessor.toString(),
-      Error: Xikitita.Error.toString(),
-      errors: Xikitita.errors.toString(),
-      isValid: Xikitita.isValid.toString(),
-      validate: Xikitita.validate.toString(),
-      validates: Xikitita.validates.toString(),
-      def: Xikitita.def.toString(),
-      defClass: Xikitita.defClass.toString(),
-      validatesOf: Xikitita.validatesOf(),
+      attrAccessor: Xktta.attrAccessor.toString(),
+      Error: Xktta.Error.toString(),
+      errors: Xktta.errors.toString(),
+      isValid: Xktta.isValid.toString(),
+      validate: Xktta.validate.toString(),
+      validates: Xktta.validates.toString(),
+      def: Xktta.def.toString(),
+      defClass: Xktta.defClass.toString(),
+      validatesOf: Xktta.validatesOf(),
       body: body.toString(),
-      new: Xikitita.new.toString(),
-      reset: Xikitita.reset.toString(),
-      changes: Xikitita.changes.toString(),
-      changed: Xikitita.changed.toString(),
-      toHuman: Xikitita.toHuman.toString()
+      new: Xktta.new.toString(),
+      reset: Xktta.reset.toString(),
+      changes: Xktta.changes.toString(),
+      changed: Xktta.changed.toString(),
+      toHuman: Xktta.toHuman.toString()
     })
   );
   var Class = eval(name);
@@ -74,14 +74,14 @@ Xikitita.Class = function(name, body){
   });
 
   Object.defineProperties(Class.prototype, {
-    Xikitita: { get: function () { return Xikitita; } }
+    Xktta: { get: function () { return Xktta; } }
   });
 
   this.classes[name] = Class;
   return this;
 }
 
-Xikitita.attrAccessor = function(){
+Xktta.attrAccessor = function(){
   var attrNames = Array.prototype.slice.call(arguments);
 
   attrNames.forEach(function(attrName){
@@ -90,7 +90,7 @@ Xikitita.attrAccessor = function(){
   });
 };
 
-Xikitita.new = function(){
+Xktta.new = function(){
   function defineChangesToAttrName(attrName){
     var changes_attrName = ['changes', attrName].join('_');
     if(!object.hasOwnProperty(changes_attrName)){
@@ -143,7 +143,7 @@ Xikitita.new = function(){
   });
 };
 
-Xikitita.reset = function(){
+Xktta.reset = function(){
   Object.keys(object).forEach(function(attrName){
     object[attrName] = __initAttributes__[attrName];
   });
@@ -153,7 +153,7 @@ Xikitita.reset = function(){
   });
 };
 
-Xikitita.changes = function(){
+Xktta.changes = function(){
   var changes = {};
 
   __attrAccessor__.forEach(function(attrName){
@@ -174,22 +174,22 @@ Xikitita.changes = function(){
   return changes;
 };
 
-Xikitita.changed = function(){
+Xktta.changed = function(){
   return this.changes.isAny;
 };
 
-Xikitita.def = function(name, body){
+Xktta.def = function(name, body){
   Object.defineProperty(object, name, {
     value: body,
     enumerable: false
   });
 };
 
-Xikitita.defClass = function(name, body){
+Xktta.defClass = function(name, body){
   __class__[name] = __class__[name] || body;
 };
 
-Xikitita.toHuman = function(){
+Xktta.toHuman = function(){
   var attributes = {};
   var className = __class__.name.toLowerCase();
 

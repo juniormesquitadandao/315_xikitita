@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Inflection', function() {
-  
+
   before(function() {
-    Xikitita
+    Xktta
       .init
       .Inflection(function(){
         irregular('fish', 'fish');
@@ -19,5 +19,5 @@ describe('Inflection', function() {
     expect('fish'.singularize).to.be('fish');
     expect('people'.singularize).to.be('person');
   });
-  
+
 });

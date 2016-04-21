@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Class', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         classes: {
@@ -88,7 +88,7 @@ describe('Class', function() {
       expect(exception.message).to.be('stub.two is not a attribute');
     })
 
-    Xikitita
+    Xktta
       .Class('Stub', function(){
         attrAccessor('id', 'one', 'two');
       })
@@ -106,7 +106,7 @@ describe('Class', function() {
 
 
   it('primaryKey', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
         attrAccessor('id_stub');
       })
@@ -116,7 +116,7 @@ describe('Class', function() {
   });
 
   it('foreingKey', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
         attrAccessor('id');
       })
@@ -161,7 +161,7 @@ describe('Class', function() {
   });
 
   it('#changes', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
         attrAccessor('id_stub', 'one', 'two', 'stub2');
       })
@@ -181,7 +181,7 @@ describe('Class', function() {
   });
 
   it('#changed', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
         attrAccessor('id_stub', 'one', 'two')
       })

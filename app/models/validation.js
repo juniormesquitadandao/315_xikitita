@@ -1,4 +1,4 @@
-Xikitita.validate = function(attrName, body){
+Xktta.validate = function(attrName, body){
 
   __validations__.push(function(){
     var result = body.call();
@@ -14,7 +14,7 @@ Xikitita.validate = function(attrName, body){
 
 };
 
-Xikitita.validates = function(attrName, optionsValidators){
+Xktta.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};
     if (typeof optionsValidators[validatorName] === 'object') {
@@ -23,7 +23,7 @@ Xikitita.validates = function(attrName, optionsValidators){
 
     __validations__.push(function(){
       var value = object[attrName];
-      var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
+      var result = object.Xktta.validators[validatorName](value, attrName, object, options);
 
       if (!result.success) {
         var messageName = result.fail.messageName;
@@ -36,12 +36,12 @@ Xikitita.validates = function(attrName, optionsValidators){
   });
 };
 
-Xikitita.validatesOf = function(){
+Xktta.validatesOf = function(){
   var validatesOf = [];
 
-  Object.keys(Xikitita.validators).forEach(function(validator){
+  Object.keys(Xktta.validators).forEach(function(validator){
 
-    validatesOf.push('var validates#{validator}Of = ' 
+    validatesOf.push('var validates#{validator}Of = '
         .interpolate({
           validator: validator.capitalize
         })
@@ -57,7 +57,7 @@ Xikitita.validatesOf = function(){
           if(typeof last === 'object'){
             options[validatorName] = last;
           }else{
-            attrNames.push(last);          
+            attrNames.push(last);
           }
 
           attrNames.forEach(function(attrName){
@@ -76,11 +76,11 @@ Xikitita.validatesOf = function(){
   return validatesOf.join('\n');
 };
 
-Xikitita.errors = function(){
+Xktta.errors = function(){
   return __errors__;
 };
 
-Xikitita.isValid = function(){
+Xktta.isValid = function(){
   __errors__.clear;
 
   __validations__.forEach(function(validation){

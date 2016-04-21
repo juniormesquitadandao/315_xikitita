@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Error', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         errors:{
@@ -24,25 +24,25 @@ describe('Error', function() {
       })
       .Class('Stub', function(){
         attrAccessor('attrName1', 'attrName2');
-        
+
         validatesPresenceOf('attrName1', 'attrName2');
-      });      
+      });
   });
 
   it('#toJson', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     expect(error.toJson).to.be('{}');
   });
 
   it('#asJson', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     expect(error.asJson).to.be.a(Object);
   });
 
   it('#isAny', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     expect(error.isAny).to.be(false);
     error.x = [];
@@ -50,7 +50,7 @@ describe('Error', function() {
   });
 
   it('#isEmpty', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     expect(error.isEmpty).to.be(true);
     error.x = [];
@@ -58,7 +58,7 @@ describe('Error', function() {
   });
 
   it('#add', function(){
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     error.add('attrName1', 'message1');
     expect(error.attrName1).to.be.a(Array);
@@ -66,11 +66,11 @@ describe('Error', function() {
 
     error.add('attrName1', 'message2');
     error.add('attrName2', 'message1');
-    expect(error.toJson).to.be('{"attrName1":["message1","message2"],"attrName2":["message1"]}');    
+    expect(error.toJson).to.be('{"attrName1":["message1","message2"],"attrName2":["message1"]}');
   });
 
   it('#clear', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     error.x = [];
     error.clear;
@@ -78,7 +78,7 @@ describe('Error', function() {
   });
 
   it('#messages', function () {
-    var error = new Xikitita.Error();
+    var error = new Xktta.Error();
 
     error.add('attrName1', 'message2');
     error.add('attrName2', 'message1');
