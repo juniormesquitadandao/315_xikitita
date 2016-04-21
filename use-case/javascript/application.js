@@ -1,4 +1,4 @@
-Xikitita
+Xktta
 .init
 .Inflection(function(){
   irregular('model', 'models');
@@ -147,7 +147,7 @@ Xikitita
     }
   },
   others: {
-    title: '315 Xikitita (with only javascript)',
+    title: 'Xktta (with only javascript)',
     language: 'Language',
     en: 'English',
     'pt-BR': 'Portuguese (Brazil)',
@@ -304,7 +304,7 @@ Xikitita
     }
   },
   others: {
-    title: '315 Xikitita (with angular)',
+    title: 'Xktta (with angular)',
     language: 'Idioma',
     en: 'Inglês',
     'pt-BR': 'Português (Brasil)',

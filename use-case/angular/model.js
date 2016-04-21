@@ -1,4 +1,4 @@
-Xikitita
+Xktta
 .Class('Model', function(){
 
   attrAccessor('text', 'integer', 'decimal');
@@ -9,5 +9,5 @@ Xikitita
   validatesPresenceOf('date', 'time', 'datetime');
 
   validatesLengthOf('text', {in: [1, 32]});
-  
+
 });
