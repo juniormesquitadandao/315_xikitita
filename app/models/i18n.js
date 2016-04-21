@@ -1,10 +1,10 @@
-Xikitita.I18n = function(locale, translations){
+Xktta.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
 
-Xikitita.afterInit.push(function(){
-  var __this__ = Xikitita;
+Xktta.afterInit.push(function(){
+  var __this__ = Xktta;
 
   eval.call(__this__.window, "var I18n;");
 

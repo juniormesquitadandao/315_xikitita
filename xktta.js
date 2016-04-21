@@ -1,12 +1,12 @@
-/*! 315 Xikitita - v1.0 - 2016-04-01
- * http://juniormesquitadandao.github.io/315_xikitita
+/*! 315 Xktta - v1.0
+ * http://juniormesquitadandao.github.io/xktta
  *
- * Copyright (c) 2016 Marcelo Junior
+ * Copyright (c) 2015 Marcelo Junior
  */
 ;(function(window){
 'use strict';
 
-var Xikitita = {
+var Xktta = {
   window: this,
   afterInit: [],
   defineProperties: function(prototype, properties){
@@ -18,15 +18,15 @@ var Xikitita = {
 
   },
   defineProperty: function(prototype, property, body){
-   
+
     if(!prototype.hasOwnProperty(property)){
       Object.defineProperty(prototype, property, body);
-    } 
+    }
 
   }
 };
 
-Object.defineProperty(Xikitita, 'init', {
+Object.defineProperty(Xktta, 'init', {
   get: function(){
 
     this.classes = {};
@@ -41,11 +41,11 @@ Object.defineProperty(Xikitita, 'init', {
     return this;
   }
 });
-Xikitita.Inflection = function(body){
+Xktta.Inflection = function(body){
   var __this__ = this;
 
   var irregular = function(singular, plural){
-    __this__.inflection.singular[singular] = plural; 
+    __this__.inflection.singular[singular] = plural;
     __this__.inflection.plural[plural] = singular;
   }
 
@@ -62,13 +62,13 @@ Xikitita.Inflection = function(body){
   return __this__;
 }
 
-Xikitita.I18n = function(locale, translations){
+Xktta.I18n = function(locale, translations){
   this.translations[locale] = translations || {};
   return this;
 }
 
-Xikitita.afterInit.push(function(){
-  var __this__ = Xikitita;
+Xktta.afterInit.push(function(){
+  var __this__ = Xktta;
 
   eval.call(__this__.window, "var I18n;");
 
@@ -174,7 +174,7 @@ Xikitita.afterInit.push(function(){
   I18n.l = I18n.localize
 
 });
-Xikitita.Error = function(className){
+Xktta.Error = function(className){
   var __this__ = this;
   var __className__ = className;
 
@@ -196,7 +196,7 @@ Xikitita.Error = function(className){
         var messages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          
+
           __this__[attrName].forEach(function(message){
             messages.push(message);
           });
@@ -233,28 +233,17 @@ Xikitita.Error = function(className){
   });
 }
 
-Xikitita.Class = function(name, body){
-  
-  eval.call(Xikitita.window, "function #{name}(){\n\
-      var Xikitita = Xikitita;\n\
+Xktta.Class = function(name, body){
+
+  eval.call(Xktta.window, "function #{name}(){\n\
+      var Xktta = Xktta;\n\
       var __class__ =  #{name};\n\
       var __attrAccessor__ = [];\n\
       \n\
       var object = this;\n\
       var attrAccessor = #{attrAccessor};\n\
       \n\
-      var __id__ = 'id';\n\
-      var id = #{id};\n\
       var __afterNew__ = [];\n\
-      \n\
-      var __belongsToClasses__ = {};\n\
-      var belongsTo = #{belongsTo};\n\
-      \n\
-      var __hasOneClasses__ = {};\n\
-      var hasOne = #{hasOne};\n\
-      \n\
-      var __hasManyClasses__ = {};\n\
-      var hasMany = #{hasMany};\n\
       \n\
       var __errors__ = new #{Error}(__class__.name.toLowerCase());\n\
       var __validations__ = [];\n\
@@ -287,25 +276,21 @@ Xikitita.Class = function(name, body){
     };"
     .interpolate({
       name: name,
-      attrAccessor: Xikitita.attrAccessor.toString(),
-      id: Xikitita.id.toString(),
-      belongsTo: Xikitita.belongsTo.toString(),
-      hasOne: Xikitita.hasOne.toString(),
-      hasMany: Xikitita.hasMany.toString(),
-      Error: Xikitita.Error.toString(),
-      errors: Xikitita.errors.toString(),
-      isValid: Xikitita.isValid.toString(),
-      validate: Xikitita.validate.toString(),
-      validates: Xikitita.validates.toString(),
-      def: Xikitita.def.toString(),
-      defClass: Xikitita.defClass.toString(),
-      validatesOf: Xikitita.validatesOf(),
+      attrAccessor: Xktta.attrAccessor.toString(),
+      Error: Xktta.Error.toString(),
+      errors: Xktta.errors.toString(),
+      isValid: Xktta.isValid.toString(),
+      validate: Xktta.validate.toString(),
+      validates: Xktta.validates.toString(),
+      def: Xktta.def.toString(),
+      defClass: Xktta.defClass.toString(),
+      validatesOf: Xktta.validatesOf(),
       body: body.toString(),
-      new: Xikitita.new.toString(),
-      reset: Xikitita.reset.toString(),
-      changes: Xikitita.changes.toString(),
-      changed: Xikitita.changed.toString(),
-      toHuman: Xikitita.toHuman.toString()
+      new: Xktta.new.toString(),
+      reset: Xktta.reset.toString(),
+      changes: Xktta.changes.toString(),
+      changed: Xktta.changed.toString(),
+      toHuman: Xktta.toHuman.toString()
     })
   );
   var Class = eval(name);
@@ -324,26 +309,15 @@ Xikitita.Class = function(name, body){
   });
 
   Object.defineProperties(Class.prototype, {
-    Xikitita: { get: function () { return Xikitita; } }
+    Xktta: { get: function () { return Xktta; } }
   });
 
   this.classes[name] = Class;
   return this;
 }
 
-Xikitita.id = function(id){
-  __id__ = id;
-
-  Object.defineProperty(object, '__idValue__', {
-    get: function(){ return object[__id__]; }
-  });
-};
-
-Xikitita.attrAccessor = function(){
+Xktta.attrAccessor = function(){
   var attrNames = Array.prototype.slice.call(arguments);
-  if(__attrAccessor__.length === 0){
-    attrNames.unshift(__id__);
-  }
 
   attrNames.forEach(function(attrName){
     object[attrName] = null;
@@ -351,7 +325,7 @@ Xikitita.attrAccessor = function(){
   });
 };
 
-Xikitita.new = function(){
+Xktta.new = function(){
   function defineChangesToAttrName(attrName){
     var changes_attrName = ['changes', attrName].join('_');
     if(!object.hasOwnProperty(changes_attrName)){
@@ -378,12 +352,18 @@ Xikitita.new = function(){
   if(typeof __initAttributes__ === 'string'){
     __initAttributes__ = JSON.parse(__initAttributes__);
   }
-  
+
   __attrAccessor__.forEach(function(attrName){
     __afterNew__.push(function(){
       defineChangesToAttrName(attrName);
       defineChangedToAttrName(attrName);
     });
+  });
+
+  __attrAccessor__.forEach(function(attrName){
+    if(Object.keys(__initAttributes__).indexOf(attrName) < 0){
+      __initAttributes__[attrName] = null;
+    }
   });
 
   Object.keys(__initAttributes__).forEach(function(attrName){
@@ -398,27 +378,9 @@ Xikitita.new = function(){
   });
 };
 
-Xikitita.reset = function(){ 
-  Object.keys(__belongsToClasses__).forEach(function(belongsTo){
-    object[belongsTo] = null;
-  });
-
-  Object.keys(__hasOneClasses__).forEach(function(hasOne){
-    object[hasOne] = null;
-  });
-
-  Object.keys(__hasManyClasses__).forEach(function(hasMany){
-    object[hasMany] = [];
-  });
-
-  Object.keys(__initAttributes__).forEach(function(attrName){
-    object[attrName] = __initAttributes__[attrName];
-  });
-
+Xktta.reset = function(){
   Object.keys(object).forEach(function(attrName){
-    if(!__initAttributes__.hasOwnProperty(attrName)){
-      object[attrName] = null;
-    }
+    object[attrName] = __initAttributes__[attrName];
   });
 
   __afterNew__.forEach(function(callback){
@@ -426,29 +388,19 @@ Xikitita.reset = function(){
   });
 };
 
-Xikitita.changes = function(){
+Xktta.changes = function(){
   var changes = {};
 
   __attrAccessor__.forEach(function(attrName){
-  
-      var initialValue = __initAttributes__[attrName] === undefined ? null : __initAttributes__[attrName];
+
+      var initialValue = __initAttributes__[attrName];
       var actualValue = object[attrName];
 
-      if(initialValue && typeof initialValue === 'object' && actualValue && typeof actualValue === 'object'){
-        initialValue = initialValue.asJson;
-
-        if(!__hasManyClasses__.hasOwnProperty(attrName)){
-          Object.keys(actualValue).forEach(function(attrName){
-            if(!initialValue.hasOwnProperty(attrName)){
-              initialValue[attrName] = null;
-            }
-          });          
-        }
-
-        if(initialValue.toJson !== actualValue.toJson){
-          changes[attrName] = [initialValue, actualValue];
-        }
-      }else if(initialValue !== actualValue){
+      if(initialValue === null && actualValue !== null){
+        changes[attrName] = [initialValue, actualValue];
+      } else if(initialValue !== null && actualValue === null){
+        changes[attrName] = [initialValue, actualValue];
+      } else if(initialValue !== null && actualValue !== null && initialValue.toJson !== actualValue.toJson){
         changes[attrName] = [initialValue, actualValue];
       }
 
@@ -457,31 +409,31 @@ Xikitita.changes = function(){
   return changes;
 };
 
-Xikitita.changed = function(){
+Xktta.changed = function(){
   return this.changes.isAny;
 };
 
-Xikitita.def = function(name, body){
+Xktta.def = function(name, body){
   Object.defineProperty(object, name, {
-    value: body, 
+    value: body,
     enumerable: false
   });
 };
 
-Xikitita.defClass = function(name, body){
+Xktta.defClass = function(name, body){
   __class__[name] = __class__[name] || body;
 };
 
-Xikitita.toHuman = function(){
+Xktta.toHuman = function(){
   var attributes = {};
   var className = __class__.name.toLowerCase();
 
   __attrAccessor__.forEach(function(attrName){
-  
+
     Object.defineProperty(attributes, attrName, {
 
       get: function(){
-        
+
         var path = ['classes', className, 'attributes', attrName].join('.');
 
         return I18n.t(path);
@@ -494,117 +446,7 @@ Xikitita.toHuman = function(){
 
   return attributes;
 };
-Xikitita.belongsTo = function(classNameSingularized, options){
-  var options = options || {};
-  var foreingKey = options.foreingKey || classNameSingularized + '_id';
-  var referenceKey = options.referenceKey || 'id';
-
-  Object.defineProperty(object, classNameSingularized, {
-    get: function(){
-      object[classNameSingularized] = __belongsToClasses__[classNameSingularized];
-      return __belongsToClasses__[classNameSingularized];
-    },
-    set: function(value){
-      value = value || null;
-
-      var classTitleize = classNameSingularized.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
-      var Class = eval( classTitleize );
-
-      if (value !== null && value.constructor.name === 'Object'){
-        value = new Class(value);
-      }
-      __belongsToClasses__[classNameSingularized] = value;
-
-      var idValue = null;
-      if (value !== null){
-        idValue = value[referenceKey];
-      }
-
-      object[foreingKey] = idValue;
-    }
-  });
-
-  __belongsToClasses__[classNameSingularized] = null;
-
-  attrAccessor(foreingKey);
-  
-  __afterNew__.push(function(){
-    if(__initAttributes__.hasOwnProperty(foreingKey)){
-      var value = {};
-      value[referenceKey] = object[foreingKey];
-      __belongsToClasses__[classNameSingularized] = value;
-    }
-  });
-};
-
-Xikitita.hasOne = function(classNameSingularized, options){
-  var options = options || {};
-  var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
-
-  Object.defineProperty(object, classNameSingularized, {
-    get: function(){
-      object[classNameSingularized] = __hasOneClasses__[classNameSingularized];
-      return __hasOneClasses__[classNameSingularized];
-    },
-    set: function(value){
-      value = value || null;
-
-      var Class = eval( classNameSingularized.capitalize );
-
-      if (value !== null){
-        value[foreingKey] = object[__id__];
-        if (value.constructor.name === 'Object'){
-          value = new Class(value);
-        }
-      }
-
-      __hasOneClasses__[classNameSingularized] = value;
-    }
-  });
-
-  __hasOneClasses__[classNameSingularized] = null;
-
-  attrAccessor(classNameSingularized);
-};
-
-Xikitita.hasMany = function(classNamePluralized, options){
-  var options = options || {};
-  var foreingKey = options.foreingKey || __class__.name.toLowerCase() + '_id';
-
-  Object.defineProperty(object, classNamePluralized, {
-    get: function(){
-      __hasManyClasses__[classNamePluralized] = __hasManyClasses__[classNamePluralized] || [];
-      object[classNamePluralized] = __hasManyClasses__[classNamePluralized];
-      return __hasManyClasses__[classNamePluralized];
-    },
-    set: function(values){
-      values = values || null;
-
-      var Class = eval( classNamePluralized.singularize.capitalize );
-
-      if (values !== null){
-        values = values.map(function(value){
-          value[foreingKey] = object[__id__];
-          if (value.constructor.name === 'Object'){
-            value = new Class(value);
-          }
-          return value;
-        })
-      }
-
-      __hasManyClasses__[classNamePluralized] = values;
-    }
-  });
-
-  attrAccessor(classNamePluralized);
-  
-  __afterNew__.push(function(){
-    if(!__initAttributes__.hasOwnProperty(classNamePluralized)){
-      __initAttributes__[classNamePluralized] = [];
-    }
-  });
-};
-Xikitita.validate = function(attrName, body){
+Xktta.validate = function(attrName, body){
 
   __validations__.push(function(){
     var result = body.call();
@@ -620,7 +462,7 @@ Xikitita.validate = function(attrName, body){
 
 };
 
-Xikitita.validates = function(attrName, optionsValidators){
+Xktta.validates = function(attrName, optionsValidators){
   Object.keys(optionsValidators).forEach(function(validatorName){
     var options = {};
     if (typeof optionsValidators[validatorName] === 'object') {
@@ -629,7 +471,7 @@ Xikitita.validates = function(attrName, optionsValidators){
 
     __validations__.push(function(){
       var value = object[attrName];
-      var result = object.Xikitita.validators[validatorName](value, attrName, object, options);
+      var result = object.Xktta.validators[validatorName](value, attrName, object, options);
 
       if (!result.success) {
         var messageName = result.fail.messageName;
@@ -642,12 +484,12 @@ Xikitita.validates = function(attrName, optionsValidators){
   });
 };
 
-Xikitita.validatesOf = function(){
+Xktta.validatesOf = function(){
   var validatesOf = [];
 
-  Object.keys(Xikitita.validators).forEach(function(validator){
+  Object.keys(Xktta.validators).forEach(function(validator){
 
-    validatesOf.push('var validates#{validator}Of = ' 
+    validatesOf.push('var validates#{validator}Of = '
         .interpolate({
           validator: validator.capitalize
         })
@@ -663,7 +505,7 @@ Xikitita.validatesOf = function(){
           if(typeof last === 'object'){
             options[validatorName] = last;
           }else{
-            attrNames.push(last);          
+            attrNames.push(last);
           }
 
           attrNames.forEach(function(attrName){
@@ -682,11 +524,11 @@ Xikitita.validatesOf = function(){
   return validatesOf.join('\n');
 };
 
-Xikitita.errors = function(){
+Xktta.errors = function(){
   return __errors__;
 };
 
-Xikitita.isValid = function(){
+Xktta.isValid = function(){
   __errors__.clear;
 
   __validations__.forEach(function(validation){
@@ -696,16 +538,16 @@ Xikitita.isValid = function(){
   return __errors__.isEmpty;
 };
 
-Xikitita.Validator = function(name, body){
+Xktta.Validator = function(name, body){
   this.validators[name.toLowerCase()] = body;
   return this;
 }
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita
+  Xktta
     .Validator('Presence', function(value, attrName, object, options){
-      
+
       return {
         success: value ? value.isAny : ['number', 'boolean'].indexOf(typeof value) > -1,
         fail: {
@@ -721,7 +563,7 @@ Xikitita.afterInit.push(function(){
             fail: {
               messageName: maxValue === 1 ? 'too_long.one' : 'too_long.other',
               params: {
-                count: maxValue 
+                count: maxValue
               }
             }
           };
@@ -780,30 +622,30 @@ Xikitita.afterInit.push(function(){
     });
 
 });
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Object.prototype, {
+  Xktta.defineProperties(Object.prototype, {
     toJson: {
       get: function () {
         var __toJson__ = this;
         if(typeof this !== 'string'){
           __toJson__ = JSON.stringify(__toJson__);
         }
-        return __toJson__; 
+        return __toJson__;
       }
     },
     asJson: {
-      get: function () { 
-        return JSON.parse(this.toJson); 
-      } 
+      get: function () {
+        return JSON.parse(this.toJson);
+      }
     },
     isAny: {
       get: function () {
         return (this.constructor.name === 'Number' && this > 0) || (this.constructor.name === 'Boolean' && this) || this.constructor.name === 'Date' || Object.keys(this).length > 0;
       }
     },
-    isEmpty: { 
-      get: function () { 
+    isEmpty: {
+      get: function () {
         return !this.isAny;
       }
     }
@@ -811,19 +653,19 @@ Xikitita.afterInit.push(function(){
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(String.prototype, {
-    capitalize: { 
+  Xktta.defineProperties(String.prototype, {
+    capitalize: {
       get: function(){
         return this.replace(/(\w)/, function($1){ return $1.toUpperCase(); });
       }
     },
-    pluralize: { 
+    pluralize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.singular[irregular] || null;
+        var replace = Xktta.inflection.singular[irregular] || null;
 
         if(!replace){
           regex = /$/;
@@ -833,11 +675,11 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    singularize: { 
+    singularize: {
       get: function(){
         var irregular = this;
         var regex = irregular;
-        var replace = Xikitita.inflection.plural[irregular] || null;
+        var replace = Xktta.inflection.plural[irregular] || null;
 
         if(!replace){
           regex = /s$/;
@@ -847,7 +689,7 @@ Xikitita.afterInit.push(function(){
         return this.replace(regex, replace);
       }
     },
-    interpolate: { 
+    interpolate: {
       value: function(params, identifier, isBoundary){
         identifier = identifier || '#';
         isBoundary = isBoundary === undefined ? true : isBoundary;
@@ -866,56 +708,56 @@ Xikitita.afterInit.push(function(){
   });
 
 });
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Date.prototype, {
+  Xktta.defineProperties(Date.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Number.prototype, {
+  Xktta.defineProperties(Number.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Boolean.prototype, {
+  Xktta.defineProperties(Boolean.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });
 
 });
 
-window.Xikitita = Xikitita;
+window.Xktta = Xktta;
 })(window);

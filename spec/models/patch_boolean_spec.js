@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Patch Boolean', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         logic: {

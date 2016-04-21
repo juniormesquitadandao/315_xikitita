@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Class', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init
       .I18n('en', {
         classes: {
@@ -36,18 +36,17 @@ describe('Class', function() {
         }
       })
       .Class('Customer', function(){
-        attrAccessor('name', 'phone');
+        attrAccessor('id', 'name', 'phone');
       })
       .Class('User', function(){
-        attrAccessor('email');
-        belongsTo('customer');
-        belongsTo('permission');
+        attrAccessor('id', 'email', 'customer', 'permission');
       })
       .Class('Permission', function(){
-        attrAccessor('name');
-        hasMany('customers');
+        attrAccessor('id', 'name', 'customers');
       })
       .Class('Stub', function(){
+
+        attrAccessor('id');
 
         def('objectMethod', function(){
           return object;
@@ -89,9 +88,9 @@ describe('Class', function() {
       expect(exception.message).to.be('stub.two is not a attribute');
     })
 
-    Xikitita
+    Xktta
       .Class('Stub', function(){
-        attrAccessor('one', 'two');
+        attrAccessor('id', 'one', 'two');
       })
 
     expect(new Stub().toJson).to.be('{"id":null,"one":null,"two":null}');
@@ -107,39 +106,26 @@ describe('Class', function() {
 
 
   it('primaryKey', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
-        id('id_stub');
+        attrAccessor('id_stub');
       })
 
-    expect(new Stub().__idValue__).to.be(null);
     expect(new Stub().toJson).to.be('{"id_stub":null}');
     expect(new Stub({id_stub: 1}).toJson).to.be('{"id_stub":1}');
   });
 
   it('foreingKey', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
+        attrAccessor('id');
       })
       .Class('Stub2', function(){
-        belongsTo('stub', {foreingKey: 'id_stub'});
+        attrAccessor('id', 'stub');
       })
 
-    expect(new Stub2({id_stub: 1}).toJson).to.be('{"id":null,"id_stub":1}');
-    expect(new Stub2({id_stub: 1}).stub).to.be.a(Stub);
-  });
-
-  it('referenceKey', function () {
-    Xikitita
-      .Class('Stub', function(){
-        id('id_stub');
-      })
-      .Class('Stub2', function(){
-        belongsTo('stub', {referenceKey: 'id_stub'});
-      })
-
-    expect(new Stub2({stub_id: 1}).toJson).to.be('{"id":null,"stub_id":1}');
-    expect(new Stub2({stub_id: 1}).stub).to.be.a(Stub);
+    expect(new Stub2({ stub: new Stub({id: 1}) }).toJson).to.be('{"id":null,"stub":{"id":1}}');
+    expect(new Stub2({ stub: new Stub({id: 1}) }).stub).to.be.a(Stub);
   });
 
   it('attrAccessor', function () {
@@ -175,20 +161,15 @@ describe('Class', function() {
   });
 
   it('#changes', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
-        id('id_stub');
-
-        attrAccessor('one', 'two');
-
-        belongsTo('stub2');
-
+        attrAccessor('id_stub', 'one', 'two', 'stub2');
       })
       .Class('Stub2', function(){
-
+        attrAccessor('id');
       });
 
-    var stub = new Stub({stub2_id: null});
+    var stub = new Stub({stub2: new Stub2() });
 
     stub.one = 'One';
     stub.two = 'Two';
@@ -200,11 +181,9 @@ describe('Class', function() {
   });
 
   it('#changed', function () {
-    Xikitita
+    Xktta
       .Class('Stub', function(){
-        id('id_stub');
-
-        attrAccessor('one', 'two')
+        attrAccessor('id_stub', 'one', 'two')
       })
 
     var stub = new Stub();

@@ -1,13 +1,13 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Patch Object', function() {
 
   before(function() {
-    Xikitita
+    Xktta
       .init;
   });
-  
+
   it('#toJson', function () {
     expect({}.toJson).to.be('{}');
     expect([].toJson).to.be('[]');

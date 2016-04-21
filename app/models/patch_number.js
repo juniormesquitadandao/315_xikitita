@@ -1,14 +1,14 @@
-Xikitita.afterInit.push(function(){
+Xktta.afterInit.push(function(){
 
-  Xikitita.defineProperties(Number.prototype, {
+  Xktta.defineProperties(Number.prototype, {
     localize: {
       value: function (options) {
-        return this.l(options); 
+        return this.l(options);
       }
     },
     l: {
       value: function (options) {
-        return I18n.l(this, options); 
+        return I18n.l(this, options);
       }
     },
   });

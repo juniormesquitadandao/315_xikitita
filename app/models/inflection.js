@@ -1,8 +1,8 @@
-Xikitita.Inflection = function(body){
+Xktta.Inflection = function(body){
   var __this__ = this;
 
   var irregular = function(singular, plural){
-    __this__.inflection.singular[singular] = plural; 
+    __this__.inflection.singular[singular] = plural;
     __this__.inflection.plural[plural] = singular;
   }
 

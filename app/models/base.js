@@ -1,4 +1,4 @@
-var Xikitita = {
+var Xktta = {
   window: this,
   afterInit: [],
   defineProperties: function(prototype, properties){
@@ -10,15 +10,15 @@ var Xikitita = {
 
   },
   defineProperty: function(prototype, property, body){
-   
+
     if(!prototype.hasOwnProperty(property)){
       Object.defineProperty(prototype, property, body);
-    } 
+    }
 
   }
 };
 
-Object.defineProperty(Xikitita, 'init', {
+Object.defineProperty(Xktta, 'init', {
   get: function(){
 
     this.classes = {};

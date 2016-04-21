@@ -1,8 +1,7 @@
-
 ##What's it?
-Implementing some Active Model features in Javascript client side. Based on the ebook Eloquent Javascript 2nd edition and Rails Active Model
+Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails
 ```js
-Xikitita
+Xktta
   .init
   .Inflection(function(){
     irregular('singularWord', 'pluralWord');
@@ -17,10 +16,10 @@ Xikitita
   })
   //Class: create as you like
   .Class('ClassName', function(){
-    belongsTo('otherClassName');
+    attrAccessor('id');
   })
   .Class('OtherClassName', function(){
-    hasOne('className');
+    attrAccessor('id', 'className');
   });
 
 var className = new ClassName();
@@ -51,12 +50,9 @@ Custormer:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('Customer', function(){
-
-    attrAccessor('name', 'lastName', 'document', 'street', 'district', 'phone');
-
-    hasOne('user');
+    attrAccessor('id', 'name', 'lastName', 'document', 'street', 'district', 'phone', 'user');
 
     validatesPresenceOf('name', 'lastName');
     validates('document', {
@@ -88,14 +84,13 @@ Xikitita
     defClass('className', function(){
       return __class__.name;
     });
-
   });
 ```
 ######How to
 ```js
 var customer = new Customer();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L503-L594 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L503-L594 "Mocha Test Case")
 #####User
 ######Design
 ```yml
@@ -109,23 +104,18 @@ User:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('User', function(){
-
-    attrAccessor('email');
-
-    belongsTo('customer');
-    belongsTo('persona');
+    attrAccessor('id', 'email', 'customer', 'persona');
 
     validatesPresenceOf('email', 'persona_id');
-
   });
 ```
 ######How to
 ```js
 var user = new User();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L596-L667 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L596-L667 "Mocha Test Case")
 #####Persona
 ######Design
 ```yml
@@ -136,13 +126,9 @@ Persona:
 ```
 ######Implementation
 ```js
-Xikitita
+Xktta
   .Class('Persona', function(){
-
-    attrAccessor('name');
-
-    hasMany('users');
-
+    attrAccessor('id', 'name', 'users');
     validatesPresenceOf('name');
   });
 ```
@@ -150,11 +136,11 @@ Xikitita
 ```js
 var persona = new Persona();
 ```
-[more](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/xikitita_spec.js#L669-L731 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
 ```js
-Xikitita
+Xktta
   .init
 ```
 
@@ -414,15 +400,14 @@ I18n.translate('messages.other', {name: 'Name'});
 I18n.t('messages.other', {name: 'Name'});
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/i18n.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/i18n_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/i18n.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/i18n_spec.js "test")
 
 ######Building classes
 You must build your classes using this function.
 ```js
   .Class('Stub', function(){
-
-    attrAccessor('one', 'two');
+    attrAccessor('id', 'one', 'two');
 
     validatesLengthOf('one', {in: [1, 10]});
     validatesLengthOf('two', {is: 5});
@@ -436,9 +421,7 @@ You must build your classes using this function.
     });
   })
   .Class('Stub2', function(){
-    
-    id('ident');
-  
+    attrAccessor('ident');  
   })
 ```
 Now you can build and use your objects.
@@ -480,75 +463,5 @@ stub.toJson;
 stub.asJson;
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/class.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/class_spec.js "test")
-
-######Associating classes
-You must association your class using this function.
-```js
-  .Class('Customer', function(){
-
-    attrAccessor('name', 'lastName');
-
-    hasOne('user');
-
-    validate('user', function(){
-      return {
-        success: object.user && typeof object.user.id === 'number',
-        fail: {
-          messageName: 'newRecord'
-        }
-      };
-    });
-
-  })
-  .Class('User', function(){
-
-    attrAccessor('email');
-
-    belongsTo('customer');
-    belongsTo('persona');
-
-    validatesPresenceOf('email', 'persona_id');
-
-  })
-  .Class('Persona', function(){
-
-    attrAccessor('name');
-
-    hasMany('users');
-
-  });
-```
-Now you can build and use your objects.
-```js
-
-var customer = new Customer();
-customer.user;
-customer.user = new User();
-var customer = new Customer({name: '', lastName: ''});
-customer.user = {id: 0};
-customer.id = 1;
-var customer = new Customer({id: 1, name: 'Name', user: {id: 0}});
-var customer = new Customer({user: {}});
-
-var user = new User();
-user.customer; 
-user.customer = new Customer()
-user.customer_id; 
-user.customer_id = 10;
-user.persona; 
-user.persona = new Persona()
-user.persona_id; 
-user.persona_id = 20;
-
-var persona = new Persona();
-persona.users;
-persona.users.push(new User());
-persona.users = [{id: 1}];
-persona.users[0];
-
-```
-
-> - [see code](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/app/models/association.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xikitita/blob/v0.0/spec/models/association_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/class.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/class_spec.js "test")

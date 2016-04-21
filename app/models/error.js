@@ -1,4 +1,4 @@
-Xikitita.Error = function(className){
+Xktta.Error = function(className){
   var __this__ = this;
   var __className__ = className;
 
@@ -20,7 +20,7 @@ Xikitita.Error = function(className){
         var messages = [];
 
         Object.keys(__this__).forEach(function(attrName){
-          
+
           __this__[attrName].forEach(function(message){
             messages.push(message);
           });

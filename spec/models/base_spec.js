@@ -1,10 +1,10 @@
 var expect = require('expect.js');
-var Xikitita = require('../../temp/xikitita.js');
+var Xktta = require('../../temp/xktta.js');
 
 describe('Base', function() {
-  
+
   before(function() {
-    Xikitita
+    Xktta
       .init
       .Class('Customer', function(){
       })
@@ -17,7 +17,7 @@ describe('Base', function() {
   });
 
   it('::classes', function () {
-    var classNames = Object.keys(Xikitita.classes).join(', ');
+    var classNames = Object.keys(Xktta.classes).join(', ');
 
     expect(classNames).to.be('Customer, User, Permission, Stub');
   });
