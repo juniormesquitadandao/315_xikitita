@@ -26,7 +26,7 @@
       </p>
 
     </fieldset>
-    
+
     <fieldset>
       <legend id="form">Form</legend>
 
@@ -71,12 +71,12 @@
           <span id="logic-error"></span>
         </p>
         <p>
-          <button id="new" type="button" onclick="Controller.new(); eventNew();">New</button>
+          <button id="new" type="button" onclick="Controller.new(); eventLoadForm();">New</button>
           <button id="reset" type="button" onclick="eventReset();">Reset</button>
           <button id="submit" type="button" onclick="Controller.create(); eventSetValue(); eventSetError(); eventList();">Submit</button>
         </p>
-      </form>      
-    
+      </form>
+
     </fieldset>
 
     <fieldset>
@@ -85,29 +85,21 @@
       <table>
 
         <thead>
-          <th>
-            <td>Text</td>
-            <td>Integer</td>
-            <td>Decimal</td>
-            <td>Date</td>
-            <td>Time</td>
-            <td>Datetime</td>
-            <td>Logic</td>
-            <td></td>
-          </th>
-        </thead>
-        <tbody>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th id="text-th">Text</th>
+            <th id="integer-th">Integer</th>
+            <th id="decimal-th">Decimal</th>
+            <th id="date-th">Date</th>
+            <th id="time-th">Time</th>
+            <th id="datetime-th">Datetime</th>
+            <th id="logic-th">Logic</th>
+            <th></th>
           </tr>
+        </thead>
+
+        <tbody id="table-body">
         </tbody>
+
       </table>
 
     </fieldset>

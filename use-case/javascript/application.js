@@ -1,9 +1,6 @@
 Xikitita
 .init
 .Inflection(function(){
-  irregular('fish', 'fish');
-  irregular('person', 'people');
-
   irregular('model', 'models');
 })
 .I18n('en', {
@@ -157,7 +154,9 @@ Xikitita
     form: 'Form',
     new: 'New',
     reset: 'Reset',
-    submit: 'Submit'
+    submit: 'Submit',
+    edit: 'Edit',
+    destroy: 'Destroy'
   }
 })
 .I18n('pt-BR', {
@@ -311,6 +310,8 @@ Xikitita
     form: 'Formulário',
     new: 'Novo',
     reset: 'Limpar',
-    submit: 'Enviar'
+    submit: 'Enviar',
+    edit: 'Editar',
+    destroy: 'Excluir'
   }
 });

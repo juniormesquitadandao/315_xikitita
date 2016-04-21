@@ -11,7 +11,7 @@ function eventLoad(){
     logic: true
   });
 
-  eventNew();
+  eventLoadForm();
 }
 
 function eventBind(element){
@@ -36,7 +36,7 @@ function eventBind(element){
     date: function(){
       var value = moment(element.value, (I18n.locale == 'en' ? 'YYYY-MM-DD' : 'DD/MM/YYYY') ).toDate();
       model.date = isNaN(value) ? null : value;
-      
+
       if(element.value.replace(/-|\//g, '').length == 8){
         eventSetValue('date');
       }
@@ -44,7 +44,7 @@ function eventBind(element){
     time: function(){
       var value = moment(element.value, 'HH:mm').toDate();
       model.time = element.value ? value : null;
-      
+
       if(element.value.replace(':', '').length == 4){
         eventSetValue('time');
       }
@@ -69,7 +69,7 @@ function eventBind(element){
 
 }
 
-function eventNew(){
+function eventLoadForm(){
   eventSetValue();
   eventSetError();
 }
@@ -116,7 +116,7 @@ function eventSetValue(attribute){
   }else{
     Object.keys(events).forEach(function(event){
       events[event]();
-    });    
+    });
   }
 }
 
@@ -129,11 +129,11 @@ function eventSetError(attribute){
     Object.keys(model).forEach(function(attribute){
       document.getElementById('#{attribute}-error'.interpolate
       ({attribute: attribute})).innerHTML = model.errors[attribute] ? model.errors[attribute][0] : '';
-    });    
+    });
   }
 }
 
-function eventSetLabel(attribute){
+function eventSetLabel(){
 
   var events = {
     text: function(){
@@ -165,13 +165,40 @@ function eventSetLabel(attribute){
     }
   }
 
-  if(attribute){
-    events[attribute]();
-  }else{
-    Object.keys(events).forEach(function(event){
-      events[event]();
-    });    
+  Object.keys(events).forEach(function(event){
+    events[event]();
+  });
+}
+
+function eventSetTH(){
+
+  var events = {
+    text: function(){
+      document.getElementById('text-th').innerHTML = model.toHuman.text;
+    },
+    integer: function(){
+      document.getElementById('integer-th').innerHTML = model.toHuman.integer;
+    },
+    decimal: function(){
+      document.getElementById('decimal-th').innerHTML = model.toHuman.decimal;
+    },
+    date: function(){
+      document.getElementById('date-th').innerHTML = model.toHuman.date;
+    },
+    time: function(){
+      document.getElementById('time-th').innerHTML = model.toHuman.time;
+    },
+    datetime: function(){
+      document.getElementById('datetime-th').innerHTML = model.toHuman.datetime;
+    },
+    logic: function(){
+      document.getElementById('logic-th').innerHTML = model.toHuman.logic;
+    }
   }
+
+  Object.keys(events).forEach(function(event){
+    events[event]();
+  });
 }
 
 function eventLocale(key){
@@ -186,10 +213,86 @@ function eventLocale(key){
   document.getElementById('form').innerHTML = I18n.t('others.form');
   eventSetLabel();
   eventSetValue();
-  model.isValid;
+  // model.isValid;
   eventSetError();
 
   document.getElementById('new').innerHTML = I18n.t('others.new');
   document.getElementById('reset').innerHTML = I18n.t('others.reset');
   document.getElementById('submit').innerHTML = I18n.t('others.submit');
+
+  eventSetTH();
+  eventList();
+}
+
+function eventList(){
+  var tableBody = document.getElementById('table-body');
+  new Array().forEach.call(tableBody.getElementsByTagName('tr'), function(tr){
+    tr.remove();
+  });
+
+  models.forEach(function(model, index){
+
+    var tr = document.createElement('tr');
+
+    var tds = {
+      text: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.text;
+        return td;
+      },
+      integer: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.integer ? model.integer.l() : model.integer;
+        return td;
+      },
+      decimal: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.decimal ? model.decimal.l() : model.decimal;
+        return td;
+      },
+      date: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.date ? model.date.l() : model.date;
+        return td;
+      },
+      time: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.time ? model.time.l({dateType: 'time', format: 'long'}) : model.time;
+        return td;
+      },
+      datetime: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.datetime ? model.datetime.l({dateType: 'datetime', format: 'medium'}) : model.datetime;
+        return td;
+      },
+      logic: function(){
+        var td = document.createElement('td');
+        td.innerHTML = model.logic.l();
+        return td;
+      },
+      actions: function(){
+        var td = document.createElement('td');
+
+        var destroy = document.createElement('button');
+        destroy.setAttribute('onclick', 'Controller.destroy(#{value}); eventList();'.interpolate({value: index}) );
+        destroy.innerHTML = I18n.t('others.destroy');
+        td.appendChild(destroy);
+
+        var edit = document.createElement('button');
+        edit.setAttribute('onclick', 'Controller.edit(#{value}); eventLoadForm();'.interpolate({value: index}) );
+        edit.innerHTML = I18n.t('others.edit');
+        td.appendChild(edit);
+
+        return td;
+      }
+    }
+
+    Object.keys(tds).forEach(function(td){
+      tr.appendChild( tds[td]() );
+    });
+
+    tableBody.appendChild(tr);
+
+  });
+
 }
