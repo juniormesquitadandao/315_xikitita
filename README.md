@@ -143,12 +143,12 @@ var persona = new Persona();
 
 [v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
 
-[v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
+[v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta-min.js "v1.0.min")
 
 ```html
 <script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
 
-<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js"></script>
+<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta-min.js"></script>
 ```
 #####Prepare
 ```js
