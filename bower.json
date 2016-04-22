@@ -20,7 +20,7 @@
     "app",
     "spec",
     "gulpfile.js",
-    "package.json"
+    "package.json",
     ".rvmrc"
   ]
 }
