@@ -21,7 +21,8 @@ gulp.task('default', function() {
     'app/models/patch_boolean.js'
   ]
 
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(concat('xktta.js'))
 
     .pipe(insert.prepend("'use strict';\n\n"))
@@ -35,10 +36,16 @@ gulp.task('default', function() {
     .pipe(insert.append('\nwindow.Xktta = Xktta;\n'))
     .pipe(insert.append("})(window);\n"))
 
-    .pipe(minify())
+    .pipe(minify({
+        ext:{
+          src:'.js',
+          min:'.min.js'
+        }
+    }))
     .pipe(gulp.dest(''));
 
-  gulp.src(src)
+  gulp
+    .src(src)
     .pipe(concat('xktta.js'))
 
     .pipe(insert.prepend("'use strict';\n\n"))
