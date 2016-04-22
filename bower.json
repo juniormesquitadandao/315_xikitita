@@ -1,6 +1,7 @@
 {
   "name": "xktta",
   "description": "Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails",
+  "version": "1.0.0",
   "main": "xktta.js",
   "authors": [
     "Marcelo Junior"
