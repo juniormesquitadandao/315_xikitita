@@ -90,7 +90,7 @@ Xktta
 ```js
 var customer = new Customer();
 ```
-[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L503-L594 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/xktta_spec.js#L503-L594 "Mocha Test Case")
 #####User
 ######Design
 ```yml
@@ -115,7 +115,7 @@ Xktta
 ```js
 var user = new User();
 ```
-[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L596-L667 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/xktta_spec.js#L596-L667 "Mocha Test Case")
 #####Persona
 ######Design
 ```yml
@@ -136,7 +136,7 @@ Xktta
 ```js
 var persona = new Persona();
 ```
-[more](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
+[more](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
 ```js
@@ -400,8 +400,8 @@ I18n.translate('messages.other', {name: 'Name'});
 I18n.t('messages.other', {name: 'Name'});
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/i18n.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/i18n_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v1.0/app/models/i18n.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/i18n_spec.js "test")
 
 ######Building classes
 You must build your classes using this function.
@@ -463,5 +463,5 @@ stub.toJson;
 stub.asJson;
 ```
 
-> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v0.0/app/models/class.js "code")
-> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v0.0/spec/models/class_spec.js "test")
+> - [see code](https://github.com/juniormesquitadandao/xktta/blob/v1.0/app/models/class.js "code")
+> - [see test](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/class_spec.js "test")
