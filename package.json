@@ -1,28 +1,30 @@
 {
-  "name": "xikitita",
+  "name": "xktta",
   "version": "1.0.0",
-  "description": "Xikitita",
-  "main": "poc.js",
+  "description": "xktta",
   "scripts": {
-    "test": "gulp && mocha --opts spec/mocha.opts"
+    "test": "gulp && mocha --opts spec/mocha.opts",
+    "bower": "bower"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/juniormesquitadandao/xikitita.git"
+    "url": "git+https://github.com/juniormesquitadandao/xktta.git"
   },
   "keywords": [
     "eloquent",
     "js",
     "model",
-    "validation"
+    "validation",
+    "internationalization"
   ],
-  "author": "Junior Mesquita Dandão",
+  "author": "Marcelo Junior",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/juniormesquitadandao/xikitita/issues"
+    "url": "https://github.com/juniormesquitadandao/xktta/issues"
   },
-  "homepage": "https://github.com/juniormesquitadandao/xikitita#readme",
+  "homepage": "https://github.com/juniormesquitadandao/xktta#readme",
   "devDependencies": {
+    "bower": "^1.7.9",
     "expect": "^1.13.0",
     "expect.js": "^0.3.1",
     "gulp": "^3.9.0",

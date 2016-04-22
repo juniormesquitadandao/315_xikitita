@@ -1,0 +1,33 @@
+{
+  "name": "xktta",
+  "description": "Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails",
+  "main": "xktta.js",
+  "authors": [
+    "Marcelo Junior"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "eloquent",
+    "js",
+    "model",
+    "validation",
+    "internationalization"
+  ],
+  "homepage": "https://github.com/juniormesquitadandao/xktta",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "app",
+    "spec",
+    "temp",
+    ".gitgnore",
+    "./git",
+    "gulpfile.js",
+    "package.json",
+    "README.md",
+    ".rvmrc"
+  ]
+}
