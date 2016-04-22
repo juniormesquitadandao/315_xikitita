@@ -1,4 +1,4 @@
-/*! 315 Xktta - v1.0
+/*! Xktta - v1.0
  * http://juniormesquitadandao.github.io/xktta
  *
  * Copyright (c) 2015 Marcelo Junior
