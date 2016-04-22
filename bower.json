@@ -16,19 +16,10 @@
   "homepage": "https://github.com/juniormesquitadandao/xktta",
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
     "app",
     "spec",
-    "temp",
-    ".gitgnore",
-    "./git",
     "gulpfile.js",
-    "package.json",
-    "README.md",
-    ".rvmrc",
-    "bower.json"
+    "package.json"
+    ".rvmrc"
   ]
 }

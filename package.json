@@ -4,7 +4,7 @@
   "description": "xktta",
   "scripts": {
     "test": "gulp && mocha --opts spec/mocha.opts",
-    "bower": "bower"
+    "bower": "bower --save-dev"
   },
   "repository": {
     "type": "git",
