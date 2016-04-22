@@ -143,13 +143,24 @@ var persona = new Persona();
 
 [v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
 
+or
+
 [v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
+
+or
 
 ```html
 <script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
 
 <script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js"></script>
 ```
+
+or
+
+```shell
+bower install xktta --save-dev
+```
+
 #####Prepare
 ```js
 Xktta
