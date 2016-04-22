@@ -140,8 +140,11 @@ var persona = new Persona();
 
 ##It works for you too?
 #####Dowload
+
 [v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
+
 [v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
+
 ```html
 <script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
 
