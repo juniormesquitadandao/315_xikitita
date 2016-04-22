@@ -30,7 +30,7 @@ gulp.task('default', function() {
     .pipe(insert.prepend(" * Copyright (c) 2015 Marcelo Junior\n"))
     .pipe(insert.prepend(" *\n"))
     .pipe(insert.prepend(" * http://juniormesquitadandao.github.io/xktta\n"))
-    .pipe(insert.prepend("/*! 315 Xktta - v1.0\n"))
+    .pipe(insert.prepend("/*! Xktta - v1.0\n"))
 
     .pipe(insert.append('\nwindow.Xktta = Xktta;\n'))
     .pipe(insert.append("})(window);\n"))

@@ -139,11 +139,19 @@ var persona = new Persona();
 [more](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
+#####Dowload
+[v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
+[v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
+```html
+<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
+
+<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js"></script>
+```
+#####Prepare
 ```js
 Xktta
   .init
 ```
-
 #####Setting up internal communication of lib
 You must set the number of flection of the names of their classes to the lib be able to relate members and collections.
 ```js
