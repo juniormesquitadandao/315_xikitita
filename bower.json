@@ -28,6 +28,7 @@
     "gulpfile.js",
     "package.json",
     "README.md",
-    ".rvmrc"
+    ".rvmrc",
+    "bower.json"
   ]
 }
