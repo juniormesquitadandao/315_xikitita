@@ -1,3 +1,31 @@
+##Dowload
+
+[v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
+
+or
+
+[v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
+
+or
+
+```html
+<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
+
+<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js"></script>
+```
+
+or
+
+```shell
+bower install xktta --save-dev
+```
+
+or
+
+```shell
+npm install xktta --save-dev
+```
+
 ##What's it?
 Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails
 ```js
@@ -139,28 +167,6 @@ var persona = new Persona();
 [more](https://github.com/juniormesquitadandao/xktta/blob/v1.0/spec/models/xktta_spec.js#L669-L731 "Mocha Test Case")
 
 ##It works for you too?
-#####Dowload
-
-[v1.0](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js "v1.0")
-
-or
-
-[v1.0.min](https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js "v1.0.min")
-
-or
-
-```html
-<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.js"></script>
-
-<script src="https://rawgit.com/juniormesquitadandao/xktta/v1.0/xktta.min.js"></script>
-```
-
-or
-
-```shell
-bower install xktta --save-dev
-```
-
 #####Prepare
 ```js
 Xktta
