@@ -1,6 +1,6 @@
 {
   "name": "xktta",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails",
   "main": "xktta.js",
   "scripts": {
