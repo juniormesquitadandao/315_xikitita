@@ -1,7 +1,8 @@
 {
   "name": "xktta",
   "version": "1.0.0",
-  "description": "xktta",
+  "description": "Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails",
+  "main": "xktta.js",
   "scripts": {
     "test": "gulp && mocha --opts spec/mocha.opts",
     "bower": "bower --save-dev"
@@ -32,5 +33,14 @@
     "gulp-insert": "^0.5.0",
     "gulp-minify": "0.0.10",
     "mocha": "^2.3.4"
-  }
+  },
+  "ignore": [
+    "**/.*",
+    "app",
+    "spec",
+    "gulpfile.js",
+    "bower.json",
+    ".rvmrc"
+  ]
+
 }
