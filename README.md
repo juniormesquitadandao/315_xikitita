@@ -26,6 +26,14 @@ or
 npm install xktta --save-dev
 ```
 
+##Configure only Javascript
+[application.js](https://github.com/juniormesquitadandao/xktta/blob/gh-pages/use-case/javascript/application.js "application.js")
+[Example](https://github.com/juniormesquitadandao/xktta/blob/gh-pages/use-case/javascript "Example")
+
+##Configure with Angular
+[application.js](https://github.com/juniormesquitadandao/xktta/blob/gh-pages/use-case/angular/application.js "application.js")
+[Example](https://github.com/juniormesquitadandao/xktta/blob/gh-pages/use-case/angular "Example")
+
 ##What's it?
 Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails
 ```js
