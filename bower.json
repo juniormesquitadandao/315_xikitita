@@ -22,5 +22,6 @@
     "gulpfile.js",
     "package.json",
     ".rvmrc"
-  ]
+  ],
+  "devDependencies": {}
 }

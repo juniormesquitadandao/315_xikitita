@@ -4,7 +4,8 @@
   "description": "Implementing Internationalization and Validation with Javascript. Based on the ebook Eloquent Javascript 2nd edition and Rails",
   "main": "xktta.js",
   "scripts": {
-    "test": "gulp && mocha --opts spec/mocha.opts",
+    "test": "gulp && mocha --opts spec/mocha.opts spec",
+    "debug": "gulp && mocha debug --opts spec/mocha.opts spec",
     "bower": "bower --save-dev"
   },
   "repository": {
